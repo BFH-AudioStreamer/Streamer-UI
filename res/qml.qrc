@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qtquickcontrols2.conf</file>
+        <file>layout/main.qml</file>
+        <file>img/cd-icon.png</file>
+    </qresource>
+</RCC>
