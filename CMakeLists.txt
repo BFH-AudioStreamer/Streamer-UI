@@ -11,6 +11,10 @@ file(GLOB_RECURSE HEADERS "*.hpp" "*.h")
 file(GLOB SOURCES
         "src/*.cpp"
         "src/*.h"
+        "src/controller/*.cpp"
+        "src/controller/*.h"
+        "src/model/*.cpp"
+        "src/model/*.h"
         "res/*.qrc"
 )
 
