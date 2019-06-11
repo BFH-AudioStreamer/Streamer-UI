@@ -30,8 +30,27 @@
  *******************************************************************************
  */
 
+#include <QQmlApplicationEngine>
 #include "Model.h"
+#include "Player_state.h"
+#include "Track_info.h"
 
+Model::Model() {
+    register_qml();
+}
 
+void Model::register_qml() {
+    qmlRegisterType<Player_state>(
+            "bfh.audio_streamer.player_state",
+            1, 0,
+            "Player_state"
+    );
+
+    qmlRegisterType<Track_info>(
+            "bfh.audio_streamer.track_info",
+            1, 0,
+            "Track_info"
+    );
+}
 
 /** @} */
