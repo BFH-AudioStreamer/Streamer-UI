@@ -29,7 +29,8 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-//#include "BackendConnector.h"
+#include "BackendConnector.h"
 
+IBackendConnector *BackendConnector::_instance;
 
 /** @} */
