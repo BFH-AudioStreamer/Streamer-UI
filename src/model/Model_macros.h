@@ -2,16 +2,15 @@
  *******************************************************************************
  * @addtogroup Streamer-UI
  * @{
- * @defgroup Main
+ * @addtogroup model
  * @{
- * @brief Main module
+ * @defgroup ModelMacros
+ * @{
+ * @brief Macros to ease the use of model classes
  *
- * Ladidadida
- *
- * @authors Rafael Klossner
  * @authors Stefan Lüthi
- ****************************************************************************//*
- * Copyright (c) 2019 Audio-Streamer Project Group
+ *******************************************************************************
+ * Copyright (C) 2019 Audio-Streamer Project Group
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,33 +29,22 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
- ******************************************************************************/
-
-#include <QGuiApplication>
-#include <QQmlApplicationEngine>
-
-#include "model/Model.h"
-
-/**
- * @brief Main method
+ *******************************************************************************
  */
-int main(int argc, char *argv[]) {
+#pragma once
 
-    auto model = new Model();
-
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    QGuiApplication app(argc, argv);
-
-    QQmlApplicationEngine engine;
-    engine.load(QUrl(QStringLiteral("qrc:layout/main.qml")));
-    if (engine.rootObjects().isEmpty()) {
-        return -1;
-    }
-
-    return QGuiApplication::exec();
-}
-
-/**
- * @}
- * @}
- */
+/** @brief Simplify Q_PROPERTY() definitions by creating getters, setters and slots
+ * automatically */
+#define SIMPLE_Q_PROPERTY(TYPE, NAME) \
+        Q_PROPERTY(TYPE NAME READ NAME WRITE set_##NAME NOTIFY NAME##_changed) \
+    public: \
+        TYPE NAME() const { return _##NAME; } \
+        void set_##NAME(TYPE &value) { \
+            if (_##NAME != value) { \
+                _##NAME = value; \
+                emit NAME##_changed(); \
+            } \
+        } \
+        Q_SIGNAL void NAME##_changed(); \
+    private: \
+        TYPE _##NAME;

@@ -1,17 +1,14 @@
 /**
  *******************************************************************************
- * @addtogroup Streamer-UI
+ * @addtogroup BackendConnector
  * @{
- * @defgroup Main
- * @{
- * @brief Main module
+ * @brief Brief descriptions
  *
- * Ladidadida
+ * Elaborate Description
  *
- * @authors Rafael Klossner
- * @authors Stefan Lüthi
+ * @authors stefan
  ****************************************************************************//*
- * Copyright (c) 2019 Audio-Streamer Project Group
+ * Copyright (C) 2019 Audio-Streamer Project Group
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,31 +29,8 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <QGuiApplication>
-#include <QQmlApplicationEngine>
+#include "BackendConnector.h"
 
-#include "model/Model.h"
 
-/**
- * @brief Main method
- */
-int main(int argc, char *argv[]) {
 
-    auto model = new Model();
-
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    QGuiApplication app(argc, argv);
-
-    QQmlApplicationEngine engine;
-    engine.load(QUrl(QStringLiteral("qrc:layout/main.qml")));
-    if (engine.rootObjects().isEmpty()) {
-        return -1;
-    }
-
-    return QGuiApplication::exec();
-}
-
-/**
- * @}
- * @}
- */
+/** @} */

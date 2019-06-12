@@ -2,28 +2,19 @@
  *******************************************************************************
  * @addtogroup Streamer-UI
  * @{
- * @addtogroup model
+ * @addtogroup controller
  * @{
- * @defgroup Model
+ * @defgroup MpdConnector
  * @{
  ******************************************************************************/
 #pragma once
 
-#include <QObject>
-
 /**
- * @brief bla
+ * @brief
  */
-class Model : public QObject {
-Q_OBJECT
-public:
-    explicit Model();
+class MpdConnector {
 
-private:
-    void register_qml();
 };
-
-
 
 /**
  * @}

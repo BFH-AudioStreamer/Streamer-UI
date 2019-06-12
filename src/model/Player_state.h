@@ -4,23 +4,23 @@
  * @{
  * @addtogroup model
  * @{
- * @defgroup Model
+ * @defgroup PlayerState
  * @{
  ******************************************************************************/
 #pragma once
 
 #include <QObject>
+#include "Model_macros.h"
 
 /**
- * @brief bla
+ * @brief
  */
-class Model : public QObject {
+class Player_state : public QObject {
 Q_OBJECT
-public:
-    explicit Model();
+SIMPLE_Q_PROPERTY(int, bitrate)
+SIMPLE_Q_PROPERTY(int, time_total)
+SIMPLE_Q_PROPERTY(int, time_elapsed)
 
-private:
-    void register_qml();
 };
 
 

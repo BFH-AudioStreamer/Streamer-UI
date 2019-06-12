@@ -2,30 +2,24 @@
  *******************************************************************************
  * @addtogroup Streamer-UI
  * @{
- * @addtogroup model
+ * @addtogroup controller
  * @{
- * @defgroup Model
+ * @addtogroup data
+ * @{
+ * @defgroup TrackInfo
  * @{
  ******************************************************************************/
 #pragma once
 
-#include <QObject>
-
 /**
- * @brief bla
+ * @brief
  */
-class Model : public QObject {
-Q_OBJECT
-public:
-    explicit Model();
+class TrackInfo {
 
-private:
-    void register_qml();
 };
 
-
-
 /**
+ * @}
  * @}
  * @}
  * @} */

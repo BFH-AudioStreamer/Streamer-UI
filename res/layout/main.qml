@@ -3,12 +3,23 @@ import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Material 2.2
 
+import bfh.audio_streamer.player_state 1.0
+import bfh.audio_streamer.track_info 1.0
+
 ApplicationWindow {
     visible: true
     width: 800
     height: 480
     title: qsTr("MPD Client")
     property int margin: 40
+
+    Player_state {
+        id: player_state
+    }
+
+    Track_info {
+        id: track_info
+    }
 
     ColumnLayout {
         spacing: 10
@@ -29,7 +40,7 @@ ApplicationWindow {
                     Layout.fillWidth: true
                     Layout.preferredWidth: 300
                     wrapMode: Text.WordWrap
-                    text: "Title"
+                    text: track_info.title
                     font.pointSize: 26
                 }
                 Label {
@@ -37,7 +48,7 @@ ApplicationWindow {
                     Layout.fillWidth: true
                     Layout.preferredWidth: 300
                     wrapMode: Text.WordWrap
-                    text: "Artist"
+                    text: track_info.artist
                     font.pointSize: 18
                 }
 
@@ -72,6 +83,7 @@ ApplicationWindow {
                 }
                 ProgressBar {
                     Layout.fillWidth: true
+                    value: player_state.time_elapsed / player_state.time_elapsed
                 }
             }
 
@@ -89,8 +101,6 @@ ApplicationWindow {
                     Layout.preferredHeight: 400
                 }
             }
-
-
         }
     }
 }
