@@ -27,13 +27,27 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
- #pragma once
+
+#pragma once
+
+#include "IBackendConnector.h"
+#include "MopidyMpdConnector.h"
 
 /**
  * @brief
  */
 class BackendConnector {
+public:
+    static void set_backend() {
+        _instance = new MopidyMpdConnector();
+    }
 
+    static IBackendConnector *instance() {
+        return _instance;
+    }
+
+private:
+    static IBackendConnector *_instance;
 };
 
 /**

@@ -37,6 +37,13 @@
 class Controller : public QObject {
     Q_OBJECT
 
+public:
+    Controller();
+    Q_INVOKABLE void play_next();
+
+private:
+    void register_qml();
+
 };
 
 /**

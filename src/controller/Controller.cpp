@@ -30,8 +30,26 @@
  *******************************************************************************
  */
 
+#include <QQmlApplicationEngine>
 #include "Controller.h"
+#include "BackendConnector.h"
 
+Controller::Controller() {
+    BackendConnector::set_backend();
+    register_qml();
+}
 
+void Controller::play_next() {
+    BackendConnector::instance()->play_next();
+}
+
+void Controller::register_qml() {
+    qmlRegisterType<Controller>(
+                "bfh.audio_streamer.controller",
+                1, 0,
+                "Controller"
+    );
+}
 
 /** @} */
+
