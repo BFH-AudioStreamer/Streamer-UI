@@ -30,12 +30,37 @@
 #pragma once
 
 #include "IBackendConnector.h"
+#include "MpdConnector.h"
+
+#include <iostream>
 
 /**
  * @brief
  */
 class MopidyMpdConnector : public IBackendConnector {
+public:
+    MopidyMpdConnector();
+    //~MopidyMpdConnector() override;
 
+    void song_title() override;
+    void artist() override;
+    void album() override;
+    void play_next() override;
+    void play_previous() override;
+    void play_stop() override;
+    void play_toggle_pause() override;
+    unsigned int bit_rate() override;
+    unsigned int track_total_time() override;
+    unsigned int track_elapsed_time() override;
+    const char* album_art_uri() override;
+    void set_search() override;
+    void control_capabilities() override;
+
+private:
+    std::string hostname;
+    unsigned int port;
+
+    MpdConnector *mpdConnector = nullptr;
 };
 
 /**

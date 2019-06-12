@@ -29,11 +29,23 @@
  ******************************************************************************/
 #pragma once
 
+#include <string>
+#include <iostream>
+
+using namespace std;
+
 /**
  * @brief
  */
 class MopidyConnector {
+public:
+    MopidyConnector(const string hostname, const unsigned int port);
 
+private:
+    const string hostname = "Audio-Streamer";
+    const string ipAddress = "127.0.0.1";
+    const unsigned int port = 6600;
+    const unsigned int timeout = 30000;
 };
 
 /**
