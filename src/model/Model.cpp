@@ -32,8 +32,6 @@
 
 #include <QQmlApplicationEngine>
 #include "Model.h"
-#include "Player_state.h"
-#include "Track_info.h"
 
 Model::Model() {
     register_qml();

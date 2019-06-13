@@ -34,7 +34,7 @@
 #include "Controller.h"
 #include "BackendConnector.h"
 
-Controller::Controller() {
+Controller::Controller(Model &_model)  {
     BackendConnector::set_backend();
     register_qml();
 }

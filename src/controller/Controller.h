@@ -30,6 +30,7 @@
 #pragma once
 
 #include <QObject>
+#include "../model/Model.h"
 
 /**
  * @brief
@@ -38,11 +39,13 @@ class Controller : public QObject {
     Q_OBJECT
 
 public:
-    Controller();
+    explicit Controller() = default;
+    Controller(Model &_model);
     Q_INVOKABLE void play_next();
 
 private:
     void register_qml();
+   //Model &model;
 
 };
 
