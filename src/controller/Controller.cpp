@@ -32,9 +32,9 @@
 
 #include <QQmlApplicationEngine>
 #include "Controller.h"
-#include "BackendConnector.h"
+#include "Backend_connector.h"
 
-Controller::Controller(Model &_model)  {
+Controller::Controller(Streamer_model &_model)  {
     backend_connector = BackendConnector::create();
     register_qml();
 }

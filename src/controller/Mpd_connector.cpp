@@ -32,7 +32,7 @@
  *******************************************************************************
  */
 
-#include "MpdConnector.h"
+#include "Mpd_connector.h"
 
 #include <mpd/client.h>
 #include <mpd/status.h>

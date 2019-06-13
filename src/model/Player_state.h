@@ -4,7 +4,7 @@
  * @{
  * @addtogroup model
  * @{
- * @defgroup PlayerState
+ * @defgroup Player_state
  * @{
  ******************************************************************************/
 #pragma once

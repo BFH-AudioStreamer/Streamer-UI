@@ -32,7 +32,7 @@
  *******************************************************************************
  */
 
-#include "MopidyConnector.h"
+#include "Mopidy_connector.h"
 
 MopidyConnector::MopidyConnector(std::string hostname, unsigned int port)
         :hostname(std::move(hostname)), port(port) {

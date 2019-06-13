@@ -4,7 +4,7 @@
  * @{
  * @addtogroup model
  * @{
- * @defgroup Model
+ * @defgroup Streamer_model
  * @{
  ******************************************************************************/
 #pragma once
@@ -17,13 +17,13 @@
 /**
  * @brief bla
  */
-class Model : public QObject {
+class Streamer_model : public QObject {
 Q_OBJECT
 Q_PROPERTY(Track_info* track_info READ track_info CONSTANT)
 Q_PROPERTY(Player_state* player_state READ player_state CONSTANT)
 
 public:
-    explicit Model();
+    explicit Streamer_model();
     Track_info* track_info();
     Player_state* player_state();
 
@@ -32,6 +32,7 @@ private:
     Track_info* m_track_info;
     Player_state* m_player_state;
 };
+
 
 /**
  * @}

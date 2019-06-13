@@ -6,7 +6,7 @@
  * @{
  * @addtogroup data
  * @{
- * @defgroup TrackInfo
+ * @defgroup Data_player_state
  * @{
  ******************************************************************************/
 #pragma once
@@ -14,7 +14,7 @@
 /**
  * @brief
  */
-class TrackState {
+class Data_player_state {
 
 };
 

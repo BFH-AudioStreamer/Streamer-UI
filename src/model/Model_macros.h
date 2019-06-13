@@ -4,7 +4,7 @@
  * @{
  * @addtogroup model
  * @{
- * @defgroup ModelMacros
+ * @defgroup Model_macros
  * @{
  * @brief Macros to ease the use of model classes
  *

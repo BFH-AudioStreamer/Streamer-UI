@@ -1,12 +1,12 @@
 /**
  *******************************************************************************
- * @addtogroup TrackState
+ * @addtogroup Track_info
  * @{
  * @brief Brief descriptions
  *
  * Elaborate Description
  *
- * @authors stefan
+ * @authors Stefan Lüthi
  *******************************************************************************
  * Copyright (C) 2019 Audio-Streamer Project Group
  *
@@ -30,8 +30,10 @@
  *******************************************************************************
  */
 
-#include "TrackState.h"
-
-
+#include "Track_info.h"
+Track_info::Track_info() {
+    m_title = "Title";
+    m_artist = "Artist";
+}
 
 /** @} */

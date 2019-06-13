@@ -36,7 +36,7 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 
-#include "model/Model.h"
+#include "src/model/Model.h"
 #include "controller/Controller.h"
 
 /**
@@ -44,7 +44,7 @@
  */
 int main(int argc, char *argv[]) {
 
-    auto model = new Model();
+    auto model = new Streamer_model();
     auto controller = new Controller(*model);
 
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
