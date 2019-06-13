@@ -7,21 +7,21 @@ import bfh.audio_streamer.player_state 1.0
 import bfh.audio_streamer.track_info 1.0
 import bfh.audio_streamer.controller 1.0
 
+import "../element/" as Elements
+
 ApplicationWindow {
     visible: true
     width: 800
     height: 480
-    title: qsTr("MPD Client")
+    title: "Streamer UI"
     property int margin: 40
 
     Player_state {
         id: player_state
     }
-
     Track_info {
         id: track_info
     }
-
     Controller {
         id: controller
     }
@@ -42,19 +42,18 @@ ApplicationWindow {
                 }
                 Label {
                     objectName: "song_title"
-                    Layout.fillWidth: true
-                    Layout.preferredWidth: 300
                     wrapMode: Text.WordWrap
                     text: track_info.title
                     font.pointSize: 26
+                    Layout.fillWidth: true
                 }
                 Label {
                     objectName: "artist"
                     Layout.fillWidth: true
-                    Layout.preferredWidth: 300
                     wrapMode: Text.WordWrap
                     text: track_info.artist
                     font.pointSize: 18
+                    color: Material.accent
                 }
 
                 // fill space
@@ -63,40 +62,55 @@ ApplicationWindow {
                 }
 
                 RowLayout {
-                    spacing: 5
+                    spacing: 20
+                    Layout.alignment: Qt.AlignVCenter
+                    Layout.margins: 20
+
                     Item {
                         Layout.fillWidth: true
                     }
-                    Button {
-                            text: "Previous"
-                            Layout.preferredWidth: 90
-                            font.capitalization: Font.MixedCase
-                            onClicked: controller.play_previous();
+
+                    Elements.ImageButton {
+                        iconSource: "/img/skip-back.svg"
+                        onClicked: controller.play_next()
                     }
-                    Button {
-                            text: "Play/Pause"
-                            Layout.preferredWidth: 90
-                            font.capitalization: Font.MixedCase
-                            onClicked: controller.play_toggle_pause();
+                    Elements.ImageButton {
+                        iconSource: "/img/play.svg"
+                        onClicked: controller.play_next()
                     }
-                    Button {
-                            text: "Next"
-                            Layout.preferredWidth: 90
-                            font.capitalization: Font.MixedCase
-                            onClicked: controller.play_next()
+                    Elements.ImageButton {
+                        iconSource: "/img/skip-forward.svg"
+                        onClicked: controller.play_next()
                     }
+
                     Item {
                         Layout.fillWidth: true
                     }
                 }
-                ProgressBar {
+
+                Elements.ProgressBar {
                     Layout.fillWidth: true
-                    value: player_state.time_elapsed / player_state.time_elapsed
+                    Layout.minimumWidth: 300
+                    //value: player_state.time_elapsed / player_state.time_elapsed
+                    value: 0.5
+                }
+
+                RowLayout {
+                    Label {
+                        text: "00:00"
+                        color: Material.accent
+                    }
+                    Item {
+                        Layout.fillWidth: true
+                    }
+                    Label {
+                        text: "00:00"
+                         color: Material.accent
+                    }
                 }
             }
 
             ColumnLayout {
-
                 // fill space
                 Item {
                     Layout.fillHeight: true
@@ -105,6 +119,7 @@ ApplicationWindow {
                     source: "/img/cd-icon.png"
                     fillMode: Image.PreserveAspectFit
                     Layout.fillWidth: true
+                    Layout.minimumWidth: 200
                     Layout.maximumHeight: 400
                     Layout.preferredHeight: 400
                 }

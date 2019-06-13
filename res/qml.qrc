@@ -3,5 +3,11 @@
         <file>qtquickcontrols2.conf</file>
         <file>layout/main.qml</file>
         <file>img/cd-icon.png</file>
+        <file>img/play.svg</file>
+        <file>img/pause.svg</file>
+        <file>img/skip-forward.svg</file>
+        <file>img/skip-back.svg</file>
+        <file>element/ImageButton.qml</file>
+        <file>element/ProgressBar.qml</file>
     </qresource>
 </RCC>
