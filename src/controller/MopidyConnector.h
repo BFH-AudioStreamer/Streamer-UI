@@ -39,11 +39,13 @@ using namespace std;
  */
 class MopidyConnector {
 public:
-    MopidyConnector(const string hostname, const unsigned int port);
+    MopidyConnector(const string hostname, unsigned int port);
+
+    const char* album_art_uri(const char* songUri);
 
 private:
-    const string hostname = "Audio-Streamer";
-    const string ipAddress = "127.0.0.1";
+    const string hostname;
+    const string ipAddress;
     const unsigned int port = 6600;
     const unsigned int timeout = 30000;
 };

@@ -32,6 +32,12 @@
 
 #include "MopidyConnector.h"
 
+MopidyConnector::MopidyConnector(std::string hostname, unsigned int port):hostname(hostname),port(port){
 
+}
+
+const char* MopidyConnector::album_art_uri(const char* songUri){
+    return songUri;
+}
 
 /** @} */

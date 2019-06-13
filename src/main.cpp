@@ -38,6 +38,8 @@
 #include "model/Model.h"
 #include "controller/Controller.h"
 
+#include "controller/MopidyMpdConnector.h"
+
 /**
  * @brief Main method
  */

@@ -39,7 +39,7 @@
 class BackendConnector {
 public:
     static void set_backend() {
-        _instance = new MopidyMpdConnector();
+        _instance = new MopidyMpdConnector("172.16.10.128", 6600);
     }
 
     static IBackendConnector *instance() {

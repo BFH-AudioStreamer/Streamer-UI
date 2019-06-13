@@ -43,10 +43,10 @@ public:
     virtual void play_previous() = 0;
     virtual void play_stop() = 0;
     virtual void play_toggle_pause() = 0;
-    //virtual unsigned int bit_rate() = 0;
-    //virtual unsigned int track_total_time() = 0;
-    //virtual unsigned int track_elapsed_time() = 0;
-    //virtual const char* album_art_uri() = 0;
+    virtual unsigned int bit_rate() = 0;
+    virtual unsigned int track_total_time() = 0;
+    virtual unsigned int track_elapsed_time() = 0;
+    virtual const char* album_art_uri() = 0;
     //virtual void set_search() = 0;
     //virtual void control_capabilities() = 0;
 

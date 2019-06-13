@@ -73,6 +73,7 @@ void MpdConnector::play_previous(){
 
 void MpdConnector::play_stop(){
     connect();
+    std::cout << "MpdBackend: stop button clicked" << std::endl;
     mpd_send_stop(connection);
     disconnect();
 }
@@ -84,48 +85,69 @@ void MpdConnector::play_toggle_pause(){
     disconnect();
 }
 
-//unsigned int MpdConnector::bit_rate(){
-//    unsigned int bitRate = 0;
-//    connect();
-//    bitRate = mpd_status_get_kbit_rate(status);
-//    cout << "MpdBackend: bitrate: " << bitRate << endl;
-//    disconnect();
-//    return bitRate;
-//}
+unsigned int MpdConnector::bit_rate(){
+    unsigned int bitRate = 0;
+    connect();
+    mpd_status *status = mpd_status_begin();
+    bitRate = mpd_status_get_kbit_rate(status);
+    std::cout << "MpdBackend: bitrate: " << bitRate << std::endl;
+    disconnect();
+    mpd_status_free(status);
+    return bitRate;
+}
 
 
-//unsigned int MpdConnector::track_total_time(){
-//    unsigned int totalTime = 0;
-//    connect();
-//    totalTime = mpd_status_get_total_time(status);
-//    cout << "MpdBackend: total time: " << totalTime << endl;
-//    disconnect();
-//    return totalTime;
-//}
+unsigned int MpdConnector::track_total_time(){
+    unsigned int totalTime = 0;
+    connect();
+    mpd_status *status = mpd_status_begin();
+    totalTime = mpd_status_get_total_time(status);
+    std::cout << "MpdBackend: total time: " << totalTime << std::endl;
+    disconnect();
+    return totalTime;
+}
 
-//unsigned int MpdConnector::track_elapsed_time(){
-//    unsigned int elapsedTime = 0;
-//    connect();
-//    elapsedTime = mpd_status_get_elapsed_time(status);
-//    cout << "MpdBackend: elapsed time: " << elapsedTime << endl;
-//    disconnect();
-//    return elapsedTime;
-//}
+unsigned int MpdConnector::track_elapsed_time(){
+    unsigned int elapsedTime = 0;
+    connect();
+    mpd_status *status = mpd_status_begin();
+    elapsedTime = mpd_status_get_elapsed_time(status);
+    std::cout << "MpdBackend: elapsed time: " << elapsedTime << std::endl;
+    disconnect();
+    return elapsedTime;
+}
 
-//const char* MpdConnector::album_art_uri(){
-//    const struct mpd_song *song;
-//    const char *uri = nullptr;
-//    connect();
-//    if(mpd_entity_get_type(entity) == MPD_ENTITY_TYPE_SONG){
-//        song = mpd_entity_get_song(entity);
-//        uri = mpd_song_get_uri(song);
-//        cout << "MpdBackend: uri: " << uri << endl;
-//    }else{
-//        cout << "Error: MpdBackend: entity is not a song" << endl;
-//    }
-//    disconnect();
-//    return uri;
-//}
+const char* MpdConnector::song_uri(){
+    const struct mpd_song *song;
+    const char *uri = nullptr;
+    connect();
+
+    /* receive next pair */
+    mpd_pair *pair = mpd_recv_pair(connection);
+    std::cout << "MpdBackend: pair: " << pair->name << ", " << pair->value <<std::endl;
+
+    /* get entity from pair */
+    mpd_entity *entity = mpd_entity_begin(pair);
+
+    /* check if entity is a song (could also be a directory or playlist)*/
+    if(mpd_entity_get_type(entity) == MPD_ENTITY_TYPE_SONG){
+        /* get song and uri of the song */
+        song = mpd_entity_get_song(entity);
+        uri = mpd_song_get_uri(song);
+
+        /* check for nullptr */
+        if(uri != nullptr){
+            std::cout << "MpdBackend: uri: " << uri << std::endl;
+        }else{
+            std::cout << "Error: MpdBackend: Get nullptr instead of uri " << std::endl;
+        }
+    }else{
+        std::cout << "Error: MpdBackend: entity is not a song" << std::endl;
+    }
+
+    disconnect();
+    return uri;
+}
 
 //void MpdConnector::set_search(){
 
@@ -136,13 +158,15 @@ void MpdConnector::play_toggle_pause(){
 //}
 
 void MpdConnector::connect(){
-    connection = mpd_connection_new("127.0.0.1", port, 30000);
+    connection = mpd_connection_new(hostname.c_str(), port, 30000);
     if (mpd_connection_get_error(connection) != MPD_ERROR_SUCCESS) {
         int i;
         for(i=0;i<3;i++) {
             printf("version[%i]: %i\n",i,
                    mpd_connection_get_server_version(connection)[i]);
         }
+    }else{
+        std::cout << "Error: MpdBackend: Connecting failed " << std::endl;
     }
 }
 

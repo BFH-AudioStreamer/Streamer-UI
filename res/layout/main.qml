@@ -5,6 +5,7 @@ import QtQuick.Controls.Material 2.2
 
 import bfh.audio_streamer.player_state 1.0
 import bfh.audio_streamer.track_info 1.0
+import bfh.audio_streamer.controller 1.0
 
 ApplicationWindow {
     visible: true
@@ -19,6 +20,10 @@ ApplicationWindow {
 
     Track_info {
         id: track_info
+    }
+
+    Controller {
+        id: controller
     }
 
     ColumnLayout {
@@ -66,16 +71,19 @@ ApplicationWindow {
                             text: "Previous"
                             Layout.preferredWidth: 90
                             font.capitalization: Font.MixedCase
+                            onClicked: controller.play_previous();
                     }
                     Button {
                             text: "Play/Pause"
                             Layout.preferredWidth: 90
                             font.capitalization: Font.MixedCase
+                            onClicked: controller.play_toggle_pause();
                     }
                     Button {
                             text: "Next"
                             Layout.preferredWidth: 90
                             font.capitalization: Font.MixedCase
+                            onClicked: controller.play_next()
                     }
                     Item {
                         Layout.fillWidth: true

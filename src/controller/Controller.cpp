@@ -43,6 +43,14 @@ void Controller::play_next() {
     BackendConnector::instance()->play_next();
 }
 
+void Controller::play_previous() {
+    BackendConnector::instance()->play_previous();
+}
+
+void Controller::play_toggle_pause() {
+    BackendConnector::instance()->play_toggle_pause();
+}
+
 void Controller::register_qml() {
     qmlRegisterType<Controller>(
                 "bfh.audio_streamer.controller",
