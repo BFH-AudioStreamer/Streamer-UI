@@ -57,6 +57,54 @@ MpdConnector::MpdConnector(std::string hostname, unsigned int port):hostname(hos
 
 //}
 
+const char* MpdConnector::update(){
+    struct mpd_status * status;
+    struct mpd_song *song;
+    const struct mpd_audio_format *audio_format;
+
+    connect();
+
+    if (mpd_connection_get_error(connection) != MPD_ERROR_SUCCESS) {
+        return nullptr;
+    }
+
+    mpd_command_list_begin(connection, true);
+    mpd_send_status(connection);
+    mpd_send_current_song(connection);
+    mpd_command_list_end(connection);
+
+    status = mpd_recv_status(connection);
+    if (mpd_status_get_error(status) != NULL)
+        printf("error: %s\n", mpd_status_get_error(status));
+
+    if (mpd_status_get_state(status) == MPD_STATE_PLAY ||
+        mpd_status_get_state(status) == MPD_STATE_PAUSE) {
+        printf("elasped_ms: %u\n", mpd_status_get_elapsed_ms(status));
+        printf("totalTime: %i\n", mpd_status_get_total_time(status));
+        printf("bitRate: %i\n", mpd_status_get_kbit_rate(status));
+//        set_progress(mpd_status_get_elapsed_ms(status) /
+//                             (mpd_status_get_total_time(status) * 1000.0));
+    }
+    mpd_status_free(status);
+
+    mpd_response_next(connection);
+    if ((song = mpd_recv_song(connection)) != NULL) {
+        //printf("uri: %s\n", mpd_song_get_uri(song));
+        //print_tag(song, MPD_TAG_ARTIST, "artist");
+        //print_tag(song, MPD_TAG_ALBUM, "album");
+        //print_tag(song, MPD_TAG_TITLE, "title");
+        //print_tag(song, MPD_TAG_TRACK, "track");
+        //print_tag(song, MPD_TAG_NAME, "name");
+//        set_song_title(mpd_song_get_tag(song, MPD_TAG_TITLE, 0));
+//        set_artist(mpd_song_get_tag(song, MPD_TAG_ARTIST, 0));
+        mpd_song_free(song);
+    }
+
+    disconnect();
+
+    return nullptr;
+}
+
 void MpdConnector::play_next(){
     connect();
     std::cout << "MpdBackend: next button clicked" << std::endl;
@@ -86,33 +134,92 @@ void MpdConnector::play_toggle_pause(){
 }
 
 unsigned int MpdConnector::bit_rate(){
+    struct mpd_status * status;
     unsigned int bitRate = 0;
+
     connect();
-    mpd_status *status = mpd_status_begin();
-    bitRate = mpd_status_get_kbit_rate(status);
-    std::cout << "MpdBackend: bitrate: " << bitRate << std::endl;
-    disconnect();
+
+    if (mpd_connection_get_error(connection) != MPD_ERROR_SUCCESS) {
+        return 0;
+    }
+
+    mpd_command_list_begin(connection, true);
+    mpd_send_status(connection);
+    mpd_send_current_song(connection);
+    mpd_command_list_end(connection);
+
+    status = mpd_recv_status(connection);
+    if (mpd_status_get_error(status) != nullptr)
+        printf("error: %s\n", mpd_status_get_error(status));
+
+    if (mpd_status_get_state(status) == MPD_STATE_PLAY ||
+        mpd_status_get_state(status) == MPD_STATE_PAUSE) {
+        bitRate = mpd_status_get_kbit_rate(status);
+        std::cout << "MpdBackend: bitrate: " << bitRate << std::endl;
+    }
+
     mpd_status_free(status);
+    disconnect();
     return bitRate;
 }
 
 
 unsigned int MpdConnector::track_total_time(){
+    struct mpd_status * status;
     unsigned int totalTime = 0;
+
     connect();
-    mpd_status *status = mpd_status_begin();
-    totalTime = mpd_status_get_total_time(status);
-    std::cout << "MpdBackend: total time: " << totalTime << std::endl;
+
+    if (mpd_connection_get_error(connection) != MPD_ERROR_SUCCESS) {
+        return 0;
+    }
+
+    mpd_command_list_begin(connection, true);
+    mpd_send_status(connection);
+    mpd_send_current_song(connection);
+    mpd_command_list_end(connection);
+
+    status = mpd_recv_status(connection);
+    if (mpd_status_get_error(status) != nullptr)
+        printf("error: %s\n", mpd_status_get_error(status));
+
+    if (mpd_status_get_state(status) == MPD_STATE_PLAY ||
+        mpd_status_get_state(status) == MPD_STATE_PAUSE) {
+        totalTime = mpd_status_get_total_time(status);
+        std::cout << "MpdBackend: total time: " << totalTime << std::endl;
+    }
+
+    mpd_status_free(status);
     disconnect();
     return totalTime;
 }
 
 unsigned int MpdConnector::track_elapsed_time(){
+    struct mpd_status * status;
     unsigned int elapsedTime = 0;
+
     connect();
-    mpd_status *status = mpd_status_begin();
-    elapsedTime = mpd_status_get_elapsed_time(status);
-    std::cout << "MpdBackend: elapsed time: " << elapsedTime << std::endl;
+
+    if (mpd_connection_get_error(connection) != MPD_ERROR_SUCCESS) {
+        return 0;
+    }
+
+    mpd_command_list_begin(connection, true);
+    mpd_send_status(connection);
+    mpd_send_current_song(connection);
+    mpd_command_list_end(connection);
+
+    status = mpd_recv_status(connection);
+    if (mpd_status_get_error(status) != nullptr)
+        printf("error: %s\n", mpd_status_get_error(status));
+
+    if (mpd_status_get_state(status) == MPD_STATE_PLAY ||
+        mpd_status_get_state(status) == MPD_STATE_PAUSE) {
+        elapsedTime = mpd_status_get_elapsed_time(status);
+        std::cout << "MpdBackend: elapsed time: " << elapsedTime << std::endl;
+    }
+
+    mpd_status_free(status);
     disconnect();
     return elapsedTime;
 }
@@ -149,6 +256,7 @@ const char* MpdConnector::song_uri(){
     return uri;
 }
 
+
 //void MpdConnector::set_search(){
 
 //}
@@ -160,18 +268,20 @@ const char* MpdConnector::song_uri(){
 void MpdConnector::connect(){
     connection = mpd_connection_new(hostname.c_str(), port, 30000);
     if (mpd_connection_get_error(connection) != MPD_ERROR_SUCCESS) {
+        std::cout << "Error: MpdBackend: Not able to connect " << std::endl;
         int i;
         for(i=0;i<3;i++) {
             printf("version[%i]: %i\n",i,
                    mpd_connection_get_server_version(connection)[i]);
         }
     }else{
-        std::cout << "Error: MpdBackend: Connecting failed " << std::endl;
+        std::cout << "MpdBackend: Connected " << std::endl;
     }
 }
 
 void MpdConnector::disconnect(){
     mpd_connection_free(connection);
+    std::cout << "MpdBackend: Disconnected " << std::endl;
 }
 
 /** @} */

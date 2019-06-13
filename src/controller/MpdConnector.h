@@ -38,6 +38,7 @@ private:
     unsigned int port;
     struct mpd_connection *connection = nullptr;
 
+    const char*  update();
     void connect();
     void disconnect();
 };

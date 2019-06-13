@@ -63,6 +63,9 @@ void MopidyMpdConnector::play_stop(){
 
 void MopidyMpdConnector::play_toggle_pause(){
     mpdConnector->play_toggle_pause();
+    bit_rate();
+    track_total_time();
+    track_elapsed_time();
 }
 
 unsigned int MopidyMpdConnector::bit_rate(){
