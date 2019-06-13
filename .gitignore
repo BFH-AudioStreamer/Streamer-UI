@@ -3,6 +3,7 @@ QtCreatorDeployment.txt
 .idea/encodings.xml
 .idea/misc.xml
 .idea/vcs.xml
+build
 
 # Created by https://www.gitignore.io/api/cmake,intellij,qtcreator
 # Edit at https://www.gitignore.io/?templates=cmake,intellij,qtcreator
