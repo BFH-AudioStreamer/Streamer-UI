@@ -6,7 +6,7 @@
  *
  * Elaborate Description
  *
- * @authors stefan
+ * @authors Stefan Lüthi
  ****************************************************************************//*
  * Copyright (C) 2019 Audio-Streamer Project Group
  *
@@ -35,20 +35,20 @@
 #include "BackendConnector.h"
 
 Controller::Controller(Model &_model)  {
-    BackendConnector::set_backend();
+    backend_connector = BackendConnector::create();
     register_qml();
 }
 
 void Controller::play_next() {
-    BackendConnector::instance()->play_next();
+    backend_connector->play_next();
 }
 
 void Controller::play_previous() {
-    BackendConnector::instance()->play_previous();
+    backend_connector->play_previous();
 }
 
 void Controller::play_toggle_pause() {
-    BackendConnector::instance()->play_toggle_pause();
+    backend_connector->play_toggle_pause();
 }
 
 void Controller::register_qml() {

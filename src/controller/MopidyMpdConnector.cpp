@@ -6,7 +6,8 @@
  *
  * Elaborate Description
  *
- * @authors stefan
+ * @authors Rafael Klossner
+ * @authors Stefan Lüthi
  ****************************************************************************//*
  * Copyright (C) 2019 Audio-Streamer Project Group
  *
@@ -30,9 +31,11 @@
  *******************************************************************************
  */
 
+#include <utility>
 #include "MopidyMpdConnector.h"
 
-MopidyMpdConnector::MopidyMpdConnector(std::string _hostname, unsigned int _port):hostname(_hostname),port(_port){
+MopidyMpdConnector::MopidyMpdConnector(std::string _hostname, unsigned int _port)
+        :hostname(std::move(_hostname)), port(_port) {
     mpdConnector = new MpdConnector(hostname, port);
     mopidyConnector = new MopidyConnector(hostname, port);
 }
@@ -49,47 +52,46 @@ MopidyMpdConnector::MopidyMpdConnector(std::string _hostname, unsigned int _port
 
 //}
 
-void MopidyMpdConnector::play_next(){
+void MopidyMpdConnector::play_next() {
     mpdConnector->play_next();
 }
 
-void MopidyMpdConnector::play_previous(){
+void MopidyMpdConnector::play_previous() {
     mpdConnector->play_previous();
 }
 
-void MopidyMpdConnector::play_stop(){
+void MopidyMpdConnector::play_stop() {
     mpdConnector->play_stop();
 }
 
-void MopidyMpdConnector::play_toggle_pause(){
+void MopidyMpdConnector::play_toggle_pause() {
     mpdConnector->play_toggle_pause();
     bit_rate();
     track_total_time();
     track_elapsed_time();
 }
 
-unsigned int MopidyMpdConnector::bit_rate(){
+unsigned int MopidyMpdConnector::bit_rate() {
     unsigned int bitRate = 0;
     bitRate = mpdConnector->bit_rate();
     return bitRate;
 }
 
-
-unsigned int MopidyMpdConnector::track_total_time(){
+unsigned int MopidyMpdConnector::track_total_time() {
     unsigned int totalTime = 0;
     totalTime = mpdConnector->track_total_time();
     return totalTime;
 }
 
-unsigned int MopidyMpdConnector::track_elapsed_time(){
+unsigned int MopidyMpdConnector::track_elapsed_time() {
     unsigned int elapsedTime = 0;
     elapsedTime = mpdConnector->track_elapsed_time();
     return elapsedTime;
 }
 
-const char* MopidyMpdConnector::album_art_uri(){
-    const char *songUri = nullptr;
-    const char *albumUri = nullptr;
+const char* MopidyMpdConnector::album_art_uri() {
+    const char* songUri = nullptr;
+    const char* albumUri = nullptr;
     // const char *artUri = nullptr;
 
     songUri = mpdConnector->song_uri();

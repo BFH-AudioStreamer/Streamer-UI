@@ -3,8 +3,7 @@ import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Material 2.2
 
-import bfh.audio_streamer.player_state 1.0
-import bfh.audio_streamer.track_info 1.0
+import bfh.audio_streamer.model 1.0
 import bfh.audio_streamer.controller 1.0
 
 import "../element/" as Elements
@@ -15,16 +14,6 @@ ApplicationWindow {
     height: 480
     title: "Streamer UI"
     property int margin: 40
-
-    Player_state {
-        id: player_state
-    }
-    Track_info {
-        id: track_info
-    }
-    Controller {
-        id: controller
-    }
 
     ColumnLayout {
         spacing: 10
@@ -43,7 +32,7 @@ ApplicationWindow {
                 Label {
                     objectName: "song_title"
                     wrapMode: Text.WordWrap
-                    text: track_info.title
+                    text: model.track_info.title
                     font.pointSize: 26
                     Layout.fillWidth: true
                 }
@@ -51,7 +40,7 @@ ApplicationWindow {
                     objectName: "artist"
                     Layout.fillWidth: true
                     wrapMode: Text.WordWrap
-                    text: track_info.artist
+                    text: model.track_info.artist
                     font.pointSize: 18
                     color: Material.accent
                 }

@@ -6,7 +6,7 @@
  *
  * Elaborate Description
  *
- * @authors stefan
+ * @authors Stefan Lüthi
  *******************************************************************************
  * Copyright (C) 2019 Audio-Streamer Project Group
  *
@@ -33,8 +33,8 @@
 #include "Track_info.h"
 
 Track_info::Track_info() {
-    _title = "Title";
-    _artist = "Artist";
+    m_title = "Title";
+    m_artist = "Artist";
 }
 
 /** @} */

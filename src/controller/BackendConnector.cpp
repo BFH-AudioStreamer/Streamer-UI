@@ -6,7 +6,7 @@
  *
  * Elaborate Description
  *
- * @authors stefan
+ * @authors Stefan Lüthi
  ****************************************************************************//*
  * Copyright (C) 2019 Audio-Streamer Project Group
  *
@@ -31,6 +31,10 @@
 
 #include "BackendConnector.h"
 
-IBackendConnector *BackendConnector::_instance;
+std::unique_ptr<IBackendConnector> BackendConnector::create() {
+    /* parse config and create backend connector */
+    return std::make_unique<MopidyMpdConnector>(
+            MopidyMpdConnector("192.168.138.129", 6600));
+}
 
 /** @} */

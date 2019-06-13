@@ -1,3 +1,5 @@
+#include <utility>
+
 /**
  *******************************************************************************
  * @addtogroup MopidyConnector
@@ -6,7 +8,7 @@
  *
  * Elaborate Description
  *
- * @authors stefan
+ * @authors Rafael Klossner
  ****************************************************************************//*
  * Copyright (C) 2019 Audio-Streamer Project Group
  *
@@ -32,11 +34,12 @@
 
 #include "MopidyConnector.h"
 
-MopidyConnector::MopidyConnector(std::string hostname, unsigned int port):hostname(hostname),port(port){
+MopidyConnector::MopidyConnector(std::string hostname, unsigned int port)
+        :hostname(std::move(hostname)), port(port) {
 
 }
 
-const char* MopidyConnector::album_art_uri(const char* songUri){
+const char* MopidyConnector::album_art_uri(const char* songUri) {
     return songUri;
 }
 

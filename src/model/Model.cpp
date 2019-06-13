@@ -6,7 +6,7 @@
  *
  * Elaborate Description
  *
- * @authors stefan
+ * @authors Stefan Lüthi
  ****************************************************************************//*
  * Copyright (C) 2019 Audio-Streamer Project Group
  *
@@ -34,10 +34,18 @@
 #include "Model.h"
 
 Model::Model() {
+    m_player_state = new Player_state();
+    m_track_info = new Track_info();
     register_qml();
 }
 
 void Model::register_qml() {
+    qmlRegisterType<Model>(
+            "bfh.audio_streamer.model",
+            1, 0,
+            "Model"
+    );
+
     qmlRegisterType<Player_state>(
             "bfh.audio_streamer.player_state",
             1, 0,
@@ -51,4 +59,11 @@ void Model::register_qml() {
     );
 }
 
+Track_info* Model::track_info() {
+    return m_track_info;
+}
+
+Player_state* Model::player_state() {
+    return m_player_state;
+}
 /** @} */

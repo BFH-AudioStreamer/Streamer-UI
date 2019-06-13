@@ -34,11 +34,10 @@
 
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QQmlContext>
 
 #include "model/Model.h"
 #include "controller/Controller.h"
-
-#include "controller/MopidyMpdConnector.h"
 
 /**
  * @brief Main method
@@ -52,6 +51,10 @@ int main(int argc, char *argv[]) {
     QGuiApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
+    /* Make model and controller available in QML */
+    engine.rootContext()->setContextProperty("model", model);
+    engine.rootContext()->setContextProperty("controller", controller);
+
     engine.load(QUrl(QStringLiteral("qrc:layout/main.qml")));
     if (engine.rootObjects().isEmpty()) {
         return -1;
