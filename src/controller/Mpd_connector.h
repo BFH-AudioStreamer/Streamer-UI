@@ -15,9 +15,9 @@
 /**
  * @brief
  */
-class MpdConnector {
+class Mpd_connector {
 public:
-    MpdConnector(std::string hostname, unsigned int port);
+    Mpd_connector(std::string hostname, unsigned int port);
 
 //    void song_title();
 //    void artist();

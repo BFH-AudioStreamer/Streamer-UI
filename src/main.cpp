@@ -44,7 +44,7 @@
  */
 int main(int argc, char *argv[]) {
 
-    auto model = new Streamer_model();
+    auto model = new Model();
     auto controller = new Controller(*model);
 
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);

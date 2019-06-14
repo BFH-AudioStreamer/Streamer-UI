@@ -3,9 +3,6 @@ import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Material 2.2
 
-import bfh.audio_streamer.model 1.0
-import bfh.audio_streamer.controller 1.0
-
 import "../element/" as Elements
 
 ApplicationWindow {

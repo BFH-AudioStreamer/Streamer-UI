@@ -30,7 +30,7 @@
  *******************************************************************************
  */
 
-#include "MpdConnector.h"
+#include "Mpd_connector.h"
 
 #include <mpd/client.h>
 #include <mpd/status.h>
@@ -41,23 +41,23 @@
 
 #include <iostream>
 
-MpdConnector::MpdConnector(std::string hostname, unsigned int port):hostname(hostname),port(port){
+Mpd_connector::Mpd_connector(std::string hostname, unsigned int port):hostname(hostname),port(port){
 
 }
 
-//void MpdConnector::song_title(){
+//void Mpd_connector::song_title(){
 
 //}
 
-//void MpdConnector::artist(){
+//void Mpd_connector::artist(){
 
 //}
 
-//void MpdConnector::album(){
+//void Mpd_connector::album(){
 
 //}
 
-const char* MpdConnector::update(){
+const char* Mpd_connector::update(){
     struct mpd_connection *connection = nullptr;
     struct mpd_status * status;
     struct mpd_song *song;
@@ -106,7 +106,7 @@ const char* MpdConnector::update(){
     return nullptr;
 }
 
-void MpdConnector::play_next(){
+void Mpd_connector::play_next(){
     struct mpd_connection *connection = nullptr;
     connection = connect();
     std::cout << "MpdBackend: next button clicked" << std::endl;
@@ -114,7 +114,7 @@ void MpdConnector::play_next(){
     disconnect(connection);
 }
 
-void MpdConnector::play_previous(){
+void Mpd_connector::play_previous(){
     struct mpd_connection *connection = nullptr;
     connection = connect();
     std::cout << "MpdBackend: previous button clicked" << std::endl;
@@ -122,7 +122,7 @@ void MpdConnector::play_previous(){
     disconnect(connection);
 }
 
-void MpdConnector::play_stop(){
+void Mpd_connector::play_stop(){
     struct mpd_connection *connection = nullptr;
     connection = connect();
     std::cout << "MpdBackend: stop button clicked" << std::endl;
@@ -130,7 +130,7 @@ void MpdConnector::play_stop(){
     disconnect(connection);
 }
 
-void MpdConnector::play_toggle_pause(){
+void Mpd_connector::play_toggle_pause(){
     struct mpd_connection *connection = nullptr;
     connection = connect();
     std::cout << "MpdBackend: play/pause button clicked" << std::endl;
@@ -138,7 +138,7 @@ void MpdConnector::play_toggle_pause(){
     disconnect(connection);
 }
 
-unsigned int MpdConnector::bit_rate(){
+unsigned int Mpd_connector::bit_rate(){
     struct mpd_connection *connection = nullptr;
     struct mpd_status * status;
     unsigned int bitRate = 0;
@@ -170,7 +170,7 @@ unsigned int MpdConnector::bit_rate(){
 }
 
 
-unsigned int MpdConnector::track_total_time(){
+unsigned int Mpd_connector::track_total_time(){
     struct mpd_connection *connection = nullptr;
     struct mpd_status * status;
     unsigned int totalTime = 0;
@@ -201,7 +201,7 @@ unsigned int MpdConnector::track_total_time(){
     return totalTime;
 }
 
-unsigned int MpdConnector::track_elapsed_time(){
+unsigned int Mpd_connector::track_elapsed_time(){
     struct mpd_connection *connection = nullptr;
     struct mpd_status * status;
     unsigned int elapsedTime = 0;
@@ -232,7 +232,7 @@ unsigned int MpdConnector::track_elapsed_time(){
     return elapsedTime;
 }
 
-const char* MpdConnector::song_uri(){
+const char* Mpd_connector::song_uri(){
     struct mpd_connection *connection = nullptr;
     const struct mpd_song *song;
     const char *uri = nullptr;
@@ -266,15 +266,15 @@ const char* MpdConnector::song_uri(){
 }
 
 
-//void MpdConnector::set_search(){
+//void Mpd_connector::set_search(){
 
 //}
 
-//void MpdConnector::control_capabilities(){
+//void Mpd_connector::control_capabilities(){
 
 //}
 
-struct mpd_connection *MpdConnector::connect(){
+struct mpd_connection *Mpd_connector::connect(){
     struct mpd_connection *connection = nullptr;
     connection = mpd_connection_new(hostname.c_str(), port, 30000);
     if (mpd_connection_get_error(connection) != MPD_ERROR_SUCCESS) {
@@ -290,7 +290,7 @@ struct mpd_connection *MpdConnector::connect(){
     return connection;
 }
 
-void MpdConnector::disconnect(struct mpd_connection *connection){
+void Mpd_connector::disconnect(struct mpd_connection *connection){
     mpd_connection_free(connection);
     std::cout << "MpdBackend: Disconnected " << std::endl;
 }

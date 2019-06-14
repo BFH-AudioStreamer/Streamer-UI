@@ -60,8 +60,8 @@ private:
     std::string hostname;
     unsigned int port;
 
-    MpdConnector *mpdConnector = nullptr;
-    MopidyConnector *mopidyConnector = nullptr;
+    Mpd_connector *mpdConnector = nullptr;
+    Mopidy_connector *mopidyConnector = nullptr;
 };
 
 /**

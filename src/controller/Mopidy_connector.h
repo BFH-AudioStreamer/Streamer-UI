@@ -37,9 +37,9 @@ using namespace std;
 /**
  * @brief
  */
-class MopidyConnector {
+class Mopidy_connector {
 public:
-    MopidyConnector(const string hostname, unsigned int port);
+    Mopidy_connector(const string hostname, unsigned int port);
 
     const char* album_art_uri(const char* songUri);
 

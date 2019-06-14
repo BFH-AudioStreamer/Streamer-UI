@@ -36,8 +36,8 @@
 
 MopidyMpdConnector::MopidyMpdConnector(std::string _hostname, unsigned int _port)
         :hostname(std::move(_hostname)), port(_port) {
-    mpdConnector = new MpdConnector(hostname, port);
-    mopidyConnector = new MopidyConnector(hostname, port);
+    mpdConnector = new Mpd_connector(hostname, port);
+    mopidyConnector = new Mopidy_connector(hostname, port);
 }
 
 //void MpdConnector::song_title(){

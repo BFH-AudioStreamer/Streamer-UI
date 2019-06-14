@@ -33,37 +33,16 @@
 #include <QQmlApplicationEngine>
 #include "Model.h"
 
-Streamer_model::Streamer_model() {
+Model::Model() {
     m_player_state = new Player_state();
     m_track_info = new Track_info();
-    register_qml();
 }
 
-void Streamer_model::register_qml() {
-    qmlRegisterType<Streamer_model>(
-            "bfh.audio_streamer.model",
-            1, 0,
-            "Streamer_model"
-    );
-
-    qmlRegisterType<Player_state>(
-            "bfh.audio_streamer.player_state",
-            1, 0,
-            "Player_state"
-    );
-
-    qmlRegisterType<Track_info>(
-            "bfh.audio_streamer.track_info",
-            1, 0,
-            "Track_info"
-    );
-}
-
-Track_info* Streamer_model::track_info() {
+Track_info* Model::track_info() {
     return m_track_info;
 }
 
-Player_state* Streamer_model::player_state() {
+Player_state* Model::player_state() {
     return m_player_state;
 }
 /** @} */

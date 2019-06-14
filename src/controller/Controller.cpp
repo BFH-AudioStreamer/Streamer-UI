@@ -34,9 +34,9 @@
 #include "Controller.h"
 #include "Backend_connector.h"
 
-Controller::Controller(Streamer_model &_model)  {
+Controller::Controller(Model& _model)
+        :model(_model) {
     backend_connector = BackendConnector::create();
-    register_qml();
 }
 
 void Controller::play_next() {
@@ -49,18 +49,11 @@ void Controller::play_previous() {
 
 void Controller::play_toggle_pause() {
     backend_connector->play_toggle_pause();
+    //model.track_info()->set_title("hello");
 }
 
-void Controller::register_qml() {
-    qmlRegisterType<Controller>(
-                "bfh.audio_streamer.controller",
-                1, 0,
-                "Controller"
-    );
-}
-
-void Controller::update_model(){
-    model->track_info.set_title(title);
+void Controller::update_model() {
+    model.track_info()->set_title(title);
 }
 
 /** @} */

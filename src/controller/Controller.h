@@ -1,12 +1,12 @@
-    /**
- *******************************************************************************
- * @addtogroup Streamer-UI
- * @{
- * @addtogroup controller
- * @{
- * @defgroup Controller
- * @{
- ****************************************************************************//*
+/**
+*******************************************************************************
+* @addtogroup Streamer-UI
+* @{
+* @addtogroup controller
+* @{
+* @defgroup Controller
+* @{
+****************************************************************************//*
  * Copyright (C) 2019 Audio-Streamer Project Group
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -38,21 +38,21 @@
  * @brief
  */
 class Controller : public QObject {
-    Q_OBJECT
+Q_OBJECT
 
 public:
-    explicit Controller(Streamer_model &_model);
+    explicit Controller(Model& _model);
     Q_INVOKABLE void play_next();
     Q_INVOKABLE void play_previous();
     Q_INVOKABLE void play_toggle_pause();
 
 private:
-   void register_qml();
-   Streamer_model &model;
-   std::unique_ptr<IBackendConnector> backend_connector = nullptr;
+    void update_model();
+
+    Model& model;
+    std::unique_ptr<IBackendConnector> backend_connector = nullptr;
 
     QString title = "test";
-
 };
 
 /**
