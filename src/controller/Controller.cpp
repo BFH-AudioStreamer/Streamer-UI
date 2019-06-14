@@ -34,7 +34,11 @@
 #include "Controller.h"
 #include "BackendConnector.h"
 
-Controller::Controller(Model &_model)  {
+Controller::Controller():model(nullptr)  {
+
+}
+
+Controller::Controller(Model *_model):model(_model)  {
     BackendConnector::set_backend();
     register_qml();
 }
@@ -57,6 +61,10 @@ void Controller::register_qml() {
                 1, 0,
                 "Controller"
     );
+}
+
+void Controller::update_model(){
+    model->track_info.set_title(title);
 }
 
 /** @} */

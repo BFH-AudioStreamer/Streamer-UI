@@ -46,7 +46,7 @@
 int main(int argc, char *argv[]) {
 
     auto model = new Model();
-    auto controller = new Controller(*model);
+    auto controller = new Controller(model);
 
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);

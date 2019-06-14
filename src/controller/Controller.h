@@ -1,4 +1,4 @@
-/**
+    /**
  *******************************************************************************
  * @addtogroup Streamer-UI
  * @{
@@ -39,15 +39,18 @@ class Controller : public QObject {
     Q_OBJECT
 
 public:
-    explicit Controller() = default;
-    Controller(Model &_model);
+    explicit Controller();
+    Controller(Model *_model);
     Q_INVOKABLE void play_next();
     Q_INVOKABLE void play_previous();
     Q_INVOKABLE void play_toggle_pause();
 
 private:
     void register_qml();
-   //Model &model;
+    void update_model();
+    Model *model;
+
+    QString title = "test";
 
 };
 
