@@ -41,15 +41,14 @@ class Controller : public QObject {
     Q_OBJECT
 
 public:
-    explicit Controller() = default;
     explicit Controller(Streamer_model &_model);
     Q_INVOKABLE void play_next();
     Q_INVOKABLE void play_previous();
     Q_INVOKABLE void play_toggle_pause();
 
 private:
-    void register_qml();
-   //Streamer_model &model;
+   void register_qml();
+   Streamer_model &model;
    std::unique_ptr<IBackendConnector> backend_connector = nullptr;
 
 };
