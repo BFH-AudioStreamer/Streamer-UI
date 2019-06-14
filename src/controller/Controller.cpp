@@ -59,5 +59,9 @@ void Controller::register_qml() {
     );
 }
 
+void Controller::update_model(){
+    model->track_info.set_title(title);
+}
+
 /** @} */
 

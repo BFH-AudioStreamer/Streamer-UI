@@ -1,5 +1,3 @@
-#include <utility>
-
 /**
  *******************************************************************************
  * @addtogroup MpdConnector
@@ -8,7 +6,7 @@
  *
  * Elaborate Description
  *
- * @authors Rafael Klossner
+ * @authors stefan
  ****************************************************************************//*
  * Copyright (C) 2019 Audio-Streamer Project Group
  *
@@ -32,7 +30,7 @@
  *******************************************************************************
  */
 
-#include "Mpd_connector.h"
+#include "MpdConnector.h"
 
 #include <mpd/client.h>
 #include <mpd/status.h>
@@ -43,8 +41,7 @@
 
 #include <iostream>
 
-MpdConnector::MpdConnector(std::string hostname, unsigned int port)
-        :hostname(std::move(hostname)), port(port) {
+MpdConnector::MpdConnector(std::string hostname, unsigned int port):hostname(hostname),port(port){
 
 }
 
@@ -60,14 +57,15 @@ MpdConnector::MpdConnector(std::string hostname, unsigned int port)
 
 //}
 
-const char* MpdConnector::update() {
-    struct mpd_status* status;
-    struct mpd_song* song;
-    const struct mpd_audio_format* audio_format;
+const char* MpdConnector::update(){
+    struct mpd_connection *connection = nullptr;
+    struct mpd_status * status;
+    struct mpd_song *song;
+    const struct mpd_audio_format *audio_format;
 
-    connect();
+    connection = connect();
 
-    if (mpd_connection_get_error(connection)!=MPD_ERROR_SUCCESS) {
+    if (mpd_connection_get_error(connection) != MPD_ERROR_SUCCESS) {
         return nullptr;
     }
 
@@ -77,11 +75,11 @@ const char* MpdConnector::update() {
     mpd_command_list_end(connection);
 
     status = mpd_recv_status(connection);
-    if (mpd_status_get_error(status)!=NULL)
+    if (mpd_status_get_error(status) != nullptr)
         printf("error: %s\n", mpd_status_get_error(status));
 
-    if (mpd_status_get_state(status)==MPD_STATE_PLAY ||
-            mpd_status_get_state(status)==MPD_STATE_PAUSE) {
+    if (mpd_status_get_state(status) == MPD_STATE_PLAY ||
+        mpd_status_get_state(status) == MPD_STATE_PAUSE) {
         printf("elasped_ms: %u\n", mpd_status_get_elapsed_ms(status));
         printf("totalTime: %i\n", mpd_status_get_total_time(status));
         printf("bitRate: %i\n", mpd_status_get_kbit_rate(status));
@@ -91,7 +89,7 @@ const char* MpdConnector::update() {
     mpd_status_free(status);
 
     mpd_response_next(connection);
-    if ((song = mpd_recv_song(connection))!=NULL) {
+    if ((song = mpd_recv_song(connection)) != nullptr) {
         //printf("uri: %s\n", mpd_song_get_uri(song));
         //print_tag(song, MPD_TAG_ARTIST, "artist");
         //print_tag(song, MPD_TAG_ALBUM, "album");
@@ -103,46 +101,51 @@ const char* MpdConnector::update() {
         mpd_song_free(song);
     }
 
-    disconnect();
+    disconnect(connection);
 
     return nullptr;
 }
 
-void MpdConnector::play_next() {
-    connect();
+void MpdConnector::play_next(){
+    struct mpd_connection *connection = nullptr;
+    connection = connect();
     std::cout << "MpdBackend: next button clicked" << std::endl;
     mpd_send_next(connection);
-    disconnect();
+    disconnect(connection);
 }
 
-void MpdConnector::play_previous() {
-    connect();
+void MpdConnector::play_previous(){
+    struct mpd_connection *connection = nullptr;
+    connection = connect();
     std::cout << "MpdBackend: previous button clicked" << std::endl;
     mpd_send_previous(connection);
-    disconnect();
+    disconnect(connection);
 }
 
-void MpdConnector::play_stop() {
-    connect();
+void MpdConnector::play_stop(){
+    struct mpd_connection *connection = nullptr;
+    connection = connect();
     std::cout << "MpdBackend: stop button clicked" << std::endl;
     mpd_send_stop(connection);
-    disconnect();
+    disconnect(connection);
 }
 
-void MpdConnector::play_toggle_pause() {
-    connect();
+void MpdConnector::play_toggle_pause(){
+    struct mpd_connection *connection = nullptr;
+    connection = connect();
     std::cout << "MpdBackend: play/pause button clicked" << std::endl;
     mpd_send_toggle_pause(connection);
-    disconnect();
+    disconnect(connection);
 }
 
-unsigned int MpdConnector::bit_rate() {
-    struct mpd_status* status;
+unsigned int MpdConnector::bit_rate(){
+    struct mpd_connection *connection = nullptr;
+    struct mpd_status * status;
     unsigned int bitRate = 0;
 
-    connect();
+    connection = connect();
 
-    if (mpd_connection_get_error(connection)!=MPD_ERROR_SUCCESS) {
+    if (mpd_connection_get_error(connection) != MPD_ERROR_SUCCESS) {
         return 0;
     }
 
@@ -152,27 +155,29 @@ unsigned int MpdConnector::bit_rate() {
     mpd_command_list_end(connection);
 
     status = mpd_recv_status(connection);
-    if (mpd_status_get_error(status)!=nullptr)
+    if (mpd_status_get_error(status) != nullptr)
         printf("error: %s\n", mpd_status_get_error(status));
 
-    if (mpd_status_get_state(status)==MPD_STATE_PLAY ||
-            mpd_status_get_state(status)==MPD_STATE_PAUSE) {
+    if (mpd_status_get_state(status) == MPD_STATE_PLAY ||
+        mpd_status_get_state(status) == MPD_STATE_PAUSE) {
         bitRate = mpd_status_get_kbit_rate(status);
         std::cout << "MpdBackend: bitrate: " << bitRate << std::endl;
     }
 
     mpd_status_free(status);
-    disconnect();
+    disconnect(connection);
     return bitRate;
 }
 
-unsigned int MpdConnector::track_total_time() {
-    struct mpd_status* status;
+
+unsigned int MpdConnector::track_total_time(){
+    struct mpd_connection *connection = nullptr;
+    struct mpd_status * status;
     unsigned int totalTime = 0;
 
-    connect();
+    connection = connect();
 
-    if (mpd_connection_get_error(connection)!=MPD_ERROR_SUCCESS) {
+    if (mpd_connection_get_error(connection) != MPD_ERROR_SUCCESS) {
         return 0;
     }
 
@@ -182,27 +187,28 @@ unsigned int MpdConnector::track_total_time() {
     mpd_command_list_end(connection);
 
     status = mpd_recv_status(connection);
-    if (mpd_status_get_error(status)!=nullptr)
+    if (mpd_status_get_error(status) != nullptr)
         printf("error: %s\n", mpd_status_get_error(status));
 
-    if (mpd_status_get_state(status)==MPD_STATE_PLAY ||
-            mpd_status_get_state(status)==MPD_STATE_PAUSE) {
+    if (mpd_status_get_state(status) == MPD_STATE_PLAY ||
+        mpd_status_get_state(status) == MPD_STATE_PAUSE) {
         totalTime = mpd_status_get_total_time(status);
         std::cout << "MpdBackend: total time: " << totalTime << std::endl;
     }
 
     mpd_status_free(status);
-    disconnect();
+    disconnect(connection);
     return totalTime;
 }
 
-unsigned int MpdConnector::track_elapsed_time() {
-    struct mpd_status* status;
+unsigned int MpdConnector::track_elapsed_time(){
+    struct mpd_connection *connection = nullptr;
+    struct mpd_status * status;
     unsigned int elapsedTime = 0;
 
-    connect();
+    connection = connect();
 
-    if (mpd_connection_get_error(connection)!=MPD_ERROR_SUCCESS) {
+    if (mpd_connection_get_error(connection) != MPD_ERROR_SUCCESS) {
         return 0;
     }
 
@@ -212,51 +218,50 @@ unsigned int MpdConnector::track_elapsed_time() {
     mpd_command_list_end(connection);
 
     status = mpd_recv_status(connection);
-    if (mpd_status_get_error(status)!=nullptr)
+    if (mpd_status_get_error(status) != nullptr)
         printf("error: %s\n", mpd_status_get_error(status));
 
-    if (mpd_status_get_state(status)==MPD_STATE_PLAY ||
-            mpd_status_get_state(status)==MPD_STATE_PAUSE) {
+    if (mpd_status_get_state(status) == MPD_STATE_PLAY ||
+        mpd_status_get_state(status) == MPD_STATE_PAUSE) {
         elapsedTime = mpd_status_get_elapsed_time(status);
         std::cout << "MpdBackend: elapsed time: " << elapsedTime << std::endl;
     }
 
     mpd_status_free(status);
-    disconnect();
+    disconnect(connection);
     return elapsedTime;
 }
 
-const char* MpdConnector::song_uri() {
-    const struct mpd_song* song;
-    const char* uri = nullptr;
-    connect();
+const char* MpdConnector::song_uri(){
+    struct mpd_connection *connection = nullptr;
+    const struct mpd_song *song;
+    const char *uri = nullptr;
+    connection = connect();
 
     /* receive next pair */
-    mpd_pair* pair = mpd_recv_pair(connection);
-    std::cout << "MpdBackend: pair: " << pair->name << ", " << pair->value << std::endl;
+    mpd_pair *pair = mpd_recv_pair(connection);
+    std::cout << "MpdBackend: pair: " << pair->name << ", " << pair->value <<std::endl;
 
     /* get entity from pair */
-    mpd_entity* entity = mpd_entity_begin(pair);
+    mpd_entity *entity = mpd_entity_begin(pair);
 
     /* check if entity is a song (could also be a directory or playlist)*/
-    if (mpd_entity_get_type(entity)==MPD_ENTITY_TYPE_SONG) {
+    if(mpd_entity_get_type(entity) == MPD_ENTITY_TYPE_SONG){
         /* get song and uri of the song */
         song = mpd_entity_get_song(entity);
         uri = mpd_song_get_uri(song);
 
         /* check for nullptr */
-        if (uri!=nullptr) {
+        if(uri != nullptr){
             std::cout << "MpdBackend: uri: " << uri << std::endl;
-        }
-        else {
+        }else{
             std::cout << "Error: MpdBackend: Get nullptr instead of uri " << std::endl;
         }
-    }
-    else {
+    }else{
         std::cout << "Error: MpdBackend: entity is not a song" << std::endl;
     }
 
-    disconnect();
+    disconnect(connection);
     return uri;
 }
 
@@ -269,22 +274,23 @@ const char* MpdConnector::song_uri() {
 
 //}
 
-void MpdConnector::connect() {
+struct mpd_connection *MpdConnector::connect(){
+    struct mpd_connection *connection = nullptr;
     connection = mpd_connection_new(hostname.c_str(), port, 30000);
-    if (mpd_connection_get_error(connection)!=MPD_ERROR_SUCCESS) {
+    if (mpd_connection_get_error(connection) != MPD_ERROR_SUCCESS) {
         std::cout << "Error: MpdBackend: Not able to connect " << std::endl;
         int i;
-        for (i = 0; i<3; i++) {
-            printf("version[%i]: %i\n", i,
-                    mpd_connection_get_server_version(connection)[i]);
+        for(i=0;i<3;i++) {
+            printf("version[%i]: %i\n",i,
+                   mpd_connection_get_server_version(connection)[i]);
         }
-    }
-    else {
+    }else{
         std::cout << "MpdBackend: Connected " << std::endl;
     }
+    return connection;
 }
 
-void MpdConnector::disconnect() {
+void MpdConnector::disconnect(struct mpd_connection *connection){
     mpd_connection_free(connection);
     std::cout << "MpdBackend: Disconnected " << std::endl;
 }

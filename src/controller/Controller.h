@@ -1,4 +1,4 @@
-/**
+    /**
  *******************************************************************************
  * @addtogroup Streamer-UI
  * @{
@@ -50,6 +50,8 @@ private:
    void register_qml();
    Streamer_model &model;
    std::unique_ptr<IBackendConnector> backend_connector = nullptr;
+
+    QString title = "test";
 
 };
 

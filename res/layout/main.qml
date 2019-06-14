@@ -61,15 +61,15 @@ ApplicationWindow {
 
                     Elements.ImageButton {
                         iconSource: "/img/skip-back.svg"
-                        onClicked: controller.play_next()
+                        onClicked: controller.play_previous();
                     }
                     Elements.ImageButton {
                         iconSource: "/img/play.svg"
-                        onClicked: controller.play_next()
+                        onClicked: controller.play_toggle_pause();
                     }
                     Elements.ImageButton {
                         iconSource: "/img/skip-forward.svg"
-                        onClicked: controller.play_next()
+                        onClicked: controller.play_next();
                     }
 
                     Item {
