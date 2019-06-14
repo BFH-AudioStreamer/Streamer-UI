@@ -30,7 +30,9 @@
 #pragma once
 
 #include <QObject>
-#include "../model/Model.h"
+#include <memory>
+#include "src/model/Model.h"
+#include "Backend_connector.h"
 
 /**
  * @brief
@@ -39,16 +41,16 @@ class Controller : public QObject {
     Q_OBJECT
 
 public:
-    explicit Controller();
-    Controller(Model *_model);
+    explicit Controller() = default;
+    explicit Controller(Streamer_model &_model);
     Q_INVOKABLE void play_next();
     Q_INVOKABLE void play_previous();
     Q_INVOKABLE void play_toggle_pause();
 
 private:
     void register_qml();
-    void update_model();
-    Model *model;
+   //Streamer_model &model;
+   std::unique_ptr<IBackendConnector> backend_connector = nullptr;
 
     QString title = "test";
 

@@ -4,7 +4,7 @@
  * @{
  * @addtogroup model
  * @{
- * @defgroup PlayerState
+ * @defgroup Player_state
  * @{
  ******************************************************************************/
 #pragma once
@@ -21,6 +21,8 @@ SIMPLE_Q_PROPERTY(int, bitrate)
 SIMPLE_Q_PROPERTY(int, time_total)
 SIMPLE_Q_PROPERTY(int, time_elapsed)
 
+public:
+    Player_state() = default;
 };
 
 

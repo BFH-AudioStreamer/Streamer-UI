@@ -1,13 +1,13 @@
 /**
  *******************************************************************************
- * @addtogroup MopidyConnector
+ * @addtogroup Track_info
  * @{
  * @brief Brief descriptions
  *
  * Elaborate Description
  *
- * @authors stefan
- ****************************************************************************//*
+ * @authors Stefan Lüthi
+ *******************************************************************************
  * Copyright (C) 2019 Audio-Streamer Project Group
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -30,14 +30,10 @@
  *******************************************************************************
  */
 
-#include "MopidyConnector.h"
-
-MopidyConnector::MopidyConnector(std::string hostname, unsigned int port):hostname(hostname),port(port){
-
-}
-
-const char* MopidyConnector::album_art_uri(const char* songUri){
-    return songUri;
+#include "Track_info.h"
+Track_info::Track_info() {
+    m_title = "Title";
+    m_artist = "Artist";
 }
 
 /** @} */

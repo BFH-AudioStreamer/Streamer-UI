@@ -4,7 +4,7 @@
  * @{
  * @addtogroup model
  * @{
- * @defgroup ModelMacros
+ * @defgroup Model_macros
  * @{
  * @brief Macros to ease the use of model classes
  *
@@ -38,13 +38,20 @@
 #define SIMPLE_Q_PROPERTY(TYPE, NAME) \
         Q_PROPERTY(TYPE NAME READ NAME WRITE set_##NAME NOTIFY NAME##_changed) \
     public: \
-        TYPE NAME() const { return _##NAME; } \
+        TYPE NAME() const { return m_##NAME; } \
         void set_##NAME(TYPE &value) { \
-            if (_##NAME != value) { \
-                _##NAME = value; \
+            if (m_##NAME != value) { \
+                m_##NAME = value; \
                 emit NAME##_changed(); \
             } \
         } \
         Q_SIGNAL void NAME##_changed(); \
     private: \
-        TYPE _##NAME;
+        TYPE m_##NAME;
+
+#define SIMPLE_READONLY_Q_PROPERTY(TYPE, NAME) \
+        Q_PROPERTY(TYPE NAME READ NAME) \
+    public: \
+        TYPE NAME() const { return m_##NAME; } \
+    private: \
+        TYPE m_##NAME;

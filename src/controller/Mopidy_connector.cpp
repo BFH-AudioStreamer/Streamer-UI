@@ -1,11 +1,14 @@
+#include <utility>
+
 /**
  *******************************************************************************
- * @addtogroup Streamer-UI
+ * @addtogroup MopidyConnector
  * @{
- * @addtogroup controller
- * @{
- * @defgroup BackendConnector
- * @{
+ * @brief Brief descriptions
+ *
+ * Elaborate Description
+ *
+ * @authors Rafael Klossner
  ****************************************************************************//*
  * Copyright (C) 2019 Audio-Streamer Project Group
  *
@@ -26,31 +29,18 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
- ******************************************************************************/
-
-#pragma once
-
-#include "IBackendConnector.h"
-#include "MopidyMpdConnector.h"
-
-/**
- * @brief
+ *******************************************************************************
  */
-class BackendConnector {
-public:
-    static void set_backend() {
-        _instance = new MopidyMpdConnector("172.16.10.128", 6600);
-    }
 
-    static IBackendConnector *instance() {
-        return _instance;
-    }
+#include "Mopidy_connector.h"
 
-private:
-    static IBackendConnector *_instance;
-};
+MopidyConnector::MopidyConnector(std::string hostname, unsigned int port)
+        :hostname(std::move(hostname)), port(port) {
 
-/**
- * @}
- * @}
- * @} */
+}
+
+const char* MopidyConnector::album_art_uri(const char* songUri) {
+    return songUri;
+}
+
+/** @} */

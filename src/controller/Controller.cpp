@@ -6,7 +6,7 @@
  *
  * Elaborate Description
  *
- * @authors stefan
+ * @authors Stefan Lüthi
  ****************************************************************************//*
  * Copyright (C) 2019 Audio-Streamer Project Group
  *
@@ -32,27 +32,23 @@
 
 #include <QQmlApplicationEngine>
 #include "Controller.h"
-#include "BackendConnector.h"
+#include "Backend_connector.h"
 
-Controller::Controller():model(nullptr)  {
-
-}
-
-Controller::Controller(Model *_model):model(_model)  {
-    BackendConnector::set_backend();
+Controller::Controller(Streamer_model &_model)  {
+    backend_connector = BackendConnector::create();
     register_qml();
 }
 
 void Controller::play_next() {
-    BackendConnector::instance()->play_next();
+    backend_connector->play_next();
 }
 
 void Controller::play_previous() {
-    BackendConnector::instance()->play_previous();
+    backend_connector->play_previous();
 }
 
 void Controller::play_toggle_pause() {
-    BackendConnector::instance()->play_toggle_pause();
+    backend_connector->play_toggle_pause();
 }
 
 void Controller::register_qml() {

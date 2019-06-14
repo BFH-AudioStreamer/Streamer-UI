@@ -34,24 +34,27 @@
 
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QQmlContext>
 
-#include "model/Model.h"
+#include "src/model/Model.h"
 #include "controller/Controller.h"
-
-#include "controller/MopidyMpdConnector.h"
 
 /**
  * @brief Main method
  */
 int main(int argc, char *argv[]) {
 
-    auto model = new Model();
-    auto controller = new Controller(model);
+    auto model = new Streamer_model();
+    auto controller = new Controller(*model);
 
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
+    /* Make model and controller available in QML */
+    engine.rootContext()->setContextProperty("model", model);
+    engine.rootContext()->setContextProperty("controller", controller);
+
     engine.load(QUrl(QStringLiteral("qrc:layout/main.qml")));
     if (engine.rootObjects().isEmpty()) {
         return -1;

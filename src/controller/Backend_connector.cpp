@@ -1,13 +1,13 @@
 /**
  *******************************************************************************
- * @addtogroup Track_info
+ * @addtogroup BackendConnector
  * @{
  * @brief Brief descriptions
  *
  * Elaborate Description
  *
- * @authors stefan
- *******************************************************************************
+ * @authors Stefan Lüthi
+ ****************************************************************************//*
  * Copyright (C) 2019 Audio-Streamer Project Group
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -27,14 +27,14 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
- *******************************************************************************
- */
+ ******************************************************************************/
 
-#include "Track_info.h"
+#include "Backend_connector.h"
 
-Track_info::Track_info() {
-    _title = "Title";
-    _artist = "Artist";
+std::unique_ptr<IBackendConnector> BackendConnector::create() {
+    /* parse config and create backend connector */
+    return std::make_unique<MopidyMpdConnector>(
+            MopidyMpdConnector("192.168.138.130", 6600));
 }
 
 /** @} */

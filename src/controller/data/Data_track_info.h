@@ -6,7 +6,7 @@
  * @{
  * @addtogroup data
  * @{
- * @defgroup TrackInfo
+ * @defgroup Data_track_info
  * @{
  ******************************************************************************/
 #pragma once
@@ -14,7 +14,7 @@
 /**
  * @brief
  */
-class TrackInfo {
+class Data_track_info {
 
 };
 
