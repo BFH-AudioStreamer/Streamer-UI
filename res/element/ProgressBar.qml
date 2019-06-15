@@ -6,7 +6,7 @@ ProgressBar {
     id: control
     value: 0.5
 
-    property int barHeight: 5
+    property int barHeight: 6
 
     background: Rectangle {
         implicitWidth: 200

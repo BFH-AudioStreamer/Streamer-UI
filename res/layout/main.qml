@@ -2,6 +2,7 @@ import QtQuick 2.11
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Material 2.2
+import QtGraphicalEffects 1.0
 
 import "../element/" as Elements
 
@@ -25,10 +26,6 @@ ApplicationWindow {
 
             ColumnLayout {
                 Layout.fillWidth: true
-
-                Item {
-                    Layout.preferredHeight: 30
-                }
 
                 Label {
                     objectName: "song_title"
@@ -108,12 +105,24 @@ ApplicationWindow {
                     Layout.fillHeight: true
                 }
                 Image {
+                    id: cover
                     source: "/img/cd-icon.png"
                     fillMode: Image.PreserveAspectFit
                     Layout.fillWidth: true
                     Layout.minimumWidth: 200
                     Layout.maximumHeight: 400
                     Layout.preferredHeight: 400
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignRight
+
+                    layer.enabled: true
+                        layer.effect: OpacityMask {
+                            maskSource: Rectangle {
+                                x: cover.x; y: cover.y
+                                width: cover.width
+                                height: cover.height
+                                radius: 4
+                            }
+                        }
                 }
             }
         }
