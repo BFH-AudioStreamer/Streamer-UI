@@ -90,7 +90,6 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
         Qt5::Core
         Qt5::Qml
         Qt5::Quick
-        Qt5::QuickControls2
 
         ${LIBMPDCLIENT_LIBRARY}
 )

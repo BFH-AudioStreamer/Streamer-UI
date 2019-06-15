@@ -14,8 +14,11 @@ ApplicationWindow {
 
     ColumnLayout {
         spacing: 10
-        anchors.margins: margin
         anchors.fill: parent
+        anchors.leftMargin: margin/2
+        anchors.rightMargin: margin/2
+        anchors.topMargin: margin
+        anchors.bottomMargin: margin
 
         RowLayout {
             spacing: 20
@@ -26,12 +29,14 @@ ApplicationWindow {
                 Item {
                     Layout.preferredHeight: 30
                 }
+
                 Label {
                     objectName: "song_title"
                     wrapMode: Text.WordWrap
                     text: model.track_info.title
                     font.pointSize: 26
                     Layout.fillWidth: true
+                    color: Material.primary
                 }
                 Label {
                     objectName: "artist"
@@ -48,7 +53,7 @@ ApplicationWindow {
                 }
 
                 RowLayout {
-                    spacing: 20
+                    spacing: 30
                     Layout.alignment: Qt.AlignVCenter
                     Layout.margins: 20
 
@@ -56,17 +61,18 @@ ApplicationWindow {
                         Layout.fillWidth: true
                     }
 
-                    Elements.ImageButton {
-                        iconSource: "/img/skip-back.svg"
-                        onClicked: controller.play_previous();
+                    Elements.FeatherButton {
+                        iconCode: Elements.Feather.Icons.SkipBack
+                        onClicked: controller.play_previous()
                     }
-                    Elements.ImageButton {
-                        iconSource: "/img/play.svg"
-                        onClicked: controller.play_toggle_pause();
+                    Elements.FeatherButton {
+                        iconCode: Elements.Feather.Icons.Pause
+                        onClicked: controller.play_toggle_pause()
                     }
-                    Elements.ImageButton {
-                        iconSource: "/img/skip-forward.svg"
-                        onClicked: controller.play_next();
+
+                    Elements.FeatherButton {
+                        iconCode: Elements.Feather.Icons.SkipForward
+                        onClicked: controller.play_next()
                     }
 
                     Item {
@@ -76,9 +82,9 @@ ApplicationWindow {
 
                 Elements.ProgressBar {
                     Layout.fillWidth: true
-                    Layout.minimumWidth: 300
+                    Layout.minimumWidth: 340
                     //value: player_state.time_elapsed / player_state.time_elapsed
-                    value: 0.5
+                    value: 0.2
                 }
 
                 RowLayout {

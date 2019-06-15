@@ -9,5 +9,9 @@
         <file>img/skip-back.svg</file>
         <file>element/ImageButton.qml</file>
         <file>element/ProgressBar.qml</file>
+        <file>element/Feather.qml</file>
+        <file>font/feather.ttf</file>
+        <file>font/lato/Lato-Bold.ttf</file>
+        <file>element/FeatherButton.qml</file>
     </qresource>
 </RCC>
