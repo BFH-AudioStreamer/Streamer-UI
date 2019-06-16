@@ -11,6 +11,7 @@ Item {
     property color hoverColor: Qt.darker(Material.primary, 1.5)
     property color pressColor: Qt.darker(Material.primary, 2)
     property int iconCode: 0
+    property string text: ""
 
     width: 60
     height: 60
@@ -29,20 +30,31 @@ Item {
         width: button.width
         height: button.height
     }
+    Text {
+        id: buttonText
+        text: text
+        color: button.enabled ? button.color : "grey"
+        font.pointSize: 15
+        anchors.top: textIcon.bottom
+        anchors.topMargin: 5
+        anchors.horizontalCenter: textIcon.Center
+        width: button.width
+        height: button.height
+    }
 
     //change the color of the button in differen button states
     states: [
         State {
             name: "Hovering"
             PropertyChanges {
-                target: textIcon
+                target: button
                 color: hoverColor
             }
         },
         State {
             name: "Pressed"
             PropertyChanges {
-                target: textIcon
+                target: button
                 color: pressColor
             }
         }

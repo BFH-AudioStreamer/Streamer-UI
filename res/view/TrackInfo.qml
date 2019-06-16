@@ -1,4 +1,4 @@
-import QtQuick 2.11
+import QtQuick 2.0
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Material 2.2
@@ -6,26 +6,25 @@ import QtGraphicalEffects 1.0
 
 import "../element/" as Elements
 
-ApplicationWindow {
-    visible: true
-    width: 800
-    height: 480
-    title: "Streamer UI"
-    property int margin: 40
+Page {
+    id: trackInfo
 
     ColumnLayout {
-        spacing: 10
         anchors.fill: parent
-        anchors.leftMargin: margin/2
-        anchors.rightMargin: margin/2
-        anchors.topMargin: margin
-        anchors.bottomMargin: margin
 
         RowLayout {
             spacing: 20
 
             ColumnLayout {
                 Layout.fillWidth: true
+
+                Elements.FeatherButton {
+                    Layout.bottomMargin: 20
+                    width: 50
+                    height: 50
+                    iconCode: Elements.Feather.Icons.ArrowLeftCircle
+                    onClicked: trackInfo.StackView.view.pop()
+                }
 
                 Label {
                     objectName: "song_title"
@@ -100,19 +99,16 @@ ApplicationWindow {
             }
 
             ColumnLayout {
-                // fill space
-                Item {
-                    Layout.fillHeight: true
-                }
                 Image {
                     id: cover
                     source: "/img/cd-icon.png"
                     fillMode: Image.PreserveAspectFit
                     Layout.fillWidth: true
                     Layout.minimumWidth: 200
-                    Layout.maximumHeight: 400
-                    Layout.preferredHeight: 400
-                    Layout.alignment: Qt.AlignHCenter | Qt.AlignRight
+                    Layout.fillHeight: true
+                    Layout.minimumHeight: 200
+                    Layout.maximumHeight: 800
+                    verticalAlignment: Image.AlignBottom
 
                     layer.enabled: true
                         layer.effect: OpacityMask {

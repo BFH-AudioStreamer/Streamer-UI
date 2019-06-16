@@ -55,7 +55,7 @@ int main(int argc, char *argv[]) {
     engine.rootContext()->setContextProperty("model", model);
     engine.rootContext()->setContextProperty("controller", controller);
 
-    engine.load(QUrl(QStringLiteral("qrc:layout/main.qml")));
+    engine.load(QUrl(QStringLiteral("qrc:view/main.qml")));
     if (engine.rootObjects().isEmpty()) {
         return -1;
     }
