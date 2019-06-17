@@ -8,6 +8,8 @@ import "../model" as Model
 
 Page {
     id: menu
+    readonly property int itemSpacing: 10
+    rightPadding: -2*itemSpacing
 
     GridView {
         id: gridView
@@ -15,11 +17,12 @@ Page {
         cellWidth: width / 4
         cellHeight: width / 4
 
+
         model: Model.MenuSelection {}
         delegate: ItemDelegate {
             id: delegateItem
-            width: parent.width / 4 - 20
-            height: parent.width / 4 - 20
+            width: parent.width / 4 - 2*itemSpacing
+            height: parent.width / 4 - 2*itemSpacing
 
             onClicked: menu.StackView.view.push("../view/" + view + ".qml")
 
@@ -47,9 +50,10 @@ Page {
             background: Rectangle {
                 anchors.fill: parent
                 radius: 5
-                color: delegateItem.hovered ?
-                           Qt.darker(Material.primary, 4) :
-                           Qt.darker(Material.primary, 5)
+                color: delegateItem.pressed ? Qt.darker(Material.primary, 3) :
+                                    delegateItem.hovered ?
+                                              Qt.darker(Material.primary, 4) :
+                                              Qt.darker(Material.primary, 5)
             }
         }
     }
