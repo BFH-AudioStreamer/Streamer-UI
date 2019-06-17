@@ -34,7 +34,7 @@
 std::unique_ptr<IBackendConnector> BackendConnector::create() {
     /* parse config and create backend connector */
     return std::make_unique<MopidyMpdConnector>(
-            MopidyMpdConnector("localhost", 6600));
+            MopidyMpdConnector("172.16.10.128", 6600));
 }
 
 /** @} */

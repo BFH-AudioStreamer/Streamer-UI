@@ -11,25 +11,22 @@
 
 #include <string>
 #include <iostream>
+#include "data/Data_player_state.h"
+#include "data/Data_track_info.h"
 
 /**
  * @brief
  */
+
 class Mpd_connector {
 public:
     Mpd_connector(std::string hostname, unsigned int port);
 
-    std::string song_title();
-    std::string artist();
-    std::string album();
-    void play_next();
-    void play_previous();
-    void play_stop();
-    void play_toggle_pause();
-    unsigned int bit_rate();
-    unsigned int track_total_time();
-    unsigned int track_elapsed_time();
-    std::string song_uri();
+    void play_control(PlayCommand playCommand);
+
+    Data_player_state player_state();
+    Data_track_info track_info();
+
     //    void set_search();
     //    void control_capabilities();
 
@@ -37,8 +34,10 @@ private:
     std::string hostname;
     unsigned int port;
 
+    PlayCommand playCommand;
+
     const char*  update();
-    struct mpd_connection *connect();
+    int connect(struct mpd_connection *connection);
     void disconnect(struct mpd_connection *connection);
 };
 

@@ -33,6 +33,7 @@
 
 #include <utility>
 #include "Mopidy_mpd_connector.h"
+#include "data/Data_player_state.h"
 
 MopidyMpdConnector::MopidyMpdConnector(std::string _hostname, unsigned int _port)
         :hostname(std::move(_hostname)), port(_port) {
@@ -40,64 +41,36 @@ MopidyMpdConnector::MopidyMpdConnector(std::string _hostname, unsigned int _port
     mopidyConnector = new Mopidy_connector(hostname, port);
 }
 
-std::string MopidyMpdConnector::song_title(){
-    return mpdConnector->song_title();
-}
-
-std::string MopidyMpdConnector::artist(){
-    return mpdConnector->artist();
-}
-
-std::string MopidyMpdConnector::album(){
-    return mpdConnector->album();
-}
-
 void MopidyMpdConnector::play_next() {
-    mpdConnector->play_next();
+    mpdConnector->play_control(NEXT);
 }
 
 void MopidyMpdConnector::play_previous() {
-    mpdConnector->play_previous();
+    mpdConnector->play_control(PREVIOUS);
 }
 
 void MopidyMpdConnector::play_stop() {
-    mpdConnector->play_stop();
+    mpdConnector->play_control(STOP);
 }
 
 void MopidyMpdConnector::play_toggle_pause() {
-    mpdConnector->play_toggle_pause();
-    bit_rate();
-    track_total_time();
-    track_elapsed_time();
+    mpdConnector->play_control(TOGGLE_PAUSE);
 }
 
-unsigned int MopidyMpdConnector::bit_rate() {
-    unsigned int bitRate = 0;
-    bitRate = mpdConnector->bit_rate();
-    return bitRate;
+Data_player_state MopidyMpdConnector::player_state(){
+    Data_player_state playerState;
+    playerState = mpdConnector->player_state();
+    return playerState;
 }
 
-unsigned int MopidyMpdConnector::track_total_time() {
-    unsigned int totalTime = 0;
-    totalTime = mpdConnector->track_total_time();
-    return totalTime;
-}
+Data_track_info MopidyMpdConnector::track_info(){
+    Data_track_info trackInfo;
+    trackInfo = mpdConnector->track_info();
 
-unsigned int MopidyMpdConnector::track_elapsed_time() {
-    unsigned int elapsedTime = 0;
-    elapsedTime = mpdConnector->track_elapsed_time();
-    return elapsedTime;
-}
+    /* get albumArtUri from Mopidy */
+    //trackInfo.albumArtUri = mopidyConnector->album_art_uri(trackInfo.songUri);
 
-std::string MopidyMpdConnector::album_art_uri() {
-    std::string songUri;
-    std::string albumUri;
-    // const char *artUri = nullptr;
-
-    songUri = mpdConnector->song_uri();
-    albumUri = mopidyConnector->album_art_uri(songUri);
-
-    return albumUri;
+    return trackInfo;
 }
 
 //void MopidyMpdConnector::set_search(){

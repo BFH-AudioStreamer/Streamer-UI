@@ -30,6 +30,8 @@
 #pragma once
 
 #include <string>
+#include "data/Data_player_state.h"
+#include "data/Data_track_info.h"
 
 /**
  * @brief
@@ -38,17 +40,12 @@ class IBackendConnector {
 public:
     virtual ~IBackendConnector() = default;
 
-    virtual std::string song_title() = 0;
-    virtual std::string artist() = 0;
-    virtual std::string album() = 0;
     virtual void play_next() = 0;
     virtual void play_previous() = 0;
     virtual void play_stop() = 0;
     virtual void play_toggle_pause() = 0;
-    virtual unsigned int bit_rate() = 0;
-    virtual unsigned int track_total_time() = 0;
-    virtual unsigned int track_elapsed_time() = 0;
-    virtual std::string album_art_uri() = 0;
+    virtual Data_player_state player_state() = 0;
+    virtual Data_track_info track_info() = 0;
     virtual void set_search() = delete;
     virtual void control_capabilities() = delete;
 

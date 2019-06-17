@@ -22,7 +22,7 @@ Page {
         var remainder = time % 60;
         var minutes = (time - remainder) / 60;
         var seconds_string = ""
-        if (remainder <= 10) {
+        if (remainder < 10) {
             seconds_string = "0";
         }
         seconds_string += remainder;
@@ -89,7 +89,8 @@ Page {
                         onClicked: controller.play_previous()
                     }
                     Elements.FeatherButton {
-                        iconCode: Elements.Feather.Icons.Pause
+                        iconCode: model.player_state.state == 2 ? Elements.Feather.Icons.Pause :
+                                                                  Elements.Feather.Icons.Play
                         onClicked: controller.play_toggle_pause()
                     }
 

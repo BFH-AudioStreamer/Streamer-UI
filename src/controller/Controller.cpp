@@ -53,19 +53,23 @@ void Controller::play_toggle_pause() {
 }
 
 void Controller::update_model() {
-    QString title = QString::fromStdString( backend_connector->song_title() );
-    QString album = QString::fromStdString( backend_connector->album() );
-    QString artist = QString::fromStdString( backend_connector->artist() );
+    Data_player_state playerState = backend_connector->player_state();
+    Data_track_info trackInfo = backend_connector->track_info();
 
+    /* track info (title, artist, album, albumArtUri)*/
+    QString title = QString::fromStdString(trackInfo.songTitle);
+    QString artist = QString::fromStdString(trackInfo.artist);
+    QString album = QString::fromStdString(trackInfo.album);
     model.track_info()->set_title(title);
     model.track_info()->set_artist(artist);
+    std::cout << "title: " << trackInfo.songTitle << std::endl;
+    std::cout << "artist:  " << trackInfo.artist << std::endl;
 
-    //model.track_info()->set_track_uri();
-    //model.track_info()->set_album_art_uri(cover);
-
-    model.player_state()->set_bitrate(backend_connector->bit_rate());
-    model.player_state()->set_time_total(backend_connector->track_total_time());
-    model.player_state()->set_time_elapsed(backend_connector->track_elapsed_time());
+    /* player state (bitRate, elapsedTime, totalTime, playState) */
+    model.player_state()->set_bitrate(playerState.bitRate);
+    model.player_state()->set_time_total(playerState.time_total);
+    model.player_state()->set_time_elapsed(playerState.time_elapsed);
+    model.player_state()->set_state(playerState.state);
 }
 
 /** @} */
