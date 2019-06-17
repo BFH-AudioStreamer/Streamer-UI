@@ -40,6 +40,9 @@
 class Controller : public QObject {
 Q_OBJECT
 
+public slots:
+    void update_model();
+
 public:
     explicit Controller(Model& _model);
     Q_INVOKABLE void play_next();
@@ -47,7 +50,6 @@ public:
     Q_INVOKABLE void play_toggle_pause();
 
 private:
-    void update_model();
 
     Model& model;
     std::unique_ptr<IBackendConnector> backend_connector = nullptr;

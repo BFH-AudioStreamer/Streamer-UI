@@ -1,3 +1,6 @@
 [submodule "doxy"]
 	path = doxy
 	url = https://gitlab.ti.bfh.ch/doxygen-theme/doc.git
+[submodule "lib/json"]
+	path = lib/json
+	url = https://github.com/nlohmann/json.git

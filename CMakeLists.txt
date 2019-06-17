@@ -67,6 +67,10 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/")
 find_package(LibMPDClient REQUIRED)
 include_directories(${LIBMPDCLIENT_INCLUDE_DIR})
 
+# nlohmann JSON library
+set(JSON_BuildTests OFF CACHE INTERNAL "")
+add_subdirectory(lib/json)
+
 ################################################################################
 # Executable
 ################################################################################
@@ -92,4 +96,5 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
         Qt5::Quick
 
         ${LIBMPDCLIENT_LIBRARY}
+        nlohmann_json::nlohmann_json
 )

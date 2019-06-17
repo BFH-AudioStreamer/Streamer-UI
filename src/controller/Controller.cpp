@@ -31,17 +31,12 @@
  */
 
 #include <QQmlApplicationEngine>
-#include <QTimer>
 #include "Controller.h"
 #include "Backend_connector.h"
 
 Controller::Controller(Model& _model)
         :model(_model) {
     backend_connector = BackendConnector::create();
-
-    auto timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(update_model()));
-    timer->start(100);
 }
 
 void Controller::play_next() {
