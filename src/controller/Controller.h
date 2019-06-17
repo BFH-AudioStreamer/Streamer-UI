@@ -40,9 +40,6 @@
 class Controller : public QObject {
 Q_OBJECT
 
-public slots:
-    void update_model();
-
 public:
     explicit Controller(Model& _model);
     Q_INVOKABLE void play_next();
