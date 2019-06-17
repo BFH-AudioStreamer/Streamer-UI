@@ -48,9 +48,9 @@ public:
     Q_INVOKABLE void play_next();
     Q_INVOKABLE void play_previous();
     Q_INVOKABLE void play_toggle_pause();
+    Q_INVOKABLE void update_model();
 
 private:
-
     Model& model;
     std::unique_ptr<IBackendConnector> backend_connector = nullptr;
 

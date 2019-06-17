@@ -59,7 +59,6 @@ void Controller::update_model() {
 
     model.track_info()->set_title(title);
     model.track_info()->set_artist(artist);
-    model.track_info()->set_artist("test");
 
     //model.track_info()->set_track_uri();
     //model.track_info()->set_album_art_uri(cover);
