@@ -1,8 +1,7 @@
-// Source: https://doc.qt.io/qt-5/qtquick-quick-accessibility-content-button-qml.html
-
 import QtQuick 2.0
-import QtGraphicalEffects 1.0
 import QtQuick.Controls.Material 2.1
+
+import "../element" as Elements
 
 Item {
     id: button
@@ -11,54 +10,51 @@ Item {
     property color color: Material.primary
     property color hoverColor: Qt.darker(Material.primary, 1.5)
     property color pressColor: Qt.darker(Material.primary, 2)
-    property string iconSource: ""
+    property int iconCode: 0
+    property string text: ""
 
-    width: 50
-    height: 50
+    width: 60
+    height: 60
     onEnabledChanged: state = ""
     signal clicked
 
-    // Icon and its color
-    Image {
-        id: icon
-        source: iconSource
-        fillMode: Image.PreserveAspectFit
-        sourceSize.width: parent.width
-        sourceSize.height: parent.height
-        antialiasing: true
-
-        ColorOverlay {
-            id: iconOverlay
-            anchors.fill: icon
-            source: icon
-            color: button.enabled ? button.color : "grey"
-            transform: rotation
-            antialiasing: true
-        }
+    // Text and its color
+    Elements.Feather {
+        id: textIcon
+        color: button.enabled ? button.color : "grey"
+        icon: iconCode
+        minimumPointSize: 10
+        font.pointSize: 100
+        fontSizeMode: Text.Fit
+        anchors.centerIn: parent
+        width: button.width
+        height: button.height
     }
-    //ColorOverlay {
-    //    id: iconOverlay
-    //    anchors.fill: icon
-    //    source: icon
-    //    color: button.enabled ? button.color : "grey"
-    //    transform: rotation
-    //    antialiasing: true
-    //}
-
+    Text {
+        id: buttonText
+        text: text
+        color: button.enabled ? button.color : "grey"
+        font.pointSize: 15
+        anchors.top: textIcon.bottom
+        anchors.topMargin: 5
+        anchors.horizontalCenter: textIcon.Center
+        width: button.width
+        height: button.height
+    }
 
     //change the color of the button in differen button states
     states: [
         State {
             name: "Hovering"
             PropertyChanges {
-                target: iconOverlay
+                target: button
                 color: hoverColor
             }
         },
         State {
             name: "Pressed"
             PropertyChanges {
-                target: iconOverlay
+                target: button
                 color: pressColor
             }
         }

@@ -86,8 +86,10 @@ find_package(ICU COMPONENTS data i18n uc)
 
 target_link_libraries(${CMAKE_PROJECT_NAME}
         pthread
-        #${QT_MISSING_DEPENCIES}
+        ${QT_MISSING_DEPENCIES}
+        Qt5::Core
         Qt5::Qml
         Qt5::Quick
+
         ${LIBMPDCLIENT_LIBRARY}
 )

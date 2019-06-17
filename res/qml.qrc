@@ -1,7 +1,8 @@
 <RCC>
     <qresource prefix="/">
         <file>qtquickcontrols2.conf</file>
-        <file>layout/main.qml</file>
+        <file>view/main.qml</file>
+        <file>view/TrackInfo.qml</file>
         <file>img/cd-icon.png</file>
         <file>img/play.svg</file>
         <file>img/pause.svg</file>
@@ -9,5 +10,12 @@
         <file>img/skip-back.svg</file>
         <file>element/ImageButton.qml</file>
         <file>element/ProgressBar.qml</file>
+        <file>element/Feather.qml</file>
+        <file>font/feather.ttf</file>
+        <file>font/lato/Lato-Bold.ttf</file>
+        <file>element/FeatherButton.qml</file>
+        <file>view/Menu.qml</file>
+        <file>model/MenuSelection.qml</file>
+        <file>view/UnderConstruction.qml</file>
     </qresource>
 </RCC>
