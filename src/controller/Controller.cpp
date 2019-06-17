@@ -38,10 +38,6 @@
 Controller::Controller(Model& _model)
         :model(_model) {
     backend_connector = BackendConnector::create();
-
-    auto timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(update_model()));
-    timer->start(100);
 }
 
 void Controller::play_next() {
@@ -64,7 +60,6 @@ void Controller::update_model() {
 
     model.track_info()->set_title(title);
     model.track_info()->set_artist(artist);
-    model.track_info()->set_artist("test");
 
     //model.track_info()->set_track_uri();
     //model.track_info()->set_album_art_uri(cover);

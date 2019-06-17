@@ -9,6 +9,33 @@ import "../element/" as Elements
 Page {
     id: trackInfo
 
+    Item {
+        Timer {
+            interval: 200
+            running: true
+            repeat: true
+            onTriggered: controller.update_model()
+        }
+    }
+
+    function seconds_to_string(time) {
+        var remainder = time % 60;
+        var minutes = (time - remainder) / 60;
+        var seconds_string = ""
+        if (remainder <= 10) {
+            seconds_string = "0";
+        }
+        seconds_string += remainder;
+
+        return minutes + ":" + seconds_string;
+    }
+
+    function clean_song_title(title) {
+        const regex = /\(.*\)/gm;
+
+        return title.replace(regex, "");
+    }
+
     ColumnLayout {
         anchors.fill: parent
 
@@ -29,7 +56,7 @@ Page {
                 Label {
                     objectName: "song_title"
                     wrapMode: Text.WordWrap
-                    text: model.track_info.title
+                    text: clean_song_title(model.track_info.title)
                     font.pointSize: 26
                     Layout.fillWidth: true
                     color: Material.primary
@@ -38,7 +65,7 @@ Page {
                     objectName: "artist"
                     Layout.fillWidth: true
                     wrapMode: Text.WordWrap
-                    text: model.track_info.artist
+                    text: model.track_info.artist.replace(";", " | ")
                     font.pointSize: 18
                     color: Material.accent
                 }
@@ -79,21 +106,21 @@ Page {
                 Elements.ProgressBar {
                     Layout.fillWidth: true
                     Layout.minimumWidth: 340
-                    //value: player_state.time_elapsed / player_state.time_elapsed
-                    value: 0.2
+                    value: model.player_state.time_elapsed /
+                           model.player_state.time_total
                 }
 
                 RowLayout {
                     Label {
-                        text: "00:00"
+                        text: seconds_to_string(model.player_state.time_elapsed)
                         color: Material.accent
                     }
                     Item {
                         Layout.fillWidth: true
                     }
                     Label {
-                        text: "00:00"
-                         color: Material.accent
+                        text: seconds_to_string(model.player_state.time_total)
+                        color: Material.accent
                     }
                 }
             }
