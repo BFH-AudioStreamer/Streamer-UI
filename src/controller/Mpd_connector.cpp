@@ -45,23 +45,10 @@ Mpd_connector::Mpd_connector(std::string hostname, unsigned int port):hostname(h
 
 }
 
-//void Mpd_connector::song_title(){
-
-//}
-
-//void Mpd_connector::artist(){
-
-//}
-
-//void Mpd_connector::album(){
-
-//}
-
-const char* Mpd_connector::update(){
+std::string Mpd_connector::song_title(){
     struct mpd_connection *connection = nullptr;
-    struct mpd_status * status;
     struct mpd_song *song;
-    const struct mpd_audio_format *audio_format;
+    std::string title;
 
     connection = connect();
 
@@ -74,36 +61,78 @@ const char* Mpd_connector::update(){
     mpd_send_current_song(connection);
     mpd_command_list_end(connection);
 
-    status = mpd_recv_status(connection);
-    if (mpd_status_get_error(status) != nullptr)
-        printf("error: %s\n", mpd_status_get_error(status));
-
-    if (mpd_status_get_state(status) == MPD_STATE_PLAY ||
-        mpd_status_get_state(status) == MPD_STATE_PAUSE) {
-        printf("elasped_ms: %u\n", mpd_status_get_elapsed_ms(status));
-        printf("totalTime: %i\n", mpd_status_get_total_time(status));
-        printf("bitRate: %i\n", mpd_status_get_kbit_rate(status));
-//        set_progress(mpd_status_get_elapsed_ms(status) /
-//                             (mpd_status_get_total_time(status) * 1000.0));
-    }
-    mpd_status_free(status);
-
     mpd_response_next(connection);
     if ((song = mpd_recv_song(connection)) != nullptr) {
-        //printf("uri: %s\n", mpd_song_get_uri(song));
-        //print_tag(song, MPD_TAG_ARTIST, "artist");
-        //print_tag(song, MPD_TAG_ALBUM, "album");
-        //print_tag(song, MPD_TAG_TITLE, "title");
-        //print_tag(song, MPD_TAG_TRACK, "track");
-        //print_tag(song, MPD_TAG_NAME, "name");
-//        set_song_title(mpd_song_get_tag(song, MPD_TAG_TITLE, 0));
-//        set_artist(mpd_song_get_tag(song, MPD_TAG_ARTIST, 0));
+        title = mpd_song_get_tag(song, MPD_TAG_TITLE, 0);
+        if (title.empty()){
+            std::cout << "Error: MpdBackend: title not aviable" << std::endl;
+        }
         mpd_song_free(song);
     }
 
     disconnect(connection);
 
-    return nullptr;
+    return title;
+}
+
+std::string Mpd_connector::artist(){
+    struct mpd_connection *connection = nullptr;
+    struct mpd_song *song;
+    std::string artist;
+
+    connection = connect();
+
+    if (mpd_connection_get_error(connection) != MPD_ERROR_SUCCESS) {
+        return nullptr;
+    }
+
+    mpd_command_list_begin(connection, true);
+    mpd_send_status(connection);
+    mpd_send_current_song(connection);
+    mpd_command_list_end(connection);
+
+    mpd_response_next(connection);
+    if ((song = mpd_recv_song(connection)) != nullptr) {
+        artist = mpd_song_get_tag(song, MPD_TAG_ARTIST, 0);
+        if (artist.empty()){
+            std::cout << "Error: MpdBackend: artist not aviable" << std::endl;
+        }
+        mpd_song_free(song);
+    }
+
+    disconnect(connection);
+
+    return artist;
+}
+
+std::string Mpd_connector::album(){
+    struct mpd_connection *connection = nullptr;
+    struct mpd_song *song;
+    std::string album;
+
+    connection = connect();
+
+    if (mpd_connection_get_error(connection) != MPD_ERROR_SUCCESS) {
+        return nullptr;
+    }
+
+    mpd_command_list_begin(connection, true);
+    mpd_send_status(connection);
+    mpd_send_current_song(connection);
+    mpd_command_list_end(connection);
+
+    mpd_response_next(connection);
+    if ((song = mpd_recv_song(connection)) != nullptr) {
+        album = mpd_song_get_tag(song, MPD_TAG_ALBUM, 0);
+        if (album.empty()){
+            std::cout << "Error: MpdBackend: album not aviable" << std::endl;
+        }
+        mpd_song_free(song);
+    }
+
+    disconnect(connection);
+
+    return album;
 }
 
 void Mpd_connector::play_next(){
@@ -136,6 +165,9 @@ void Mpd_connector::play_toggle_pause(){
     std::cout << "MpdBackend: play/pause button clicked" << std::endl;
     mpd_send_toggle_pause(connection);
     disconnect(connection);
+    track_total_time();
+    track_elapsed_time();
+    song_uri();
 }
 
 unsigned int Mpd_connector::bit_rate(){
@@ -159,7 +191,7 @@ unsigned int Mpd_connector::bit_rate(){
         printf("error: %s\n", mpd_status_get_error(status));
 
     if (mpd_status_get_state(status) == MPD_STATE_PLAY ||
-        mpd_status_get_state(status) == MPD_STATE_PAUSE) {
+            mpd_status_get_state(status) == MPD_STATE_PAUSE) {
         bitRate = mpd_status_get_kbit_rate(status);
         std::cout << "MpdBackend: bitrate: " << bitRate << std::endl;
     }
@@ -191,7 +223,7 @@ unsigned int Mpd_connector::track_total_time(){
         printf("error: %s\n", mpd_status_get_error(status));
 
     if (mpd_status_get_state(status) == MPD_STATE_PLAY ||
-        mpd_status_get_state(status) == MPD_STATE_PAUSE) {
+            mpd_status_get_state(status) == MPD_STATE_PAUSE) {
         totalTime = mpd_status_get_total_time(status);
         std::cout << "MpdBackend: total time: " << totalTime << std::endl;
     }
@@ -203,7 +235,7 @@ unsigned int Mpd_connector::track_total_time(){
 
 unsigned int Mpd_connector::track_elapsed_time(){
     struct mpd_connection *connection = nullptr;
-    struct mpd_status * status;
+    struct mpd_status *status;
     unsigned int elapsedTime = 0;
 
     connection = connect();
@@ -222,7 +254,7 @@ unsigned int Mpd_connector::track_elapsed_time(){
         printf("error: %s\n", mpd_status_get_error(status));
 
     if (mpd_status_get_state(status) == MPD_STATE_PLAY ||
-        mpd_status_get_state(status) == MPD_STATE_PAUSE) {
+            mpd_status_get_state(status) == MPD_STATE_PAUSE) {
         elapsedTime = mpd_status_get_elapsed_time(status);
         std::cout << "MpdBackend: elapsed time: " << elapsedTime << std::endl;
     }
@@ -232,36 +264,35 @@ unsigned int Mpd_connector::track_elapsed_time(){
     return elapsedTime;
 }
 
-const char* Mpd_connector::song_uri(){
+std::string Mpd_connector::song_uri(){
     struct mpd_connection *connection = nullptr;
-    const struct mpd_song *song;
-    const char *uri = nullptr;
+    struct mpd_song *song;
+    std::string uri;
+
     connection = connect();
 
-    /* receive next pair */
-    mpd_pair *pair = mpd_recv_pair(connection);
-    std::cout << "MpdBackend: pair: " << pair->name << ", " << pair->value <<std::endl;
+    if (mpd_connection_get_error(connection) != MPD_ERROR_SUCCESS) {
+        return nullptr;
+    }
 
-    /* get entity from pair */
-    mpd_entity *entity = mpd_entity_begin(pair);
+    mpd_command_list_begin(connection, true);
+    mpd_send_status(connection);
+    mpd_send_current_song(connection);
+    mpd_command_list_end(connection);
 
-    /* check if entity is a song (could also be a directory or playlist)*/
-    if(mpd_entity_get_type(entity) == MPD_ENTITY_TYPE_SONG){
-        /* get song and uri of the song */
-        song = mpd_entity_get_song(entity);
+    mpd_response_next(connection);
+    if ((song = mpd_recv_song(connection)) != nullptr) {
         uri = mpd_song_get_uri(song);
+        std::cout << "MpdBackend: song uri: " << uri << std::endl;
 
-        /* check for nullptr */
-        if(uri != nullptr){
-            std::cout << "MpdBackend: uri: " << uri << std::endl;
-        }else{
-            std::cout << "Error: MpdBackend: Get nullptr instead of uri " << std::endl;
-        }
-    }else{
-        std::cout << "Error: MpdBackend: entity is not a song" << std::endl;
+        std::cout << "MpdBackend: song title: " << mpd_song_get_tag(song, MPD_TAG_TITLE, 0) << std::endl;
+        std::cout << "MpdBackend: song artist: " << mpd_song_get_tag(song, MPD_TAG_ARTIST, 0) << std::endl;
+
+        mpd_song_free(song);
     }
 
     disconnect(connection);
+
     return uri;
 }
 

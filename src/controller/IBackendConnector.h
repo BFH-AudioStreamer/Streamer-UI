@@ -29,6 +29,8 @@
  ******************************************************************************/
 #pragma once
 
+#include <string>
+
 /**
  * @brief
  */
@@ -36,9 +38,9 @@ class IBackendConnector {
 public:
     virtual ~IBackendConnector() = default;
 
-    virtual void song_title() = delete;
-    virtual void artist() = delete;
-    virtual void album() = delete;
+    virtual std::string song_title() = 0;
+    virtual std::string artist() = 0;
+    virtual std::string album() = 0;
     virtual void play_next() = 0;
     virtual void play_previous() = 0;
     virtual void play_stop() = 0;
@@ -46,7 +48,7 @@ public:
     virtual unsigned int bit_rate() = 0;
     virtual unsigned int track_total_time() = 0;
     virtual unsigned int track_elapsed_time() = 0;
-    virtual const char* album_art_uri() = 0;
+    virtual std::string album_art_uri() = 0;
     virtual void set_search() = delete;
     virtual void control_capabilities() = delete;
 

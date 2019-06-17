@@ -39,7 +39,7 @@ Mopidy_connector::Mopidy_connector(std::string hostname, unsigned int port)
 
 }
 
-const char* Mopidy_connector::album_art_uri(const char* songUri) {
+std::string Mopidy_connector::album_art_uri(std::string songUri) {
     return songUri;
 }
 

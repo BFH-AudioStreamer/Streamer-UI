@@ -31,12 +31,17 @@
  */
 
 #include <QQmlApplicationEngine>
+#include <QTimer>
 #include "Controller.h"
 #include "Backend_connector.h"
 
 Controller::Controller(Model& _model)
         :model(_model) {
     backend_connector = BackendConnector::create();
+
+    auto timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(update_model()));
+    timer->start(100);
 }
 
 void Controller::play_next() {
@@ -53,7 +58,20 @@ void Controller::play_toggle_pause() {
 }
 
 void Controller::update_model() {
+    QString title = QString::fromStdString( backend_connector->song_title() );
+    QString album = QString::fromStdString( backend_connector->album() );
+    QString artist = QString::fromStdString( backend_connector->artist() );
+
     model.track_info()->set_title(title);
+    model.track_info()->set_artist(artist);
+    model.track_info()->set_artist("test");
+
+    //model.track_info()->set_track_uri();
+    //model.track_info()->set_album_art_uri(cover);
+
+    model.player_state()->set_bitrate(backend_connector->bit_rate());
+    model.player_state()->set_time_total(backend_connector->track_total_time());
+    model.player_state()->set_time_elapsed(backend_connector->track_elapsed_time());
 }
 
 /** @} */

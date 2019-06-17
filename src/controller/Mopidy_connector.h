@@ -41,7 +41,7 @@ class Mopidy_connector {
 public:
     Mopidy_connector(const string hostname, unsigned int port);
 
-    const char* album_art_uri(const char* songUri);
+    std::string album_art_uri(std::string songUri);
 
 private:
     const string hostname;

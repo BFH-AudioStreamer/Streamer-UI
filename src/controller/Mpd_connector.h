@@ -19,9 +19,9 @@ class Mpd_connector {
 public:
     Mpd_connector(std::string hostname, unsigned int port);
 
-//    void song_title();
-//    void artist();
-//    void album();
+    std::string song_title();
+    std::string artist();
+    std::string album();
     void play_next();
     void play_previous();
     void play_stop();
@@ -29,9 +29,9 @@ public:
     unsigned int bit_rate();
     unsigned int track_total_time();
     unsigned int track_elapsed_time();
-    const char* song_uri();
-//    void set_search();
-//    void control_capabilities();
+    std::string song_uri();
+    //    void set_search();
+    //    void control_capabilities();
 
 private:
     std::string hostname;

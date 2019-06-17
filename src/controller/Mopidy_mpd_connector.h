@@ -42,9 +42,9 @@ class MopidyMpdConnector : public IBackendConnector {
 public:
     MopidyMpdConnector(std::string hostname, unsigned int port);
 
-    //void song_title() override;
-    //void artist() override;
-    //void album() override;
+    std::string song_title() override;
+    std::string artist() override;
+    std::string album() override;
     void play_next() override;
     void play_previous() override;
     void play_stop() override;
@@ -52,7 +52,7 @@ public:
     unsigned int bit_rate() override;
     unsigned int track_total_time() override;
     unsigned int track_elapsed_time() override;
-    const char* album_art_uri() override;
+    std::string album_art_uri() override;
     //void set_search() override;
     //void control_capabilities() override;
 

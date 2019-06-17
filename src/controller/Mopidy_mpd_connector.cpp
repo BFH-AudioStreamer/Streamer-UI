@@ -40,17 +40,17 @@ MopidyMpdConnector::MopidyMpdConnector(std::string _hostname, unsigned int _port
     mopidyConnector = new Mopidy_connector(hostname, port);
 }
 
-//void MpdConnector::song_title(){
+std::string MopidyMpdConnector::song_title(){
+    return mpdConnector->song_title();
+}
 
-//}
+std::string MopidyMpdConnector::artist(){
+    return mpdConnector->artist();
+}
 
-//void MpdConnector::artist(){
-
-//}
-
-//void MpdConnector::album(){
-
-//}
+std::string MopidyMpdConnector::album(){
+    return mpdConnector->album();
+}
 
 void MopidyMpdConnector::play_next() {
     mpdConnector->play_next();
@@ -89,9 +89,9 @@ unsigned int MopidyMpdConnector::track_elapsed_time() {
     return elapsedTime;
 }
 
-const char* MopidyMpdConnector::album_art_uri() {
-    const char* songUri = nullptr;
-    const char* albumUri = nullptr;
+std::string MopidyMpdConnector::album_art_uri() {
+    std::string songUri;
+    std::string albumUri;
     // const char *artUri = nullptr;
 
     songUri = mpdConnector->song_uri();

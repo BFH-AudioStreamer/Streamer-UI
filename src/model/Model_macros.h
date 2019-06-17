@@ -39,7 +39,7 @@
         Q_PROPERTY(TYPE NAME READ NAME WRITE set_##NAME NOTIFY NAME##_changed) \
     public: \
         TYPE NAME() const { return m_##NAME; } \
-        void set_##NAME(TYPE &value) { \
+        void set_##NAME(TYPE value) { \
             if (m_##NAME != value) { \
                 m_##NAME = value; \
                 emit NAME##_changed(); \
