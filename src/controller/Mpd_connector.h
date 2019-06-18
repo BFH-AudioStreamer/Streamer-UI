@@ -23,12 +23,12 @@ public:
     Mpd_connector(std::string hostname, unsigned int port);
 
     void play_control(PlayCommand playCommand);
-
     Data_player_state player_state();
     Data_track_info track_info();
 
     //    void set_search();
     //    void control_capabilities();
+    void get_cover();
 
 private:
     std::string hostname;
@@ -37,7 +37,7 @@ private:
     PlayCommand playCommand;
 
     const char*  update();
-    int connect(struct mpd_connection *connection);
+    int connect(struct mpd_connection **connection);
     void disconnect(struct mpd_connection *connection);
 };
 

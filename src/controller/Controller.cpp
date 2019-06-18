@@ -53,6 +53,7 @@ void Controller::play_toggle_pause() {
 }
 
 void Controller::update_model() {
+    /* get track and player data */
     Data_player_state playerState = backend_connector->player_state();
     Data_track_info trackInfo = backend_connector->track_info();
 
@@ -62,8 +63,6 @@ void Controller::update_model() {
     QString album = QString::fromStdString(trackInfo.album);
     model.track_info()->set_title(title);
     model.track_info()->set_artist(artist);
-    std::cout << "title: " << trackInfo.songTitle << std::endl;
-    std::cout << "artist:  " << trackInfo.artist << std::endl;
 
     /* player state (bitRate, elapsedTime, totalTime, playState) */
     model.player_state()->set_bitrate(playerState.bitRate);
