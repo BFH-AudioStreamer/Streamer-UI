@@ -66,9 +66,8 @@ void Mpd_connector::play_control(PlayCommand playCommand){
         }
 
     }else{
-        std::cout << "Error: MpdBackend: play next: not connected" << std::endl;
+        std::cout << "Error: MpdBackend: play control: not connected" << std::endl;
     }
-
     disconnect(connection);
 }
 
@@ -84,16 +83,17 @@ Data_player_state Mpd_connector::player_state(){
     struct mpd_connection *connection = nullptr;
     struct mpd_status *status;
     Data_player_state playerState;
+    playerState.state = Player_state::STOP;
+    playerState.time_elapsed = 0;
+    playerState.time_total = 0;
+    playerState.bitRate =  0;
+    playerState.time_elapsed_ms = 0;
 
     /* connect to server */
     if(connect(&connection) == 0){
-        //connection = mpd_connection_new(hostname.c_str(), port, 30000);
 
         /* send necessary commands */
-        //mpd_command_list_begin(connection, true);
         mpd_send_status(connection);
-        //mpd_send_current_song(connection);
-        //mpd_command_list_end(connection);
 
         /* get status and check it */
         status = mpd_recv_status(connection);
@@ -131,7 +131,6 @@ Data_player_state Mpd_connector::player_state(){
             mpd_status_free(status);
         }
     }
-
     /* free connection */
     disconnect(connection);
 
@@ -142,6 +141,10 @@ Data_track_info Mpd_connector::track_info(){
     struct mpd_connection *connection = nullptr;
     struct mpd_song *song;
     Data_track_info trackInfo;
+    trackInfo.songTitle = "";
+    trackInfo.artist = "";
+    trackInfo.album = "";
+    trackInfo.songUri = "";
 
     /* connect to server */
     if(connect(&connection) == 0){
@@ -165,18 +168,15 @@ Data_track_info Mpd_connector::track_info(){
                 trackInfo.songUri = songUri;
                 mpd_song_free(song);
             }
-        }else{
-            std::cout << "Error: MpdBackend: no song found" << std::endl;
-        }
-    }
 
+        }else{
+            std::cout << "Error: MpdBackend: no song playing" << std::endl;
+        }
+
+    }
     disconnect(connection);
 
     return trackInfo;
-}
-
-void Mpd_connector::get_cover(){
-    system("sacad \"Prism\" \"Katy Perry\" 600 /home/rafael/Pictures/Prism.jpg");
 }
 
 int Mpd_connector::connect(struct mpd_connection **connection){
@@ -185,13 +185,8 @@ int Mpd_connector::connect(struct mpd_connection **connection){
 
     if (mpd_connection_get_error(*connection) != MPD_ERROR_SUCCESS) {
         std::cout << "Error: MpdBackend: Not able to connect " << std::endl;
-        for(int i=0;i<3;i++) {
-            printf("version[%i]: %i\n",i,
-                   mpd_connection_get_server_version(*connection)[i]);
-        }
         status = -1;
     }else{
-        //std::cout << "MpdBackend: Connected " << std::endl;
         status = 0;
     }
 
@@ -200,7 +195,6 @@ int Mpd_connector::connect(struct mpd_connection **connection){
 
 void Mpd_connector::disconnect(struct mpd_connection *connection){
     mpd_connection_free(connection);
-    //std::cout << "MpdBackend: Disconnected " << std::endl;
 }
 
 /** @} */

@@ -50,7 +50,7 @@ set(REMOTE_DIR /usr/local/bin)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
-find_package(Qt5 COMPONENTS Core Quick QuickControls2 REQUIRED)
+find_package(Qt5 COMPONENTS Core Quick QuickControls2 WebSockets REQUIRED)
 set(QT_MISSING_DEPENCIES
         GLESv2
         drm
@@ -96,6 +96,7 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
         Qt5::Core
         Qt5::Qml
         Qt5::Quick
+        Qt5::WebSockets
 
         ${LIBMPDCLIENT_LIBRARY}
         nlohmann_json::nlohmann_json
