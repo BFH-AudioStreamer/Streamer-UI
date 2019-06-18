@@ -14,7 +14,7 @@ Page {
             Layout.bottomMargin: 20
             width: 50
             height: 50
-            iconCode: Elements.Feather.Icons.ArrowLeftCircle
+            iconCode: Elements.Feather.Icons.ChevronLeft
             onClicked: underConstruction.StackView.view.pop()
         }
 

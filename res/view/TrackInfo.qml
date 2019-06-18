@@ -11,6 +11,7 @@ Page {
 
     Item {
         Timer {
+            id: model_update_timer
             interval: 100
             running: true
             repeat: true
@@ -31,9 +32,8 @@ Page {
     }
 
     function clean_song_title(title) {
-        const regex = /\(.*\)/gm;
-
-        return title.replace(regex, "");
+        // remove '(...)' and everything after ' - '
+        return title.replace(/\(.*\)/gm, "").replace(/\s-\s.*/gm, "");
     }
 
     ColumnLayout {
@@ -49,8 +49,11 @@ Page {
                     Layout.bottomMargin: 20
                     width: 50
                     height: 50
-                    iconCode: Elements.Feather.Icons.ArrowLeftCircle
-                    onClicked: trackInfo.StackView.view.pop()
+                    iconCode: Elements.Feather.Icons.ChevronLeft
+                    onClicked: {
+                        model_update_timer.stop()
+                        trackInfo.StackView.view.pop()
+                    }
                 }
 
                 Label {
@@ -65,7 +68,7 @@ Page {
                     objectName: "artist"
                     Layout.fillWidth: true
                     wrapMode: Text.WordWrap
-                    text: model.track_info.artist.replace(";", " | ")
+                    text: model.track_info.artist.replace(/;/g, " | ")
                     font.pointSize: 18
                     color: Material.accent
                 }
