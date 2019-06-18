@@ -68,6 +68,7 @@ void Controller::update_model() {
     model.player_state()->set_bitrate(playerState.bitRate);
     model.player_state()->set_time_total(playerState.time_total);
     model.player_state()->set_time_elapsed(playerState.time_elapsed);
+    model.player_state()->set_time_elapsed_ms(playerState.time_elapsed_ms);
     model.player_state()->set_state(playerState.state);
 }
 

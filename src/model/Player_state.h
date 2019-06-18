@@ -26,6 +26,7 @@ public:
 SIMPLE_Q_PROPERTY(unsigned int, bitrate)
 SIMPLE_Q_PROPERTY(unsigned int, time_total)
 SIMPLE_Q_PROPERTY(unsigned int, time_elapsed)
+SIMPLE_Q_PROPERTY(unsigned int, time_elapsed_ms)
 SIMPLE_Q_PROPERTY(State, state)
 };
 

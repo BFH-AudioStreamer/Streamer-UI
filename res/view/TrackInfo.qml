@@ -11,7 +11,7 @@ Page {
 
     Item {
         Timer {
-            interval: 200
+            interval: 100
             running: true
             repeat: true
             onTriggered: controller.update_model()
@@ -107,8 +107,8 @@ Page {
                 Elements.ProgressBar {
                     Layout.fillWidth: true
                     Layout.minimumWidth: 340
-                    value: model.player_state.time_elapsed /
-                           model.player_state.time_total
+                    value: model.player_state.time_elapsed_ms /
+                           (model.player_state.time_total * 1000)
                 }
 
                 RowLayout {

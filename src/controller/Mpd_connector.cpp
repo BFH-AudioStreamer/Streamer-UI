@@ -124,6 +124,7 @@ Data_player_state Mpd_connector::player_state(){
                 playerState.time_elapsed = mpd_status_get_elapsed_time(status);
                 playerState.time_total = mpd_status_get_total_time(status);
                 playerState.bitRate =  mpd_status_get_kbit_rate(status);
+                playerState.time_elapsed_ms = mpd_status_get_elapsed_ms(status);
             }
 
             /* free status */

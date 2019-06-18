@@ -22,6 +22,7 @@ class Data_player_state {
 public:
     Player_state::State state;
     unsigned int time_elapsed;
+    unsigned int time_elapsed_ms;
     unsigned int time_total;
     unsigned int bitRate;
 };

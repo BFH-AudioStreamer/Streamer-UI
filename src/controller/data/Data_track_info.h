@@ -23,7 +23,6 @@ public:
     std::string songTitle;
     std::string albumArtUri;
     std::string songUri;
-;
 };
 
 /**
