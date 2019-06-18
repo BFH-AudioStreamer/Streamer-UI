@@ -13,6 +13,9 @@ class Websocket : public QObject {
 public:
     explicit Websocket(const std::string &url);
     void trackImage();
+    void open();
+    void close();
+
 
 Q_SIGNALS:
     void closed();
@@ -23,7 +26,7 @@ private Q_SLOTS:
 
 private:
     QWebSocket m_QwebSocket;
-    QUrl m_url;
+    std::string m_url;
     bool m_debug;
 };
 

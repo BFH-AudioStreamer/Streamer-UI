@@ -41,7 +41,9 @@ Mopidy_connector::Mopidy_connector(std::string _hostname, unsigned int _port)
 
 std::string Mopidy_connector::image_uri(){
     Data_track_info trackInfo;
-    client->trackImage();
+    //client = new Websocket("ws://192.168.138.131:6680/mopidy/ws");
+    client->open();
+    //client->trackImage();
     return "test";
 }
 

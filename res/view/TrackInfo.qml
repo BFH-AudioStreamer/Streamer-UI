@@ -11,7 +11,7 @@ Page {
 
     Item {
         Timer {
-            interval: 100
+            interval: 500
             running: true
             repeat: true
             onTriggered: controller.update_model()

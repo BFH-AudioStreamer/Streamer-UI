@@ -38,7 +38,6 @@
 
 #include "src/model/Model.h"
 #include "controller/Controller.h"
-#include "controller/Websocket.h"
 
 /**
  * @brief Main method
