@@ -12,6 +12,7 @@ class Websocket : public QObject {
     Q_OBJECT
 public:
     explicit Websocket(const std::string &url);
+    void trackImage();
 
 Q_SIGNALS:
     void closed();
@@ -21,7 +22,7 @@ private Q_SLOTS:
     void onTextMessageReceived(QString message);
 
 private:
-    QWebSocket m_webSocket;
+    QWebSocket m_QwebSocket;
     QUrl m_url;
     bool m_debug;
 };

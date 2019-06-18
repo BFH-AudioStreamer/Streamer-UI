@@ -34,8 +34,10 @@
 #include "Controller.h"
 #include "Backend_connector.h"
 
+#include "Websocket.h"
+
 Controller::Controller(Model& _model)
-        :model(_model) {
+    :model(_model) {
     backend_connector = BackendConnector::create();
 }
 
@@ -61,8 +63,11 @@ void Controller::update_model() {
     QString title = QString::fromStdString(trackInfo.songTitle);
     QString artist = QString::fromStdString(trackInfo.artist);
     QString album = QString::fromStdString(trackInfo.album);
+    //QString imageUri = QString::fromStdString(trackInfo.imageUri);
     model.track_info()->set_title(title);
     model.track_info()->set_artist(artist);
+    //model.track_info()->set_image_uri(imageUri);
+    //std::cout << "image: " << trackInfo.imageUri << std::endl;
 
     /* player state (bitRate, elapsedTime, totalTime, playState) */
     model.player_state()->set_bitrate(playerState.bitRate);

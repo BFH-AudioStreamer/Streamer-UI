@@ -31,6 +31,8 @@
 
 #include <string>
 #include <iostream>
+#include "data/Data_track_info.h"
+#include "Websocket.h"
 
 using namespace std;
 
@@ -41,13 +43,12 @@ class Mopidy_connector {
 public:
     Mopidy_connector(const string hostname, unsigned int port);
 
-    std::string album_art_uri(std::string songUri);
+    std::string image_uri();
 
 private:
     const string hostname;
-    const string ipAddress;
-    const unsigned int port = 6600;
-    const unsigned int timeout = 30000;
+    const unsigned int port;
+    Websocket *client;
 };
 
 /**

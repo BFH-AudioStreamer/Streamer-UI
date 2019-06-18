@@ -11,23 +11,40 @@ using json = nlohmann::json;
 
 Websocket::Websocket(const std::string& url)
 {
-    connect(&m_webSocket, &QWebSocket::connected, this, &Websocket::onConnected);
-    connect(&m_webSocket, &QWebSocket::disconnected, this, &Websocket::closed);
-    m_webSocket.open(QUrl(QString::fromStdString(url)));
+    std::cout << "trackImage state: " << m_QwebSocket.state() << std::endl;
+
+    /* connect the QWebSocket */
+    connect(&m_QwebSocket, &QWebSocket::connected, this, &Websocket::onConnected);
+    connect(&m_QwebSocket, &QWebSocket::disconnected, this, &Websocket::closed);
+
+    /* open the QWebSocket with specyfied url */
+    m_QwebSocket.open(QUrl(QString::fromStdString(url)));
+
+    std::cout << "open: " << url << std::endl;
 }
 
-void Websocket::onConnected()
-{
+void Websocket::onConnected(){
+    std::cout << "WebSocket connected!" << std::endl;
+}
+
+void Websocket::trackImage(){
+    /* json to request current track */
     json j = {
             {"jsonrpc", "2.0"},
             {"id", 1},
             {"method", "core.playback.get_current_track"}
     };
 
-    std::cout << "WebSocket connected!" << std::endl;
-    connect(&m_webSocket, &QWebSocket::textMessageReceived,
+    std::cout << "trackImage state: " << m_QwebSocket.state() << std::endl;
+
+
+
+    connect(&m_QwebSocket, &QWebSocket::textMessageReceived,
             this, &Websocket::onTextMessageReceived);
-    m_webSocket.sendTextMessage(QString::fromStdString(j.dump()));
+
+    std::cout << "trackImage state: " << m_QwebSocket.state() << std::endl;
+
+    m_QwebSocket.sendTextMessage(QString::fromStdString(j.dump()));
 }
 
 void Websocket::onTextMessageReceived(QString message)
@@ -54,12 +71,12 @@ void Websocket::onTextMessageReceived(QString message)
         std::cout << "Send message: " << std::endl <<
                      j.dump(4) << std::endl;
 
-        m_webSocket.sendTextMessage(QString::fromStdString(j.dump()));
+        m_QwebSocket.sendTextMessage(QString::fromStdString(j.dump()));
         first_request = false;
     }
     else {
         /* receive image uri */
         std::cout << rec["result"][song_uri][0]["uri"] << std::endl;
-        m_webSocket.close();
+        m_QwebSocket.close();
     }
 }

@@ -38,7 +38,7 @@
 MopidyMpdConnector::MopidyMpdConnector(std::string _hostname, unsigned int _port)
         :hostname(std::move(_hostname)), port(_port) {
     mpdConnector = new Mpd_connector(hostname, port);
-    mopidyConnector = new Mopidy_connector(hostname, port);
+    mopidyConnector = new Mopidy_connector(hostname, 6680);
 }
 
 void MopidyMpdConnector::play_next() {
@@ -67,8 +67,8 @@ Data_track_info MopidyMpdConnector::track_info(){
     Data_track_info trackInfo;
     trackInfo = mpdConnector->track_info();
 
-    /* get albumArtUri from Mopidy */
-    //trackInfo.albumArtUri = mopidyConnector->album_art_uri(trackInfo.songUri);
+    /* get image from Mopidy */
+    trackInfo.imageUri = mopidyConnector->image_uri();
 
     return trackInfo;
 }

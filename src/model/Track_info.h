@@ -21,6 +21,7 @@ SIMPLE_Q_PROPERTY(QString, title)
 SIMPLE_Q_PROPERTY(QString, artist)
 SIMPLE_Q_PROPERTY(QString, album_art_uri)
 SIMPLE_Q_PROPERTY(QString, track_uri)
+SIMPLE_Q_PROPERTY(QString, image_uri)
 
 public:
     explicit Track_info();

@@ -34,13 +34,15 @@
 
 #include "Mopidy_connector.h"
 
-Mopidy_connector::Mopidy_connector(std::string hostname, unsigned int port)
-        :hostname(std::move(hostname)), port(port) {
-
+Mopidy_connector::Mopidy_connector(std::string _hostname, unsigned int _port)
+        :hostname(std::move(_hostname)), port(_port) {
+    client = new Websocket("ws://" + hostname + ":" + std::to_string(port) + "/mopidy/ws");
 }
 
-std::string Mopidy_connector::album_art_uri(std::string songUri) {
-    return songUri;
+std::string Mopidy_connector::image_uri(){
+    Data_track_info trackInfo;
+    client->trackImage();
+    return "test";
 }
 
 /** @} */
