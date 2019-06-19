@@ -10,8 +10,8 @@
 
 using json = nlohmann::json;
 
-Websocket::Websocket(const std::string& url)
-        :m_url(url) {
+Websocket::Websocket(const std::string& url, std::string &_imageUri)
+        :m_url(url), imageUri(_imageUri){
     connect(&m_QwebSocket, &QWebSocket::connected, this, &Websocket::onConnected);
     connect(&m_QwebSocket, &QWebSocket::disconnected, this, &Websocket::closed);
 
@@ -21,6 +21,7 @@ Websocket::Websocket(const std::string& url)
 void Websocket::open() {
     if (m_QwebSocket.state() == QAbstractSocket::UnconnectedState) {
         m_QwebSocket.open(QUrl(QString::fromStdString(m_url)));
+        //std::cout << "unconnected state --> open socket"<< std::endl;
     }
 }
 
@@ -83,7 +84,8 @@ void Websocket::onTextMessageReceived(QString message) {
 
         try {
             image_uri = rec["result"][song_uri][0]["uri"];
-            std::cout << "Image URI: " << image_uri << std::endl;
+            //std::cout << "Image URI: " << image_uri << std::endl;
+            imageUri = image_uri;
             close();
         }
         catch (std::exception e) { }

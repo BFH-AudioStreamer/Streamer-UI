@@ -35,8 +35,8 @@
 #include "Mopidy_connector.h"
 
 Mopidy_connector::Mopidy_connector(std::string _hostname, unsigned int _port)
-        :hostname(std::move(_hostname)), port(_port) {
-    client = new Websocket("ws://" + hostname + ":" + std::to_string(port) + "/mopidy/ws");
+        :hostname(std::move(_hostname)), port(_port){
+    client = new Websocket("ws://" + hostname + ":" + std::to_string(port) + "/mopidy/ws", imageUri);
 }
 
 std::string Mopidy_connector::image_uri(){
@@ -44,7 +44,7 @@ std::string Mopidy_connector::image_uri(){
     //client = new Websocket("ws://192.168.138.131:6680/mopidy/ws");
     client->open();
     //client->trackImage();
-    return "test";
+    return imageUri;
 }
 
 /** @} */

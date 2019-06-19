@@ -49,6 +49,8 @@ private:
     const string hostname;
     const unsigned int port;
     Websocket *client;
+
+    std::string imageUri;
 };
 
 /**
