@@ -30,11 +30,27 @@
  ******************************************************************************/
 
 #include "Backend_connector.h"
+#include <nlohmann/json.hpp>
 
-std::unique_ptr<IBackendConnector> BackendConnector::create() {
+using json = nlohmann::json;
+
+std::unique_ptr<I_backend_connector> Backend_connector::create(const json& app_config) {
     /* parse config and create backend connector */
-    return std::make_unique<MopidyMpdConnector>(
-            MopidyMpdConnector("localhost", 6600));
+    auto connector_it = app_config.find("Backend_connector");
+    if (connector_it==app_config.end()) {
+        std::cout << "Backend_connector: No backend connector specified in config!"
+                  << std::endl;
+        return nullptr;
+    }
+
+    std::string connector = *connector_it;
+
+    std::unique_ptr<I_backend_connector> backend_connector = nullptr;
+    if (connector=="Mopidy_mpd_connector") {
+        backend_connector = std::make_unique<Mopidy_mpd_connector>(
+                Mopidy_mpd_connector(app_config));
+    }
+    return backend_connector;
 }
 
 /** @} */

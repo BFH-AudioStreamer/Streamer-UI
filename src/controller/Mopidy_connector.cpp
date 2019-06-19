@@ -1,8 +1,6 @@
-#include <utility>
-
 /**
  *******************************************************************************
- * @addtogroup MopidyConnector
+ * @addtogroup Mopidy_connector
  * @{
  * @brief Brief descriptions
  *
@@ -32,14 +30,28 @@
  *******************************************************************************
  */
 
+#include <utility>
 #include "Mopidy_connector.h"
 
-Mopidy_connector::Mopidy_connector(std::string _hostname, unsigned int _port)
-        :hostname(std::move(_hostname)), port(_port){
-    client = new Websocket("ws://Audio-Streamer:" + std::to_string(port) + "/mopidy/ws", imageUri);
+Mopidy_connector::Mopidy_connector(const json& app_config) {
+    auto connector_it = app_config.find("Mopidy_connector");
+    if (connector_it==app_config.end()) {
+        std::cout << "Mopidy_connector: Config missing!" << std::endl;
+        return;
+    }
+    auto connector = *connector_it;
+    auto hostname_it = connector.find("hostname");
+    auto port_it = connector.find("port");
+    if ((hostname_it==connector.end()) || (port_it==connector.end())) {
+        std::cout << "Mopidy_connector: hostname or port missing in config!" << std::endl;
+        return;
+    }
+    hostname = *hostname_it;
+    port = *port_it;
+    client = new Websocket("ws://"+hostname+":"+std::to_string(port)+"/mopidy/ws", imageUri);
 }
 
-std::string Mopidy_connector::image_uri(){
+std::string Mopidy_connector::image_uri() {
     Data_track_info trackInfo;
     //client = new Websocket("ws://192.168.138.131:6680/mopidy/ws");
     client->open();

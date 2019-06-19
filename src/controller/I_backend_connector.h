@@ -1,12 +1,11 @@
 /**
  *******************************************************************************
- * @addtogroup IBackendConnector
+ * @addtogroup Streamer-UI
  * @{
- * @brief Brief descriptions
- *
- * Elaborate Description
- *
- * @authors stefan
+ * @addtogroup controller
+ * @{
+ * @defgroup IBackendConnector
+ * @{
  ****************************************************************************//*
  * Copyright (C) 2019 Audio-Streamer Project Group
  *
@@ -27,11 +26,32 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
- *******************************************************************************
+ ******************************************************************************/
+#pragma once
+
+#include <string>
+#include "data/Data_player_state.h"
+#include "data/Data_track_info.h"
+
+/**
+ * @brief
  */
+class I_backend_connector {
+public:
+    virtual ~I_backend_connector() = default;
 
-#include "IBackendConnector.h"
+    virtual void play_next() = 0;
+    virtual void play_previous() = 0;
+    virtual void play_stop() = 0;
+    virtual void play_toggle_pause() = 0;
+    virtual Data_player_state player_state() = 0;
+    virtual Data_track_info track_info() = 0;
+    virtual void set_search() = delete;
+    virtual void control_capabilities() = delete;
 
+};
 
-
-/** @} */
+/**
+ * @}
+ * @}
+ * @} */

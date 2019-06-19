@@ -13,6 +13,9 @@
 #include <iostream>
 #include "data/Data_player_state.h"
 #include "data/Data_track_info.h"
+#include <nlohmann/json.hpp>
+
+using json = nlohmann::json;
 
 /**
  * @brief
@@ -20,7 +23,7 @@
 
 class Mpd_connector {
 public:
-    Mpd_connector(std::string hostname, unsigned int port);
+    explicit Mpd_connector(const json& app_config);
 
     void play_control(PlayCommand playCommand);
     Data_player_state player_state();
@@ -31,7 +34,7 @@ public:
     void get_cover();
 
 private:
-    std::string hostname;
+    std::string hostname{};
     unsigned int port;
 
     PlayCommand playCommand;

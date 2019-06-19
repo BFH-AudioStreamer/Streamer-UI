@@ -1,12 +1,15 @@
+#include <utility>
+
 /**
  *******************************************************************************
- * @addtogroup Streamer-UI
+ * @addtogroup Config_loader
  * @{
- * @addtogroup controller
- * @{
- * @defgroup IBackendConnector
- * @{
- ****************************************************************************//*
+ * @brief Brief descriptions
+ *
+ * Elaborate Description
+ *
+ * @authors stefan
+ *******************************************************************************
  * Copyright (C) 2019 Audio-Streamer Project Group
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,32 +29,26 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
- ******************************************************************************/
-#pragma once
-
-#include <string>
-#include "data/Data_player_state.h"
-#include "data/Data_track_info.h"
-
-/**
- * @brief
+ *******************************************************************************
  */
-class IBackendConnector {
-public:
-    virtual ~IBackendConnector() = default;
 
-    virtual void play_next() = 0;
-    virtual void play_previous() = 0;
-    virtual void play_stop() = 0;
-    virtual void play_toggle_pause() = 0;
-    virtual Data_player_state player_state() = 0;
-    virtual Data_track_info track_info() = 0;
-    virtual void set_search() = delete;
-    virtual void control_capabilities() = delete;
+#include <fstream>
+#include <iostream>
+#include "Config_loader.h"
 
-};
+json Config_loader::load(std::string path) {
+    std::ifstream config_file(path);
+    json config_json;
+    try {
+        config_json = json::parse(config_file);
+    }
+    catch (std::exception e) {
+        std::cout << "Config_loader: Config file at '" << path << "' not found" <<
+                  std::endl;
+    }
+    return config_json;
+}
 
-/**
- * @}
- * @}
- * @} */
+
+/** @} */
+

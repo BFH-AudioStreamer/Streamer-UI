@@ -38,14 +38,25 @@
 
 #include "src/model/Model.h"
 #include "controller/Controller.h"
+#include "tools/Config_loader.h"
 
 /**
  * @brief Main method
  */
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
+    auto config = Config_loader::load("streamer-ui.conf");
+    if (config.is_null()) {
+        return EXIT_FAILURE;
+    }
+    auto app_config_it = config.find("App_config");
+    if (app_config_it == config.end()) {
+        std::cout << "Main: No App_config found in config!";
+        return EXIT_FAILURE;
+    }
+    auto app_config = *app_config_it;
 
     auto model = new Model();
-    auto controller = new Controller(*model);
+    auto controller = new Controller(*model, app_config);
 
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);

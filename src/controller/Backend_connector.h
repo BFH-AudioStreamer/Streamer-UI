@@ -31,15 +31,18 @@
 #pragma once
 
 #include <memory>
-#include "IBackendConnector.h"
+#include "I_backend_connector.h"
 #include "Mopidy_mpd_connector.h"
+#include <nlohmann/json.hpp>
+
+using json = nlohmann::json;
 
 /**
  * @brief
  */
-class BackendConnector {
+class Backend_connector {
 public:
-    static std::unique_ptr<IBackendConnector> create();
+    static std::unique_ptr<I_backend_connector> create(const json& app_config);
 };
 
 /**

@@ -36,9 +36,9 @@
 
 #include "Websocket.h"
 
-Controller::Controller(Model& _model)
+Controller::Controller(Model& _model, const json& app_config)
     :model(_model) {
-    backend_connector = BackendConnector::create();
+    backend_connector = Backend_connector::create(app_config);
 }
 
 void Controller::play_next() {

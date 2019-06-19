@@ -35,35 +35,34 @@
 #include "Mopidy_mpd_connector.h"
 #include "data/Data_player_state.h"
 
-MopidyMpdConnector::MopidyMpdConnector(std::string _hostname, unsigned int _port)
-        :hostname(std::move(_hostname)), port(_port) {
-    mpdConnector = new Mpd_connector(hostname, port);
-    mopidyConnector = new Mopidy_connector(hostname, 6680);
+Mopidy_mpd_connector::Mopidy_mpd_connector(const json& app_config) {
+    mpdConnector = new Mpd_connector(app_config);
+    mopidyConnector = new Mopidy_connector(app_config);
 }
 
-void MopidyMpdConnector::play_next() {
+void Mopidy_mpd_connector::play_next() {
     mpdConnector->play_control(NEXT);
 }
 
-void MopidyMpdConnector::play_previous() {
+void Mopidy_mpd_connector::play_previous() {
     mpdConnector->play_control(PREVIOUS);
 }
 
-void MopidyMpdConnector::play_stop() {
+void Mopidy_mpd_connector::play_stop() {
     mpdConnector->play_control(STOP);
 }
 
-void MopidyMpdConnector::play_toggle_pause() {
+void Mopidy_mpd_connector::play_toggle_pause() {
     mpdConnector->play_control(TOGGLE_PAUSE);
 }
 
-Data_player_state MopidyMpdConnector::player_state(){
+Data_player_state Mopidy_mpd_connector::player_state() {
     Data_player_state playerState;
     playerState = mpdConnector->player_state();
     return playerState;
 }
 
-Data_track_info MopidyMpdConnector::track_info(){
+Data_track_info Mopidy_mpd_connector::track_info() {
     Data_track_info trackInfo;
     trackInfo = mpdConnector->track_info();
 

@@ -12,7 +12,7 @@ Page {
     Item {
         Timer {
             id: model_update_timer
-            interval: 100
+            interval: 200
             running: true
             repeat: true
             onTriggered: controller.update_model()
@@ -142,7 +142,7 @@ Page {
                     Layout.fillHeight: true
                     Layout.minimumHeight: 200
                     Layout.maximumHeight: 800
-                    verticalAlignment: Image.AlignBottom
+                    verticalAlignment: Image.AlignVCenter
 
                     /*layer.enabled: true
                         layer.effect: OpacityMask {

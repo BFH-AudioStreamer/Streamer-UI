@@ -17,6 +17,8 @@ file(GLOB SOURCES
         "src/controller/data/*.h"
         "src/model/*.cpp"
         "src/model/*.h"
+        "src/tools/*.cpp"
+        "src/tools/*.h"
         "res/*.qrc"
 )
 

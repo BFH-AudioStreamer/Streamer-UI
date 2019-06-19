@@ -29,18 +29,21 @@
  ******************************************************************************/
 #pragma once
 
-#include "IBackendConnector.h"
+#include "I_backend_connector.h"
 #include "Mpd_connector.h"
 #include "Mopidy_connector.h"
 
 #include <iostream>
+#include <nlohmann/json.hpp>
+
+using json = nlohmann::json;
 
 /**
  * @brief
  */
-class MopidyMpdConnector : public IBackendConnector {
+class Mopidy_mpd_connector : public I_backend_connector {
 public:
-    MopidyMpdConnector(std::string hostname, unsigned int port);
+    explicit Mopidy_mpd_connector(const json& app_config);
 
     void play_next() override;
     void play_previous() override;
@@ -53,9 +56,6 @@ public:
     //void control_capabilities() override;
 
 private:
-    std::string hostname;
-    unsigned int port;
-
     Mpd_connector *mpdConnector = nullptr;
     Mopidy_connector *mopidyConnector = nullptr;
 };

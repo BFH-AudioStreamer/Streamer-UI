@@ -33,6 +33,9 @@
 #include <memory>
 #include "src/model/Model.h"
 #include "Backend_connector.h"
+#include <nlohmann/json.hpp>
+
+using json = nlohmann::json;
 
 /**
  * @brief
@@ -41,7 +44,7 @@ class Controller : public QObject {
 Q_OBJECT
 
 public:
-    explicit Controller(Model& _model);
+    explicit Controller(Model& _model, const json& app_config);
     Q_INVOKABLE void play_next();
     Q_INVOKABLE void play_previous();
     Q_INVOKABLE void play_toggle_pause();
@@ -49,7 +52,7 @@ public:
 
 private:
     Model& model;
-    std::unique_ptr<IBackendConnector> backend_connector = nullptr;
+    std::unique_ptr<I_backend_connector> backend_connector = nullptr;
 
     QString title = "test";
 };

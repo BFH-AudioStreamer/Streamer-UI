@@ -41,14 +41,27 @@
 
 #include <iostream>
 
-Mpd_connector::Mpd_connector(std::string hostname, unsigned int port):hostname(hostname),port(port){
-    /* initialy not connected to server */
+Mpd_connector::Mpd_connector(const json& app_config) {
+    auto connector_it = app_config.find("Mpd_connector");
+    if (connector_it==app_config.end()) {
+        std::cout << "Mpd_connector: Config missing!" << std::endl;
+        return;
+    }
+    auto connector = *connector_it;
+    auto hostname_it = connector.find("hostname");
+    auto port_it = connector.find("port");
+    if ((hostname_it==connector.end()) || (port_it==connector.end())) {
+        std::cout << "Mpd_connector: hostname or port missing in config!" << std::endl;
+        return;
+    }
+    hostname = *hostname_it;
+    port = *port_it;
 }
 
-void Mpd_connector::play_control(PlayCommand playCommand){
-    struct mpd_connection *connection = nullptr;
+void Mpd_connector::play_control(PlayCommand playCommand) {
+    struct mpd_connection* connection = nullptr;
 
-    if(connect(&connection) == 0){
+    if (connect(&connection)==0) {
 
         switch (playCommand) {
         case NEXT:
@@ -65,7 +78,8 @@ void Mpd_connector::play_control(PlayCommand playCommand){
             break;
         }
 
-    }else{
+    }
+    else {
         std::cout << "Error: MpdBackend: play control: not connected" << std::endl;
     }
     disconnect(connection);
@@ -79,18 +93,18 @@ void Mpd_connector::play_control(PlayCommand playCommand){
 
 //}
 
-Data_player_state Mpd_connector::player_state(){
-    struct mpd_connection *connection = nullptr;
-    struct mpd_status *status;
+Data_player_state Mpd_connector::player_state() {
+    struct mpd_connection* connection = nullptr;
+    struct mpd_status* status;
     Data_player_state playerState;
     playerState.state = Player_state::STOP;
     playerState.time_elapsed = 0;
     playerState.time_total = 0;
-    playerState.bitRate =  0;
+    playerState.bitRate = 0;
     playerState.time_elapsed_ms = 0;
 
     /* connect to server */
-    if(connect(&connection) == 0){
+    if (connect(&connection)==0) {
 
         /* send necessary commands */
         mpd_send_status(connection);
@@ -98,9 +112,10 @@ Data_player_state Mpd_connector::player_state(){
         /* get status and check it */
         status = mpd_recv_status(connection);
 
-        if (mpd_status_get_error(status) != nullptr){
+        if (mpd_status_get_error(status)!=nullptr) {
             printf("error: %s\n", mpd_status_get_error(status));
-        }else{
+        }
+        else {
             /* if status is valid, get actual player state */
             mpd_state state = mpd_status_get_state(status);
             switch (state) {
@@ -119,11 +134,11 @@ Data_player_state Mpd_connector::player_state(){
             }
 
             /* check if song is present, if yes get time information */
-            if (mpd_status_get_state(status) == MPD_STATE_PLAY ||
-                    mpd_status_get_state(status) == MPD_STATE_PAUSE) {
+            if (mpd_status_get_state(status)==MPD_STATE_PLAY ||
+                    mpd_status_get_state(status)==MPD_STATE_PAUSE) {
                 playerState.time_elapsed = mpd_status_get_elapsed_time(status);
                 playerState.time_total = mpd_status_get_total_time(status);
-                playerState.bitRate =  mpd_status_get_kbit_rate(status);
+                playerState.bitRate = mpd_status_get_kbit_rate(status);
                 playerState.time_elapsed_ms = mpd_status_get_elapsed_ms(status);
             }
 
@@ -137,9 +152,9 @@ Data_player_state Mpd_connector::player_state(){
     return playerState;
 }
 
-Data_track_info Mpd_connector::track_info(){
-    struct mpd_connection *connection = nullptr;
-    struct mpd_song *song;
+Data_track_info Mpd_connector::track_info() {
+    struct mpd_connection* connection = nullptr;
+    struct mpd_song* song;
     Data_track_info trackInfo;
     trackInfo.songTitle = "";
     trackInfo.artist = "";
@@ -147,7 +162,7 @@ Data_track_info Mpd_connector::track_info(){
     trackInfo.songUri = "";
 
     /* connect to server */
-    if(connect(&connection) == 0){
+    if (connect(&connection)==0) {
 
         /* send necessary commands */
         mpd_command_list_begin(connection, true);
@@ -156,8 +171,8 @@ Data_track_info Mpd_connector::track_info(){
         mpd_command_list_end(connection);
 
         mpd_response_next(connection);
-        if ((song = mpd_recv_song(connection)) != nullptr) {
-            if(mpd_song_get_tag(song, MPD_TAG_TITLE, 0) != nullptr){
+        if ((song = mpd_recv_song(connection))!=nullptr) {
+            if (mpd_song_get_tag(song, MPD_TAG_TITLE, 0)!=nullptr) {
                 std::string songTitle = mpd_song_get_tag(song, MPD_TAG_TITLE, 0);
                 trackInfo.songTitle = songTitle;
                 std::string artist = mpd_song_get_tag(song, MPD_TAG_ARTIST, 0);
@@ -169,7 +184,8 @@ Data_track_info Mpd_connector::track_info(){
                 mpd_song_free(song);
             }
 
-        }else{
+        }
+        else {
             std::cout << "Error: MpdBackend: no song playing" << std::endl;
         }
 
@@ -179,21 +195,22 @@ Data_track_info Mpd_connector::track_info(){
     return trackInfo;
 }
 
-int Mpd_connector::connect(struct mpd_connection **connection){
+int Mpd_connector::connect(struct mpd_connection** connection) {
     *connection = mpd_connection_new(hostname.c_str(), port, 30000);
     int status = 0;
 
-    if (mpd_connection_get_error(*connection) != MPD_ERROR_SUCCESS) {
+    if (mpd_connection_get_error(*connection)!=MPD_ERROR_SUCCESS) {
         std::cout << "Error: MpdBackend: Not able to connect " << std::endl;
         status = -1;
-    }else{
+    }
+    else {
         status = 0;
     }
 
     return status;
 }
 
-void Mpd_connector::disconnect(struct mpd_connection *connection){
+void Mpd_connector::disconnect(struct mpd_connection* connection) {
     mpd_connection_free(connection);
 }
 

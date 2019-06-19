@@ -1,11 +1,12 @@
 /**
  *******************************************************************************
- * @addtogroup Streamer-UI
+ * @addtogroup IBackendConnector
  * @{
- * @addtogroup controller
- * @{
- * @defgroup MopidyConnector
- * @{
+ * @brief Brief descriptions
+ *
+ * Elaborate Description
+ *
+ * @authors stefan
  ****************************************************************************//*
  * Copyright (C) 2019 Audio-Streamer Project Group
  *
@@ -26,36 +27,11 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
- ******************************************************************************/
-#pragma once
-
-#include <string>
-#include <iostream>
-#include "data/Data_track_info.h"
-#include "Websocket.h"
-#include <nlohmann/json.hpp>
-
-using json = nlohmann::json;
-using namespace std;
-
-/**
- * @brief
+ *******************************************************************************
  */
-class Mopidy_connector {
-public:
-    explicit Mopidy_connector(const json& app_config);
 
-    std::string image_uri();
+#include "I_backend_connector.h"
 
-private:
-    string hostname{};
-    unsigned int port;
-    Websocket *client;
 
-    std::string imageUri;
-};
 
-/**
- * @}
- * @}
- * @} */
+/** @} */
