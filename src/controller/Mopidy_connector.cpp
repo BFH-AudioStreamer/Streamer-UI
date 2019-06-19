@@ -36,7 +36,7 @@
 
 Mopidy_connector::Mopidy_connector(std::string _hostname, unsigned int _port)
         :hostname(std::move(_hostname)), port(_port){
-    client = new Websocket("ws://" + hostname + ":" + std::to_string(port) + "/mopidy/ws", imageUri);
+    client = new Websocket("ws://Audio-Streamer:" + std::to_string(port) + "/mopidy/ws", imageUri);
 }
 
 std::string Mopidy_connector::image_uri(){

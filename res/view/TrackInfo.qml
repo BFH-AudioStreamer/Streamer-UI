@@ -36,6 +36,7 @@ Page {
         return title.replace(/\(.*\)/gm, "").replace(/\s-\s.*/gm, "");
     }
 
+    property int info_width: 340
     ColumnLayout {
         anchors.fill: parent
 
@@ -63,6 +64,7 @@ Page {
                     font.pointSize: 26
                     Layout.fillWidth: true
                     color: Material.primary
+                    Layout.maximumWidth: info_width
                 }
                 Label {
                     objectName: "artist"
@@ -71,6 +73,7 @@ Page {
                     text: model.track_info.artist.replace(/;/g, " | ")
                     font.pointSize: 18
                     color: Material.accent
+                    Layout.maximumWidth: info_width
                 }
 
                 // fill space
@@ -109,7 +112,7 @@ Page {
 
                 Elements.ProgressBar {
                     Layout.fillWidth: true
-                    Layout.minimumWidth: 340
+                    Layout.minimumWidth: info_width
                     value: model.player_state.time_elapsed_ms /
                            (model.player_state.time_total * 1000)
                 }
@@ -132,7 +135,7 @@ Page {
             ColumnLayout {
                 Image {
                     id: cover
-                    source: "/img/cd-icon.png"
+                    source: model.track_info.image_uri.replace("https", "http")
                     fillMode: Image.PreserveAspectFit
                     Layout.fillWidth: true
                     Layout.minimumWidth: 200
@@ -141,7 +144,7 @@ Page {
                     Layout.maximumHeight: 800
                     verticalAlignment: Image.AlignBottom
 
-                    layer.enabled: true
+                    /*layer.enabled: true
                         layer.effect: OpacityMask {
                             maskSource: Rectangle {
                                 x: cover.x; y: cover.y
@@ -149,7 +152,7 @@ Page {
                                 height: cover.height
                                 radius: 4
                             }
-                        }
+                        }*/
                 }
             }
         }
