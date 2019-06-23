@@ -11,20 +11,20 @@
  ******************************************************************************/
 #pragma once
 
-#include "../../model/Player_state.h"
+#include "model/Player_state.h"
 
 /**
  * @brief
  */
-enum PlayCommand{NEXT, PREVIOUS, STOP, TOGGLE_PAUSE};
-
 class Data_player_state {
 public:
+    enum Play_command{NEXT, PREVIOUS, STOP, TOGGLE_PAUSE};
+
     Player_state::State state;
     unsigned int time_elapsed;
     unsigned int time_elapsed_ms;
     unsigned int time_total;
-    unsigned int bitRate;
+    unsigned int bit_rate;
 };
 
 /**

@@ -51,9 +51,6 @@ public:
     void play_toggle_pause() override;
     Data_player_state player_state() override;
     Data_track_info track_info() override;
-    //std::string album_art_uri() override;
-    //void set_search() override;
-    //void control_capabilities() override;
 
 private:
     Mpd_connector *mpdConnector = nullptr;

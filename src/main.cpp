@@ -8,7 +8,6 @@
  *
  * Ladidadida
  *
- * @authors Rafael Klossner
  * @authors Stefan Lüthi
  ****************************************************************************//*
  * Copyright (c) 2019 Audio-Streamer Project Group

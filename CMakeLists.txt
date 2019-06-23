@@ -21,6 +21,9 @@ file(GLOB SOURCES
         "src/tools/*.h"
         "res/*.qrc"
 )
+include_directories(
+        "src"
+)
 
 ################################################################################
 # Macros

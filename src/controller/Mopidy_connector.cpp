@@ -53,9 +53,7 @@ Mopidy_connector::Mopidy_connector(const json& app_config) {
 
 std::string Mopidy_connector::image_uri() {
     Data_track_info trackInfo;
-    //client = new Websocket("ws://192.168.138.131:6680/mopidy/ws");
     client->open();
-    //client->trackImage();
     return imageUri;
 }
 

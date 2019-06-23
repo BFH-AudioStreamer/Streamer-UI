@@ -59,18 +59,18 @@ void Controller::update_model() {
     Data_player_state playerState = backend_connector->player_state();
     Data_track_info trackInfo = backend_connector->track_info();
 
-    /* track info (title, artist, album, albumArtUri)*/
-    QString title = QString::fromStdString(trackInfo.songTitle);
+    /* track info (title, artist, album, album_art_uri)*/
+    QString title = QString::fromStdString(trackInfo.title);
     QString artist = QString::fromStdString(trackInfo.artist);
     QString album = QString::fromStdString(trackInfo.album);
-    QString imageUri = QString::fromStdString(trackInfo.imageUri);
+    QString imageUri = QString::fromStdString(trackInfo.image_uri);
     model.track_info()->set_title(title);
     model.track_info()->set_artist(artist);
     model.track_info()->set_image_uri(imageUri);
-    //std::cout << "image: " << trackInfo.imageUri << std::endl;
+    //std::cout << "image: " << trackInfo.image_uri << std::endl;
 
-    /* player state (bitRate, elapsedTime, totalTime, playState) */
-    model.player_state()->set_bitrate(playerState.bitRate);
+    /* player state (bit_rate, elapsedTime, totalTime, playState) */
+    model.player_state()->set_bitrate(playerState.bit_rate);
     model.player_state()->set_time_total(playerState.time_total);
     model.player_state()->set_time_elapsed(playerState.time_elapsed);
     model.player_state()->set_time_elapsed_ms(playerState.time_elapsed_ms);

@@ -53,8 +53,6 @@ public:
 private:
     Model& model;
     std::unique_ptr<I_backend_connector> backend_connector = nullptr;
-
-    QString title = "test";
 };
 
 /**

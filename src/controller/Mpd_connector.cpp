@@ -58,22 +58,22 @@ Mpd_connector::Mpd_connector(const json& app_config) {
     port = *port_it;
 }
 
-void Mpd_connector::play_control(PlayCommand playCommand) {
+void Mpd_connector::play_control(Data_player_state::Play_command playCommand) {
     struct mpd_connection* connection = nullptr;
 
     if (connect(&connection)==0) {
 
         switch (playCommand) {
-        case NEXT:
+        case Data_player_state::NEXT:
             mpd_send_next(connection);
             break;
-        case PREVIOUS:
+        case Data_player_state::PREVIOUS:
             mpd_send_previous(connection);
             break;
-        case STOP:
+        case Data_player_state::STOP:
             mpd_send_stop(connection);
             break;
-        case TOGGLE_PAUSE:
+        case Data_player_state::TOGGLE_PAUSE:
             mpd_send_toggle_pause(connection);
             break;
         }
@@ -85,13 +85,6 @@ void Mpd_connector::play_control(PlayCommand playCommand) {
     disconnect(connection);
 }
 
-//void Mpd_connector::set_search(){
-
-//}
-
-//void Mpd_connector::control_capabilities(){
-
-//}
 
 Data_player_state Mpd_connector::player_state() {
     struct mpd_connection* connection = nullptr;
@@ -100,7 +93,7 @@ Data_player_state Mpd_connector::player_state() {
     playerState.state = Player_state::STOP;
     playerState.time_elapsed = 0;
     playerState.time_total = 0;
-    playerState.bitRate = 0;
+    playerState.bit_rate = 0;
     playerState.time_elapsed_ms = 0;
 
     /* connect to server */
@@ -138,7 +131,7 @@ Data_player_state Mpd_connector::player_state() {
                     mpd_status_get_state(status)==MPD_STATE_PAUSE) {
                 playerState.time_elapsed = mpd_status_get_elapsed_time(status);
                 playerState.time_total = mpd_status_get_total_time(status);
-                playerState.bitRate = mpd_status_get_kbit_rate(status);
+                playerState.bit_rate = mpd_status_get_kbit_rate(status);
                 playerState.time_elapsed_ms = mpd_status_get_elapsed_ms(status);
             }
 
@@ -156,10 +149,10 @@ Data_track_info Mpd_connector::track_info() {
     struct mpd_connection* connection = nullptr;
     struct mpd_song* song;
     Data_track_info trackInfo;
-    trackInfo.songTitle = "";
+    trackInfo.title = "";
     trackInfo.artist = "";
     trackInfo.album = "";
-    trackInfo.songUri = "";
+    trackInfo.track_uri = "";
 
     /* connect to server */
     if (connect(&connection)==0) {
@@ -174,13 +167,13 @@ Data_track_info Mpd_connector::track_info() {
         if ((song = mpd_recv_song(connection))!=nullptr) {
             if (mpd_song_get_tag(song, MPD_TAG_TITLE, 0)!=nullptr) {
                 std::string songTitle = mpd_song_get_tag(song, MPD_TAG_TITLE, 0);
-                trackInfo.songTitle = songTitle;
+                trackInfo.title = songTitle;
                 std::string artist = mpd_song_get_tag(song, MPD_TAG_ARTIST, 0);
                 trackInfo.artist = artist;
                 std::string album = mpd_song_get_tag(song, MPD_TAG_ALBUM, 0);
                 trackInfo.album = album;
                 std::string songUri = mpd_song_get_uri(song);
-                trackInfo.songUri = songUri;
+                trackInfo.track_uri = songUri;
                 mpd_song_free(song);
             }
 

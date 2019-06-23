@@ -20,10 +20,10 @@ class Data_track_info {
 public:
     std::string artist;
     std::string album;
-    std::string songTitle;
-    std::string albumArtUri;
-    std::string songUri;
-    std::string imageUri;
+    std::string title;
+    std::string album_art_uri;
+    std::string track_uri;
+    std::string image_uri;
 };
 
 /**

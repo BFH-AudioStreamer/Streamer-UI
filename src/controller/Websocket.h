@@ -27,7 +27,6 @@ private Q_SLOTS:
 private:
     QWebSocket m_QwebSocket;
     std::string m_url;
-    bool m_debug;
     std::string &imageUri;
 };
 

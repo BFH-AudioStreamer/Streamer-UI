@@ -41,19 +41,19 @@ Mopidy_mpd_connector::Mopidy_mpd_connector(const json& app_config) {
 }
 
 void Mopidy_mpd_connector::play_next() {
-    mpdConnector->play_control(NEXT);
+    mpdConnector->play_control(Data_player_state::NEXT);
 }
 
 void Mopidy_mpd_connector::play_previous() {
-    mpdConnector->play_control(PREVIOUS);
+    mpdConnector->play_control(Data_player_state::PREVIOUS);
 }
 
 void Mopidy_mpd_connector::play_stop() {
-    mpdConnector->play_control(STOP);
+    mpdConnector->play_control(Data_player_state::STOP);
 }
 
 void Mopidy_mpd_connector::play_toggle_pause() {
-    mpdConnector->play_control(TOGGLE_PAUSE);
+    mpdConnector->play_control(Data_player_state::TOGGLE_PAUSE);
 }
 
 Data_player_state Mopidy_mpd_connector::player_state() {
@@ -67,17 +67,9 @@ Data_track_info Mopidy_mpd_connector::track_info() {
     trackInfo = mpdConnector->track_info();
 
     /* get image from Mopidy */
-    trackInfo.imageUri = mopidyConnector->image_uri();
+    trackInfo.image_uri = mopidyConnector->image_uri();
 
     return trackInfo;
 }
-
-//void MopidyMpdConnector::set_search(){
-
-//}
-
-//void MopidyMpdConnector::control_capabilities(){
-
-//}
 
 /** @} */
