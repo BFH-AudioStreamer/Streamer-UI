@@ -22,8 +22,6 @@ public:
     static json load(std::string path);
 };
 
-
-
 /**
  * @}
  * @}

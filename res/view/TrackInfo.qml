@@ -135,7 +135,7 @@ Page {
             ColumnLayout {
                 Image {
                     id: cover
-                    source: model.track_info.image_uri.replace("https", "http")
+                    source: model.track_info.album_art_uri.replace("https", "http")
                     fillMode: Image.PreserveAspectFit
                     Layout.fillWidth: true
                     Layout.minimumWidth: 200

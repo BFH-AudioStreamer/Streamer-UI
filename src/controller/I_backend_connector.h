@@ -4,8 +4,12 @@
  * @{
  * @addtogroup controller
  * @{
- * @defgroup IBackendConnector
+ * @defgroup I_backend_connector
  * @{
+ * @brief
+ *
+ * @authors Rafael Klossner
+ * @authors Stefan Lüthi
  ****************************************************************************//*
  * Copyright (C) 2019 Audio-Streamer Project Group
  *
@@ -27,6 +31,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
+
 #pragma once
 
 #include <string>

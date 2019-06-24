@@ -9,7 +9,7 @@
  * @brief Macros to ease the use of model classes
  *
  * @authors Stefan Lüthi
- *******************************************************************************
+ ****************************************************************************//*
  * Copyright (C) 2019 Audio-Streamer Project Group
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -29,12 +29,14 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
- *******************************************************************************
- */
+ ******************************************************************************/
+
 #pragma once
 
-/** @brief Simplify Q_PROPERTY() definitions by creating getters, setters and slots
- * automatically */
+/**
+ * @brief Simplify Q_PROPERTY() definitions by creating getters, setters and slots
+ * automatically
+ */
 #define SIMPLE_Q_PROPERTY(TYPE, NAME) \
         Q_PROPERTY(TYPE NAME READ NAME WRITE set_##NAME NOTIFY NAME##_changed) \
     public: \
@@ -49,6 +51,10 @@
     private: \
         TYPE m_##NAME;
 
+/**
+ * @brief Simplify QQ_PROPERTY() definitions by creating getter for readonly
+ * attributes
+ */
 #define SIMPLE_READONLY_Q_PROPERTY(TYPE, NAME) \
         Q_PROPERTY(TYPE NAME READ NAME) \
     public: \

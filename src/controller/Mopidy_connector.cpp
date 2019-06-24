@@ -1,3 +1,5 @@
+#include <utility>
+
 /**
  *******************************************************************************
  * @addtogroup Mopidy_connector
@@ -6,7 +8,7 @@
  *
  * Elaborate Description
  *
- * @authors Rafael Klossner
+ * @authors Stefan Lüthi
  ****************************************************************************//*
  * Copyright (C) 2019 Audio-Streamer Project Group
  *
@@ -27,13 +29,14 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
- *******************************************************************************
- */
+ ******************************************************************************/
 
 #include <utility>
+#include <functional>
 #include "Mopidy_connector.h"
 
 Mopidy_connector::Mopidy_connector(const json& app_config) {
+    /* validate config */
     auto connector_it = app_config.find("Mopidy_connector");
     if (connector_it==app_config.end()) {
         std::cout << "Mopidy_connector: Config missing!" << std::endl;
@@ -46,15 +49,50 @@ Mopidy_connector::Mopidy_connector(const json& app_config) {
         std::cout << "Mopidy_connector: hostname or port missing in config!" << std::endl;
         return;
     }
+    /* create websocket */
     hostname = *hostname_it;
     port = *port_it;
-    client = new Websocket("ws://"+hostname+":"+std::to_string(port)+"/mopidy/ws", imageUri);
+    client = new Websocket("ws://"+hostname+":"+std::to_string(port)+"/mopidy/ws");
+    client->register_on_connected(std::bind(
+            &Mopidy_connector::request_image,
+            this));
+    client->register_on_message_received(std::bind(
+            &Mopidy_connector::receive_image,
+            this,
+            std::placeholders::_1));
 }
 
-std::string Mopidy_connector::image_uri() {
-    Data_track_info trackInfo;
+std::string Mopidy_connector::album_art_uri(std::string _track_uri) {
+    track_uri = std::move(_track_uri);
     client->open();
-    return imageUri;
+    return image_uri;
+}
+
+void Mopidy_connector::request_image() {
+    /* json to request current track */
+    json j = {
+            {"jsonrpc", "2.0"},
+            {"id",      1},
+            {"method",  "core.library.get_images"},
+            {"params",  {
+                                {"uris", {track_uri}}}
+            }
+    };
+
+    client->send_message(j.dump());
+}
+
+void Mopidy_connector::receive_image(std::string message) {
+    auto rec = json::parse(message);
+
+    /* receive image uri */
+    std::string new_image_uri{};
+    try {
+        new_image_uri = rec["result"][track_uri][0]["uri"];
+        image_uri = new_image_uri;
+    }
+    catch (std::exception e) { }
+    client->close();
 }
 
 /** @} */

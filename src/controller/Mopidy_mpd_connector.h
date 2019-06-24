@@ -4,7 +4,7 @@
  * @{
  * @addtogroup controller
  * @{
- * @defgroup MopidyMpdConnector
+ * @defgroup Mopidy_mpd_connector
  * @{
  ****************************************************************************//*
  * Copyright (C) 2019 Audio-Streamer Project Group
@@ -27,6 +27,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
+
 #pragma once
 
 #include "I_backend_connector.h"
@@ -53,8 +54,8 @@ public:
     Data_track_info track_info() override;
 
 private:
-    Mpd_connector *mpdConnector = nullptr;
-    Mopidy_connector *mopidyConnector = nullptr;
+    Mpd_connector* mpd_connector = nullptr;
+    Mopidy_connector* mopidyConnector = nullptr;
 };
 
 /**

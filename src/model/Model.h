@@ -19,8 +19,8 @@
  */
 class Model : public QObject {
 Q_OBJECT
-    Q_PROPERTY(Track_info* track_info READ track_info CONSTANT)
-    Q_PROPERTY(Player_state* player_state READ player_state CONSTANT)
+Q_PROPERTY(Track_info* track_info READ track_info CONSTANT)
+Q_PROPERTY(Player_state* player_state READ player_state CONSTANT)
 
 public:
     explicit Model();
@@ -31,7 +31,6 @@ private:
     Track_info* m_track_info;
     Player_state* m_player_state;
 };
-
 
 /**
  * @}

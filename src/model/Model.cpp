@@ -27,12 +27,14 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
- *******************************************************************************
- */
+ ******************************************************************************/
 
 #include <QQmlApplicationEngine>
 #include "Model.h"
 
+/**
+ * @brief
+ */
 Model::Model() {
     m_player_state = new Player_state();
     m_track_info = new Track_info();

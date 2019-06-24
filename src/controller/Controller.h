@@ -1,12 +1,12 @@
 /**
-*******************************************************************************
-* @addtogroup Streamer-UI
-* @{
-* @addtogroup controller
-* @{
-* @defgroup Controller
-* @{
-****************************************************************************//*
+ *******************************************************************************
+ * @addtogroup Streamer-UI
+ * @{
+ * @addtogroup controller
+ * @{
+ * @defgroup Controller
+ * @{
+ ****************************************************************************//*
  * Copyright (C) 2019 Audio-Streamer Project Group
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -27,6 +27,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
+
 #pragma once
 
 #include <QObject>

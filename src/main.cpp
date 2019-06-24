@@ -43,6 +43,7 @@
  * @brief Main method
  */
 int main(int argc, char* argv[]) {
+    /* validate config */
     auto config = Config_loader::load("streamer-ui.conf");
     if (config.is_null()) {
         return EXIT_FAILURE;
@@ -54,9 +55,11 @@ int main(int argc, char* argv[]) {
     }
     auto app_config = *app_config_it;
 
+    /* start model and controller */
     auto model = new Model();
     auto controller = new Controller(*model, app_config);
 
+    /* start view engine */
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);
 

@@ -4,7 +4,7 @@
  * @{
  * @addtogroup controller
  * @{
- * @defgroup BackendConnector
+ * @defgroup Backend_connector
  * @{
  ****************************************************************************//*
  * Copyright (C) 2019 Audio-Streamer Project Group

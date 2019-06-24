@@ -4,7 +4,7 @@
  * @{
  * @addtogroup controller
  * @{
- * @defgroup MopidyConnector
+ * @defgroup Mopidy_connector
  * @{
  ****************************************************************************//*
  * Copyright (C) 2019 Audio-Streamer Project Group
@@ -27,6 +27,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
+
 #pragma once
 
 #include <string>
@@ -36,7 +37,6 @@
 #include <nlohmann/json.hpp>
 
 using json = nlohmann::json;
-using namespace std;
 
 /**
  * @brief
@@ -44,15 +44,16 @@ using namespace std;
 class Mopidy_connector {
 public:
     explicit Mopidy_connector(const json& app_config);
-
-    std::string image_uri();
+    void request_image();
+    void receive_image(std::string message);
+    std::string album_art_uri(std::string _track_uri);
 
 private:
-    string hostname{};
+    std::string hostname{};
     unsigned int port;
-    Websocket *client;
-
-    std::string imageUri;
+    Websocket* client;
+    std::string image_uri{};
+    std::string track_uri;
 };
 
 /**

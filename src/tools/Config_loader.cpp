@@ -1,5 +1,3 @@
-#include <utility>
-
 /**
  *******************************************************************************
  * @addtogroup Config_loader
@@ -8,8 +6,8 @@
  *
  * Elaborate Description
  *
- * @authors stefan
- *******************************************************************************
+ * @authors Stefan Lüthi
+ ****************************************************************************//*
  * Copyright (C) 2019 Audio-Streamer Project Group
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -29,13 +27,17 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
- *******************************************************************************
- */
+ ******************************************************************************/
 
 #include <fstream>
 #include <iostream>
 #include "Config_loader.h"
 
+/**
+ * @brief
+ * @param path
+ * @return
+ */
 json Config_loader::load(std::string path) {
     std::ifstream config_file(path);
     json config_json;

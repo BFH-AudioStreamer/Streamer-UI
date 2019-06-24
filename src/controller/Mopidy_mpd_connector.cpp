@@ -28,47 +28,42 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
- *******************************************************************************
- */
+ ******************************************************************************/
 
 #include <utility>
 #include "Mopidy_mpd_connector.h"
 #include "data/Data_player_state.h"
 
 Mopidy_mpd_connector::Mopidy_mpd_connector(const json& app_config) {
-    mpdConnector = new Mpd_connector(app_config);
+    mpd_connector = new Mpd_connector(app_config);
     mopidyConnector = new Mopidy_connector(app_config);
 }
 
 void Mopidy_mpd_connector::play_next() {
-    mpdConnector->play_control(Data_player_state::NEXT);
+    mpd_connector->play_control(Data_player_state::NEXT);
 }
 
 void Mopidy_mpd_connector::play_previous() {
-    mpdConnector->play_control(Data_player_state::PREVIOUS);
+    mpd_connector->play_control(Data_player_state::PREVIOUS);
 }
 
 void Mopidy_mpd_connector::play_stop() {
-    mpdConnector->play_control(Data_player_state::STOP);
+    mpd_connector->play_control(Data_player_state::STOP);
 }
 
 void Mopidy_mpd_connector::play_toggle_pause() {
-    mpdConnector->play_control(Data_player_state::TOGGLE_PAUSE);
+    mpd_connector->play_control(Data_player_state::TOGGLE_PAUSE);
 }
 
 Data_player_state Mopidy_mpd_connector::player_state() {
-    Data_player_state playerState;
-    playerState = mpdConnector->player_state();
-    return playerState;
+    return mpd_connector->player_state();
 }
 
 Data_track_info Mopidy_mpd_connector::track_info() {
-    Data_track_info trackInfo;
-    trackInfo = mpdConnector->track_info();
+    Data_track_info trackInfo = mpd_connector->track_info();
 
     /* get image from Mopidy */
-    trackInfo.image_uri = mopidyConnector->image_uri();
-
+    trackInfo.album_art_uri = mopidyConnector->album_art_uri(trackInfo.track_uri);
     return trackInfo;
 }
 

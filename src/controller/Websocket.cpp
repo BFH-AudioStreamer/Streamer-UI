@@ -1,102 +1,86 @@
-//
-// Created by stefan on 17.06.19.
-//
+#include <utility>
+
+#include <utility>
+
+/**
+ *******************************************************************************
+ * @addtogroup Websocket
+ * @{
+ * @brief Brief descriptions
+ *
+ * Elaborate Description
+ *
+ * @authors Stefan Lüthi
+ ****************************************************************************//*
+ * Copyright (C) 2019 Audio-Streamer Project Group
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+ * IN THE SOFTWARE.
+ ******************************************************************************/
 
 #include <iostream>
+#include <nlohmann/json.hpp>
 
 #include "Websocket.h"
 
-#include <nlohmann/json.hpp>
-
 using json = nlohmann::json;
 
-Websocket::Websocket(const std::string& url, std::string &_imageUri)
-        :m_url(url), imageUri(_imageUri){
-    connect(&m_QwebSocket, &QWebSocket::connected, this, &Websocket::onConnected);
-    connect(&m_QwebSocket, &QWebSocket::disconnected, this, &Websocket::closed);
+Websocket::Websocket(const std::string& url)
+        :m_url(url) {
+    connect(&m_web_socket, &QWebSocket::connected, this, &Websocket::on_connected);
+    connect(&m_web_socket, &QWebSocket::disconnected, this, &Websocket::closed);
+}
 
-    //std::cout << "open: " << url << std::endl;
+void Websocket::register_on_connected(std::function<void()> _callback_on_connected) {
+    callback_on_connected = std::move(_callback_on_connected);
+}
+
+void Websocket::register_on_message_received(
+        std::function<void(std::string)> _callback_on_message_received) {
+
+    callback_on_message_received = std::move(_callback_on_message_received);
+}
+
+void Websocket::send_message(std::string message) {
+    m_web_socket.sendTextMessage(QString::fromStdString(message));
 }
 
 void Websocket::open() {
-    if (m_QwebSocket.state() == QAbstractSocket::UnconnectedState) {
-        m_QwebSocket.open(QUrl(QString::fromStdString(m_url)));
-        //std::cout << "unconnected state --> open socket"<< std::endl;
-    }
-}
-
-void Websocket::onConnected() {
-    //std::cout << "WebSocket connected! -----------------------------" << std::endl;
-    trackImage();
-}
-
-void Websocket::trackImage() {
-    /* json to request current track */
-    json j = {
-            {"jsonrpc", "2.0"},
-            {"id",      1},
-            {"method",  "core.playback.get_current_track"}
-    };
-
-    connect(&m_QwebSocket, &QWebSocket::textMessageReceived,
-            this, &Websocket::onTextMessageReceived);
-
-    //std::cout << j.dump(2) << std::endl;
-    m_QwebSocket.sendTextMessage(QString::fromStdString(j.dump()));
-}
-
-void Websocket::onTextMessageReceived(QString message) {
-    static bool first_request = true;
-    static std::string song_uri{};
-    auto rec = json::parse(message.toStdString());
-    //std::cout << "Message received: " << std::endl <<
-    //              rec.dump(2) << std::endl;
-
-    if (first_request) {
-        /* parse track info to get track uri */
-        try {
-            song_uri = rec["result"]["uri"];
-        }
-        catch (std::exception e) {
-
-        }
-
-        /* request album art */
-        json j = {
-                {"jsonrpc", "2.0"},
-                {"id",      1},
-                {"method",  "core.library.get_images"},
-                {"params",  {
-                                    {"uris", {song_uri}}}
-                }
-        };
-        //std::cout << "Send message: " << std::endl <<
-        //             j.dump(2) << std::endl;
-
-        m_QwebSocket.sendTextMessage(QString::fromStdString(j.dump()));
-        first_request = false;
-    }
-    else {
-        /* receive image uri */
-        first_request = true;
-
-        std::string image_uri{};
-
-        try {
-            image_uri = rec["result"][song_uri][0]["uri"];
-            //std::cout << "Image URI: " << image_uri << std::endl;
-            imageUri = image_uri;
-            close();
-        }
-        catch (std::exception e) { }
-
-        // ignore wrong packets
-        if (image_uri == "null") {
-            first_request = false;
-        }
+    /* only accept open request if socket is closed */
+    if (m_web_socket.state()==QAbstractSocket::UnconnectedState) {
+        m_web_socket.open(QUrl(QString::fromStdString(m_url)));
     }
 }
 
 void Websocket::close() {
-    m_QwebSocket.close();
+    m_web_socket.close();
 }
+
+void Websocket::on_connected() {
+    callback_on_connected();
+    connect(&m_web_socket,
+            &QWebSocket::textMessageReceived,
+            this,
+            &Websocket::on_message_received);
+}
+
+void Websocket::on_message_received(QString message) {
+    callback_on_message_received(message.toStdString());
+}
+
+/** @} */

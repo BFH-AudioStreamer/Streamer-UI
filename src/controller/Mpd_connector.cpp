@@ -6,7 +6,7 @@
  *
  * Elaborate Description
  *
- * @authors stefan
+ * @authors Rafael Klossner
  ****************************************************************************//*
  * Copyright (C) 2019 Audio-Streamer Project Group
  *
@@ -27,21 +27,19 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
- *******************************************************************************
- */
+ ******************************************************************************/
 
 #include "Mpd_connector.h"
 
 #include <mpd/client.h>
-#include <mpd/status.h>
-#include <mpd/entity.h>
-#include <mpd/search.h>
-#include <mpd/tag.h>
-#include <mpd/message.h>
-
 #include <iostream>
 
+/**
+ * @brief
+ * @param app_config
+ */
 Mpd_connector::Mpd_connector(const json& app_config) {
+    /* validate config */
     auto connector_it = app_config.find("Mpd_connector");
     if (connector_it==app_config.end()) {
         std::cout << "Mpd_connector: Config missing!" << std::endl;
@@ -58,11 +56,14 @@ Mpd_connector::Mpd_connector(const json& app_config) {
     port = *port_it;
 }
 
+/**
+ * @brief
+ * @param playCommand
+ */
 void Mpd_connector::play_control(Data_player_state::Play_command playCommand) {
     struct mpd_connection* connection = nullptr;
 
     if (connect(&connection)==0) {
-
         switch (playCommand) {
         case Data_player_state::NEXT:
             mpd_send_next(connection);
@@ -85,24 +86,22 @@ void Mpd_connector::play_control(Data_player_state::Play_command playCommand) {
     disconnect(connection);
 }
 
-
+/**
+ * @brief
+ * @return
+ */
 Data_player_state Mpd_connector::player_state() {
     struct mpd_connection* connection = nullptr;
     struct mpd_status* status;
-    Data_player_state playerState;
-    playerState.state = Player_state::STOP;
-    playerState.time_elapsed = 0;
-    playerState.time_total = 0;
-    playerState.bit_rate = 0;
-    playerState.time_elapsed_ms = 0;
+    Data_player_state player_state;
+    player_state.state = Player_state::STOP;
+    player_state.time_elapsed = 0;
+    player_state.time_total = 0;
+    player_state.bit_rate = 0;
+    player_state.time_elapsed_ms = 0;
 
-    /* connect to server */
     if (connect(&connection)==0) {
-
-        /* send necessary commands */
         mpd_send_status(connection);
-
-        /* get status and check it */
         status = mpd_recv_status(connection);
 
         if (mpd_status_get_error(status)!=nullptr) {
@@ -113,38 +112,40 @@ Data_player_state Mpd_connector::player_state() {
             mpd_state state = mpd_status_get_state(status);
             switch (state) {
             case MPD_STATE_UNKNOWN:
-                playerState.state = Player_state::UNKNOWN;
+                player_state.state = Player_state::UNKNOWN;
                 break;
             case MPD_STATE_PLAY:
-                playerState.state = Player_state::PLAY;
+                player_state.state = Player_state::PLAY;
                 break;
             case MPD_STATE_PAUSE:
-                playerState.state = Player_state::PAUSE;
+                player_state.state = Player_state::PAUSE;
                 break;
             case MPD_STATE_STOP:
-                playerState.state = Player_state::STOP;
+                player_state.state = Player_state::STOP;
                 break;
             }
 
-            /* check if song is present, if yes get time information */
+            /* check if song is present, if so get time information */
             if (mpd_status_get_state(status)==MPD_STATE_PLAY ||
                     mpd_status_get_state(status)==MPD_STATE_PAUSE) {
-                playerState.time_elapsed = mpd_status_get_elapsed_time(status);
-                playerState.time_total = mpd_status_get_total_time(status);
-                playerState.bit_rate = mpd_status_get_kbit_rate(status);
-                playerState.time_elapsed_ms = mpd_status_get_elapsed_ms(status);
+                player_state.time_elapsed = mpd_status_get_elapsed_time(status);
+                player_state.time_total = mpd_status_get_total_time(status);
+                player_state.bit_rate = mpd_status_get_kbit_rate(status);
+                player_state.time_elapsed_ms = mpd_status_get_elapsed_ms(status);
             }
 
-            /* free status */
             mpd_status_free(status);
         }
     }
-    /* free connection */
     disconnect(connection);
 
-    return playerState;
+    return player_state;
 }
 
+/**
+ * @brief
+ * @return
+ */
 Data_track_info Mpd_connector::track_info() {
     struct mpd_connection* connection = nullptr;
     struct mpd_song* song;
@@ -157,7 +158,7 @@ Data_track_info Mpd_connector::track_info() {
     /* connect to server */
     if (connect(&connection)==0) {
 
-        /* send necessary commands */
+        /* send commands */
         mpd_command_list_begin(connection, true);
         mpd_send_status(connection);
         mpd_send_current_song(connection);
@@ -166,17 +167,12 @@ Data_track_info Mpd_connector::track_info() {
         mpd_response_next(connection);
         if ((song = mpd_recv_song(connection))!=nullptr) {
             if (mpd_song_get_tag(song, MPD_TAG_TITLE, 0)!=nullptr) {
-                std::string songTitle = mpd_song_get_tag(song, MPD_TAG_TITLE, 0);
-                trackInfo.title = songTitle;
-                std::string artist = mpd_song_get_tag(song, MPD_TAG_ARTIST, 0);
-                trackInfo.artist = artist;
-                std::string album = mpd_song_get_tag(song, MPD_TAG_ALBUM, 0);
-                trackInfo.album = album;
-                std::string songUri = mpd_song_get_uri(song);
-                trackInfo.track_uri = songUri;
+                trackInfo.title = mpd_song_get_tag(song, MPD_TAG_TITLE, 0);
+                trackInfo.artist = mpd_song_get_tag(song, MPD_TAG_ARTIST, 0);
+                trackInfo.album = mpd_song_get_tag(song, MPD_TAG_ALBUM, 0);
+                trackInfo.track_uri = mpd_song_get_uri(song);
                 mpd_song_free(song);
             }
-
         }
         else {
             std::cout << "Error: MpdBackend: no song playing" << std::endl;
@@ -188,6 +184,11 @@ Data_track_info Mpd_connector::track_info() {
     return trackInfo;
 }
 
+/**
+ * @brief
+ * @param connection
+ * @return
+ */
 int Mpd_connector::connect(struct mpd_connection** connection) {
     *connection = mpd_connection_new(hostname.c_str(), port, 30000);
     int status = 0;
@@ -203,6 +204,10 @@ int Mpd_connector::connect(struct mpd_connection** connection) {
     return status;
 }
 
+/**
+ * @brief
+ * @param connection
+ */
 void Mpd_connector::disconnect(struct mpd_connection* connection) {
     mpd_connection_free(connection);
 }
