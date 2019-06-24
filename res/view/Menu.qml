@@ -50,10 +50,10 @@ Page {
             background: Rectangle {
                 anchors.fill: parent
                 radius: 5
-                color: delegateItem.pressed ? Qt.darker(Material.primary, 3) :
+                color: delegateItem.pressed ? Qt.lighter(Material.background, 5) :
                                     delegateItem.hovered ?
-                                              Qt.darker(Material.primary, 4) :
-                                              Qt.darker(Material.primary, 5)
+                                              Qt.lighter(Material.background, 4) :
+                                              Qt.lighter(Material.background, 3)
             }
         }
     }

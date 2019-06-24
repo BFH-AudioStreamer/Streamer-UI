@@ -143,16 +143,6 @@ Page {
                     Layout.minimumHeight: 200
                     Layout.maximumHeight: 800
                     verticalAlignment: Image.AlignVCenter
-
-                    /*layer.enabled: true
-                        layer.effect: OpacityMask {
-                            maskSource: Rectangle {
-                                x: cover.x; y: cover.y
-                                width: cover.width
-                                height: cover.height
-                                radius: 4
-                            }
-                        }*/
                 }
             }
         }
