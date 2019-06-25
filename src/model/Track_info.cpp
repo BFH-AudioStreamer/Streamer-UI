@@ -2,9 +2,7 @@
  *******************************************************************************
  * @addtogroup Track_info
  * @{
- * @brief Brief descriptions
- *
- * Elaborate Description
+ * @brief Information about the currently played track
  *
  * @authors Stefan Lüthi
  ****************************************************************************//*
@@ -31,6 +29,9 @@
 
 #include "Track_info.h"
 
+/**
+ * @brief Initialize attributes with default values
+ */
 Track_info::Track_info() {
     m_title = "Title";
     m_artist = "Artist";

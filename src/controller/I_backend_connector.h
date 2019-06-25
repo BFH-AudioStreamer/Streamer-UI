@@ -6,7 +6,7 @@
  * @{
  * @defgroup I_backend_connector
  * @{
- * @brief
+ * @brief Interface for all backend connectors
  *
  * @authors Rafael Klossner
  * @authors Stefan Lüthi
@@ -39,7 +39,7 @@
 #include "data/Data_track_info.h"
 
 /**
- * @brief Specifies the standard interface of a backend connector
+ * @brief Specifies the interface for a backend connector
  */
 class I_backend_connector {
 public:

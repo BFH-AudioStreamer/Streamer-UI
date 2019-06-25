@@ -1,14 +1,8 @@
-#include <utility>
-
-#include <utility>
-
 /**
  *******************************************************************************
  * @addtogroup Websocket
  * @{
- * @brief Brief descriptions
- *
- * Elaborate Description
+ * @brief QWebSocket wrapper
  *
  * @authors Stefan Lüthi
  ****************************************************************************//*
@@ -33,6 +27,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
+#include <utility>
 #include <iostream>
 #include <nlohmann/json.hpp>
 
@@ -41,8 +36,8 @@
 using json = nlohmann::json;
 
 /**
- * @brief Connects to websocket
- * @param url of the websocket
+ * @brief Connects to a WebSocket
+ * @param url Complete URL to a WebSocket
  */
 Websocket::Websocket(const std::string& url)
         :m_url(url) {
@@ -51,16 +46,16 @@ Websocket::Websocket(const std::string& url)
 }
 
 /**
- * @brief Registers callback function on connect event
- * @param _callback_on_connected
+ * @brief Registers a callback method to be called on connection envent
+ * @param _callback_on_connected Function binding of callback method
  */
 void Websocket::register_on_connected(std::function<void()> _callback_on_connected) {
     callback_on_connected = std::move(_callback_on_connected);
 }
 
 /**
- * @brief Registers callback function on receive event
- * @param _callback_on_message_received
+ * @brief Registers a callback method to be called on receive event
+ * @param _callback_on_message_received Function binding of callback method
  */
 void Websocket::register_on_message_received(
         std::function<void(std::string)> _callback_on_message_received) {
@@ -69,15 +64,15 @@ void Websocket::register_on_message_received(
 }
 
 /**
- * @brief Sends message to websocket
- * @param message
+ * @brief Sends text message over the WebSocket
+ * @param message Text message
  */
 void Websocket::send_message(std::string message) {
     m_web_socket.sendTextMessage(QString::fromStdString(message));
 }
 
 /**
- * @brief Opens websocket
+ * @brief Opens the WebSocket if not already open
  */
 void Websocket::open() {
     /* only accept open request if socket is closed */
@@ -87,14 +82,14 @@ void Websocket::open() {
 }
 
 /**
- * @brief Closes websocket
+ * @brief Closes current WebSocket
  */
 void Websocket::close() {
     m_web_socket.close();
 }
 
 /**
- * @brief Method called on connect
+ * @brief On connected event handler
  */
 void Websocket::on_connected() {
     callback_on_connected();
@@ -105,8 +100,8 @@ void Websocket::on_connected() {
 }
 
 /**
- * @brief Method called on message received
- * @param message
+ * @brief On reveiced event handler
+ * @param message Text message from the WebSocket
  */
 void Websocket::on_message_received(QString message) {
     callback_on_message_received(message.toStdString());

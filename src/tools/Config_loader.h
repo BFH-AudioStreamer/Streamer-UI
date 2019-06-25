@@ -35,7 +35,7 @@
 using json = nlohmann::json;
 
 /**
- * @brief
+ * @brief Load and parse config files
  */
 class Config_loader {
 public:

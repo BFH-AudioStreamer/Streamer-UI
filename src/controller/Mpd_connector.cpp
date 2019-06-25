@@ -1,10 +1,8 @@
 /**
  *******************************************************************************
- * @addtogroup MpdConnector
+ * @addtogroup Mpd_connector
  * @{
- * @brief Brief descriptions
- *
- * Elaborate Description
+ * @brief MPD backend connector based on libmpclient
  *
  * @authors Rafael Klossner
  ****************************************************************************//*
@@ -36,7 +34,7 @@
 
 /**
  * @brief Reads needed information from configuration
- * @param app_config
+ * @param app_config Application configuration
  */
 Mpd_connector::Mpd_connector(const json& app_config) {
     /* validate config */
@@ -57,14 +55,14 @@ Mpd_connector::Mpd_connector(const json& app_config) {
 }
 
 /**
- * @brief Controls play state
- * @param playCommand sent command
+ * @brief Controls the play state
+ * @param play_command Command to execute
  */
-void Mpd_connector::play_control(Data_player_state::Play_command playCommand) {
+void Mpd_connector::play_control(Data_player_state::Play_command play_command) {
     struct mpd_connection* connection = nullptr;
 
     if (connect(&connection)==0) {
-        switch (playCommand) {
+        switch (play_command) {
         case Data_player_state::NEXT:
             mpd_send_next(connection);
             break;
@@ -87,13 +85,13 @@ void Mpd_connector::play_control(Data_player_state::Play_command playCommand) {
 }
 
 /**
- * @brief Gets actual player state
- * @return Data_player_state
+ * @brief Gets current player state
+ * @return Player state packet in Data_player_state
  */
 Data_player_state Mpd_connector::player_state() {
     struct mpd_connection* connection = nullptr;
     struct mpd_status* status;
-    Data_player_state player_state;
+    Data_player_state player_state{};
     player_state.state = Player_state::STOP;
     player_state.time_elapsed = 0;
     player_state.time_total = 0;
@@ -143,17 +141,17 @@ Data_player_state Mpd_connector::player_state() {
 }
 
 /**
- * @brief Gets actual track information
- * @return Data_track_info
+ * @brief Gets information about the currently played track
+ * @return Track information packet in Data_track_info
  */
 Data_track_info Mpd_connector::track_info() {
     struct mpd_connection* connection = nullptr;
     struct mpd_song* song;
-    Data_track_info trackInfo;
-    trackInfo.title = "";
-    trackInfo.artist = "";
-    trackInfo.album = "";
-    trackInfo.track_uri = "";
+    Data_track_info data_track_info;
+    data_track_info.title = "";
+    data_track_info.artist = "";
+    data_track_info.album = "";
+    data_track_info.track_uri = "";
 
     /* connect to server */
     if (connect(&connection)==0) {
@@ -169,10 +167,10 @@ Data_track_info Mpd_connector::track_info() {
         /* check if connection is valid, then get data */
         if ((song = mpd_recv_song(connection))!=nullptr) {
             if (mpd_song_get_tag(song, MPD_TAG_TITLE, 0)!=nullptr) {
-                trackInfo.title = mpd_song_get_tag(song, MPD_TAG_TITLE, 0);
-                trackInfo.artist = mpd_song_get_tag(song, MPD_TAG_ARTIST, 0);
-                trackInfo.album = mpd_song_get_tag(song, MPD_TAG_ALBUM, 0);
-                trackInfo.track_uri = mpd_song_get_uri(song);
+                data_track_info.title = mpd_song_get_tag(song, MPD_TAG_TITLE, 0);
+                data_track_info.artist = mpd_song_get_tag(song, MPD_TAG_ARTIST, 0);
+                data_track_info.album = mpd_song_get_tag(song, MPD_TAG_ALBUM, 0);
+                data_track_info.track_uri = mpd_song_get_uri(song);
                 mpd_song_free(song);
             }
         }
@@ -183,12 +181,12 @@ Data_track_info Mpd_connector::track_info() {
     }
     disconnect(connection);
 
-    return trackInfo;
+    return data_track_info;
 }
 
 /**
- * @brief Creates new connection to mpd
- * @param connection pointer on connection
+ * @brief Opens a new connection to an MPD server
+ * @param connection Pointer to the MPD connection
  * @return
  */
 int Mpd_connector::connect(struct mpd_connection** connection) {
@@ -207,8 +205,8 @@ int Mpd_connector::connect(struct mpd_connection** connection) {
 }
 
 /**
- * @brief Frees actual connection
- * @param connection pointer on connection
+ * @brief Closes current connection
+ * @param connection pointer to the MPD connection
  */
 void Mpd_connector::disconnect(struct mpd_connection* connection) {
     mpd_connection_free(connection);

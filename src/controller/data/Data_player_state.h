@@ -8,7 +8,7 @@
  * @{
  * @defgroup Data_player_state
  * @{
- * @brief
+ * @brief Collocation of information regarding the player state
  *
  * @authors Rafael Klossner
  ****************************************************************************//*
@@ -38,10 +38,11 @@
 #include "model/Player_state.h"
 
 /**
- * @brief
+ * @brief Collocation of information regarding the player state
  */
 class Data_player_state {
 public:
+    /// @brief Available playback controls
     enum Play_command {
         NEXT, PREVIOUS, STOP, TOGGLE_PAUSE
     };

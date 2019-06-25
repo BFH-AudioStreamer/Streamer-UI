@@ -4,7 +4,7 @@
  * @{
  * @addtogroup model
  * @{
- * @defgroup Streamer_model
+ * @defgroup Model
  * @{
  ****************************************************************************//*
  * Copyright (C) 2019 Audio-Streamer Project Group
@@ -35,7 +35,7 @@
 #include "Track_info.h"
 
 /**
- * @brief bla
+ * @brief Model class, owning all models and providing them to application
  */
 class Model : public QObject {
 Q_OBJECT

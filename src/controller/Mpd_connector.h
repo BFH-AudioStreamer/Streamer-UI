@@ -39,13 +39,13 @@
 using json = nlohmann::json;
 
 /**
- * @brief The Connects backend to mpd
+ * @brief Backend connector to an MPD server
  */
 class Mpd_connector {
 public:
     explicit Mpd_connector(const json& app_config);
 
-    void play_control(Data_player_state::Play_command playCommand);
+    void play_control(Data_player_state::Play_command play_command);
     Data_player_state player_state();
     Data_track_info track_info();
 

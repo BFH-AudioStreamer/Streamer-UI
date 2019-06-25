@@ -32,14 +32,14 @@
 
 #include <string>
 #include <iostream>
-#include "src/controller/data/Data_track_info.h"
+#include "controller/data/Data_track_info.h"
 #include "Websocket.h"
 #include <nlohmann/json.hpp>
 
 using json = nlohmann::json;
 
 /**
- * @brief Connects backend to mopidy by using websocket
+ * @brief Connects to Mopidy backend by using the WebSocket interface
  */
 class Mopidy_connector {
 public:

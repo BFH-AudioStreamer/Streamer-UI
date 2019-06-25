@@ -6,7 +6,7 @@
  * @{
  * @brief Main module
  *
- * Ladidadida
+ * Loads config file and start model, view and controller
  *
  * @authors Stefan Lüthi
  ****************************************************************************//*
@@ -35,7 +35,7 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 
-#include "src/model/Model.h"
+#include "model/Model.h"
 #include "controller/Controller.h"
 #include "tools/Config_loader.h"
 

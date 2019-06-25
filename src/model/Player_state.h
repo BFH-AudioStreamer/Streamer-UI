@@ -6,7 +6,7 @@
  * @{
  * @defgroup Player_state
  * @{
- * @brief
+ * @brief Contains the state of the playback
  *
  * @authors Stefan Lüthi
  ****************************************************************************//*
@@ -37,7 +37,7 @@
 #include "Model_macros.h"
 
 /**
- * @brief
+ * @brief Data regarding the player state
  */
 class Player_state : public QObject {
 Q_OBJECT

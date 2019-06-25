@@ -34,7 +34,7 @@
 #include <QtWebSockets/QWebSocket>
 
 /**
- * @brief Connects websocket to mopidy server
+ * @brief QWebSocket wrapper
  */
 class Websocket : public QObject {
 Q_OBJECT

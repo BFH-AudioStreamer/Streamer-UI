@@ -8,7 +8,7 @@
  * @{
  * @defgroup Data_track_info
  * @{
- * @brief
+ * @brief Collocation of information regarding the currently played track
  *
  * @authors Rafael Klossner
  ****************************************************************************//*
@@ -38,7 +38,7 @@
 #include <iostream>
 
 /**
- * @brief
+ * @brief Collocation of information regarding the currently played track
  */
 class Data_track_info {
 public:

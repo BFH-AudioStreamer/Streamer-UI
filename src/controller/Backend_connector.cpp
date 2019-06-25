@@ -1,10 +1,8 @@
 /**
  *******************************************************************************
- * @addtogroup BackendConnector
+ * @addtogroup Backend_connector
  * @{
- * @brief Brief descriptions
- *
- * Elaborate Description
+ * @brief Factory creating backend connectors from app configuration
  *
  * @authors Stefan Lüthi
  ****************************************************************************//*
@@ -35,9 +33,11 @@
 using json = nlohmann::json;
 
 /**
- * @brief Parses json config file and creates specified backend connector
- * @param app_config
- * @return unique_ptr<I_backend_connector>
+ * @brief Reads backend class name from config and creates specified backend
+ *        connector
+ * @param app_config Application configuration object
+ * @return std::unique_ptr<I_backend_connector> Pointer the instantiated backend
+ *         connector
  */
 std::unique_ptr<I_backend_connector> Backend_connector::create(const json& app_config) {
     /* parse config and create backend connector */

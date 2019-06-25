@@ -2,9 +2,10 @@
  *******************************************************************************
  * @addtogroup Model
  * @{
- * @brief Brief descriptions
+ * @brief Data model of the application
  *
- * Elaborate Description
+ * This module owns all data models of the application. Models can be read by
+ * accessors.
  *
  * @authors Stefan Lüthi
  ****************************************************************************//*
@@ -33,7 +34,7 @@
 #include "Model.h"
 
 /**
- * @brief
+ * @brief Create all models
  */
 Model::Model() {
     m_player_state = new Player_state();

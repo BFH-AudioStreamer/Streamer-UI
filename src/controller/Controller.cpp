@@ -2,9 +2,7 @@
  *******************************************************************************
  * @addtogroup Controller
  * @{
- * @brief Brief descriptions
- *
- * Elaborate Description
+ * @brief Controller handling the requests from the view
  *
  * @authors Stefan Lüthi
  * @authors Rafael Klossner
@@ -38,9 +36,9 @@
 #include "Websocket.h"
 
 /**
- * @brief Instantiates backend connector and passes configuration data
- * @param _model reference on model to send data to
- * @param app_config json configuration data
+ * @brief Instantiates backend connector
+ * @param _model model to write data to
+ * @param app_config application configuration data
  */
 Controller::Controller(Model& _model, const json& app_config)
         :model(_model) {
@@ -60,7 +58,7 @@ void Controller::play_toggle_pause() {
 }
 
 /**
- * @brief Updates model data, is polled by timer
+ * @brief Reads track info and palyer state from backend and updates model data
  */
 void Controller::update_model() {
     /* get track and player data */

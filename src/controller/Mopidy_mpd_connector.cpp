@@ -1,10 +1,8 @@
 /**
  *******************************************************************************
- * @addtogroup MopidyMpdConnector
+ * @addtogroup Mopidy_mpd_connector
  * @{
- * @brief Brief descriptions
- *
- * Elaborate Description
+ * @brief Backend connector combining the MPD and Mopidy connector
  *
  * @authors Rafael Klossner
  * @authors Stefan Lüthi
@@ -36,7 +34,7 @@
 
 /**
  * @brief Instantiate mpd and mopidy connector
- * @param app_config
+ * @param app_config Application configuration
  */
 Mopidy_mpd_connector::Mopidy_mpd_connector(const json& app_config) {
     mpd_connector = new Mpd_connector(app_config);
@@ -51,7 +49,7 @@ void Mopidy_mpd_connector::play_next() {
 }
 
 /**
- * @brief Change to prevoius song
+ * @brief Change to previous song
  */
 void Mopidy_mpd_connector::play_previous() {
     mpd_connector->play_control(Data_player_state::PREVIOUS);
@@ -65,7 +63,7 @@ void Mopidy_mpd_connector::play_stop() {
 }
 
 /**
- * @brief Pause actual song
+ * @brief Pause currently played song
  */
 void Mopidy_mpd_connector::play_toggle_pause() {
     mpd_connector->play_control(Data_player_state::TOGGLE_PAUSE);
@@ -73,7 +71,7 @@ void Mopidy_mpd_connector::play_toggle_pause() {
 
 /**
  * @brief Get player state
- * @return Data_player_state
+ * @return Player state packet in Data_player_state
  */
 Data_player_state Mopidy_mpd_connector::player_state() {
     return mpd_connector->player_state();
@@ -81,12 +79,10 @@ Data_player_state Mopidy_mpd_connector::player_state() {
 
 /**
  * @brief Get track info
- * @return Data_track_info
+ * @return Track information packet in Data_track_info
  */
 Data_track_info Mopidy_mpd_connector::track_info() {
     Data_track_info trackInfo = mpd_connector->track_info();
-
-    /* get image from Mopidy */
     trackInfo.album_art_uri = mopidyConnector->album_art_uri(trackInfo.track_uri);
     return trackInfo;
 }

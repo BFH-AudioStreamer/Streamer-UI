@@ -2,9 +2,7 @@
  *******************************************************************************
  * @addtogroup Config_loader
  * @{
- * @brief Brief descriptions
- *
- * Elaborate Description
+ * @brief Load a JSON based configuration file
  *
  * @authors Stefan Lüthi
  ****************************************************************************//*
@@ -34,9 +32,9 @@
 #include "Config_loader.h"
 
 /**
- * @brief
- * @param path
- * @return
+ * @brief Loads a JSON formattet  configuration file
+ * @param path Path to the file including the file extension
+ * @return config file as nlohmann::json object
  */
 json Config_loader::load(std::string path) {
     std::ifstream config_file(path);

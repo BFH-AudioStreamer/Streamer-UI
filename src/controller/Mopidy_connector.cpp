@@ -1,12 +1,8 @@
-#include <utility>
-
 /**
  *******************************************************************************
  * @addtogroup Mopidy_connector
  * @{
- * @brief Brief descriptions
- *
- * Elaborate Description
+ * @brief Backend connector for a Mopidy WebSocket server
  *
  * @authors Stefan Lüthi
  ****************************************************************************//*
@@ -36,7 +32,8 @@
 #include "Mopidy_connector.h"
 
 /**
- * @brief Gets needed information from configuration, registrates callbacks and creates websocket
+ * @brief Loads backend information from config file, create websocket and
+ *        registers callback methods
  * @param app_config
  */
 Mopidy_connector::Mopidy_connector(const json& app_config) {
@@ -53,10 +50,11 @@ Mopidy_connector::Mopidy_connector(const json& app_config) {
         std::cout << "Mopidy_connector: hostname or port missing in config!" << std::endl;
         return;
     }
-    /* create websocket */
+    /* create WebSocket */
     hostname = *hostname_it;
     port = *port_it;
     client = new Websocket("ws://"+hostname+":"+std::to_string(port)+"/mopidy/ws");
+    /* register callback methods */
     client->register_on_connected(std::bind(
             &Mopidy_connector::request_image,
             this));
@@ -67,9 +65,12 @@ Mopidy_connector::Mopidy_connector(const json& app_config) {
 }
 
 /**
- * @brief Returns track uri for controller
- * @param _track_uri string with track uri
- * @return
+ * @brief Gets buffered album art URI from track URI
+ *
+ * Getting the album art URI is non-blocking, therefore this method returns the
+ * image URI of the last request which is internally buffered
+ * @param _track_uri Track URI to load an image for
+ * @return Buffered image URI
  */
 std::string Mopidy_connector::album_art_uri(std::string _track_uri) {
     track_uri = std::move(_track_uri);
@@ -78,10 +79,10 @@ std::string Mopidy_connector::album_art_uri(std::string _track_uri) {
 }
 
 /**
- * @brief Requests track uri by using websocket (on connect callback)
+ * @brief Sends image request over WebSocket to Mopidy
  */
 void Mopidy_connector::request_image() {
-    /* json to request current track */
+    /* JSON packet to request current image for track */
     json j = {
             {"jsonrpc", "2.0"},
             {"id",      1},
@@ -95,13 +96,13 @@ void Mopidy_connector::request_image() {
 }
 
 /**
- * @brief Extracts data from json object and saves them (on message receive callback)
- * @param message
+ * @brief Extracts data from JSON object and saves them
+ * @param message Text message received over WebSocket (must have JSON format)
  */
 void Mopidy_connector::receive_image(std::string message) {
     auto rec = json::parse(message);
 
-    /* receive image uri */
+    /* extract image URI */
     std::string new_image_uri{};
     try {
         new_image_uri = rec["result"][track_uri][0]["uri"];

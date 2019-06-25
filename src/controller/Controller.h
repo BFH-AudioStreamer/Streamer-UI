@@ -32,14 +32,14 @@
 
 #include <QObject>
 #include <memory>
-#include "src/model/Model.h"
+#include "model/Model.h"
 #include "Backend_connector.h"
 #include <nlohmann/json.hpp>
 
 using json = nlohmann::json;
 
 /**
- * @brief Gets data from mopidy and sends them to model
+ * @brief Controller handling the requests from the view
  */
 class Controller : public QObject {
 Q_OBJECT
@@ -47,12 +47,10 @@ Q_OBJECT
 public:
     explicit Controller(Model& _model, const json& app_config);
 
-    /* invokable by front end (buttons) */
+    /* invokable methods by view */
     Q_INVOKABLE void play_next();
     Q_INVOKABLE void play_previous();
     Q_INVOKABLE void play_toggle_pause();
-
-    /* polled by timer */
     Q_INVOKABLE void update_model();
 
 private:

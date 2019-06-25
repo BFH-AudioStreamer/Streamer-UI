@@ -3,13 +3,16 @@
 #---------------------------------------------------------------------------
 
 PROJECT_NAME           = "Audio Streamer"
-PROJECT_BRIEF          = "Streamer UI"
+PROJECT_BRIEF          = "Streamer-UI"
 INPUT                  = src \
                          src/controller \
+                         src/controller/data \
                          src/model \
+                         src/tools \
                          README.md \
-                         LICENSE.md
-IMAGE_PATH             = images
+                         LICENSE.md \
+                         res/view 
+IMAGE_PATH             = doc/img
 
 ##! M_MAIN_PROJECT_URL = "https://gitlab.ti.bfh.ch/hifi-audio-streamer"
 
@@ -869,7 +872,8 @@ FILE_PATTERNS          = *.c \
                          *.vhdl \
                          *.ucf \
                          *.qsf \
-                         *.txt
+                         *.txt \
+                         *.qml
 
 # The RECURSIVE tag can be used to specify whether or not subdirectories should
 # be searched for input files as well.
@@ -1959,7 +1963,7 @@ GENERATE_XML           = YES
 # The default directory is: xml.
 # This tag requires that the tag GENERATE_XML is set to YES.
 
-XML_OUTPUT             = doc/xml
+XML_OUTPUT             = doxy/xml
 
 # If the XML_PROGRAMLISTING tag is set to YES, doxygen will dump the program
 # listings (including syntax highlighting and cross-referencing information) to

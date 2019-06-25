@@ -33,13 +33,13 @@
 #include "Model_macros.h"
 
 /**
- * @brief
+ * @brief Data regarding the currently played track
  */
 class Track_info : public QObject {
 Q_OBJECT
 SIMPLE_Q_PROPERTY(QString, title)
 SIMPLE_Q_PROPERTY(QString, artist)
-SIMPLE_Q_PROPERTY(QString, album);
+SIMPLE_Q_PROPERTY(QString, album)
 SIMPLE_Q_PROPERTY(QString, album_art_uri)
 SIMPLE_Q_PROPERTY(QString, track_uri)
 

@@ -38,7 +38,7 @@
 using json = nlohmann::json;
 
 /**
- * @brief Connects backend to controller
+ * @brief Create backend connector from config
  */
 class Backend_connector {
 public:
