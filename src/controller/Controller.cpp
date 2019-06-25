@@ -37,6 +37,11 @@
 
 #include "Websocket.h"
 
+/**
+ * @brief Controller::Controller instantiates backend connector and passes configuration data
+ * @param _model refetence on model to send data to
+ * @param app_config json configuration data
+ */
 Controller::Controller(Model& _model, const json& app_config)
         :model(_model) {
     backend_connector = Backend_connector::create(app_config);
@@ -54,6 +59,9 @@ void Controller::play_toggle_pause() {
     backend_connector->play_toggle_pause();
 }
 
+/**
+ * @brief Controller::update_model updates model data, is polled by timer
+ */
 void Controller::update_model() {
     /* get track and player data */
     Data_player_state playerState = backend_connector->player_state();

@@ -40,7 +40,7 @@
 using json = nlohmann::json;
 
 /**
- * @brief
+ * @brief The Mopidy_mpd_connector class connects mpd and mopidy connector in one class
  */
 class Mopidy_mpd_connector : public I_backend_connector {
 public:

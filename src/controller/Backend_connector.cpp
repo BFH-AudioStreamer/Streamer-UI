@@ -34,6 +34,11 @@
 
 using json = nlohmann::json;
 
+/**
+ * @brief Backend_connector::create parses json config file and creates backend connector
+ * @param app_config
+ * @return unique_ptr<I_backend_connector>
+ */
 std::unique_ptr<I_backend_connector> Backend_connector::create(const json& app_config) {
     /* parse config and create backend connector */
     auto connector_it = app_config.find("Backend_connector");

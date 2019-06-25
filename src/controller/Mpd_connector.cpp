@@ -35,7 +35,7 @@
 #include <iostream>
 
 /**
- * @brief
+ * @brief Mpd_connector::Mpd_connector reads needed information from configuration
  * @param app_config
  */
 Mpd_connector::Mpd_connector(const json& app_config) {
@@ -57,8 +57,8 @@ Mpd_connector::Mpd_connector(const json& app_config) {
 }
 
 /**
- * @brief
- * @param playCommand
+ * @brief Mpd_connector::play_control controls play state
+ * @param playCommand sent command
  */
 void Mpd_connector::play_control(Data_player_state::Play_command playCommand) {
     struct mpd_connection* connection = nullptr;
@@ -87,8 +87,8 @@ void Mpd_connector::play_control(Data_player_state::Play_command playCommand) {
 }
 
 /**
- * @brief
- * @return
+ * @brief Mpd_connector::player_state gets actual player state
+ * @return Data_player_state player state
  */
 Data_player_state Mpd_connector::player_state() {
     struct mpd_connection* connection = nullptr;
@@ -143,8 +143,8 @@ Data_player_state Mpd_connector::player_state() {
 }
 
 /**
- * @brief
- * @return
+ * @brief Mpd_connector::track_info gets actual track information
+ * @return Data_track_info track information
  */
 Data_track_info Mpd_connector::track_info() {
     struct mpd_connection* connection = nullptr;
@@ -165,6 +165,8 @@ Data_track_info Mpd_connector::track_info() {
         mpd_command_list_end(connection);
 
         mpd_response_next(connection);
+
+        /* check if connection is valid, then get data */
         if ((song = mpd_recv_song(connection))!=nullptr) {
             if (mpd_song_get_tag(song, MPD_TAG_TITLE, 0)!=nullptr) {
                 trackInfo.title = mpd_song_get_tag(song, MPD_TAG_TITLE, 0);
@@ -185,8 +187,8 @@ Data_track_info Mpd_connector::track_info() {
 }
 
 /**
- * @brief
- * @param connection
+ * @brief Mpd_connector::connect created new connection to mpd
+ * @param connection pointer on connection
  * @return
  */
 int Mpd_connector::connect(struct mpd_connection** connection) {
@@ -205,8 +207,8 @@ int Mpd_connector::connect(struct mpd_connection** connection) {
 }
 
 /**
- * @brief
- * @param connection
+ * @brief Mpd_connector::disconnect frees actual connection
+ * @param connection pointer on connection
  */
 void Mpd_connector::disconnect(struct mpd_connection* connection) {
     mpd_connection_free(connection);

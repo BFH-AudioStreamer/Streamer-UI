@@ -39,9 +39,8 @@
 using json = nlohmann::json;
 
 /**
- * @brief
+ * @brief The Mpd_connector class connects backend to mpd
  */
-
 class Mpd_connector {
 public:
     explicit Mpd_connector(const json& app_config);

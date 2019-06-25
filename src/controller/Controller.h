@@ -39,7 +39,7 @@
 using json = nlohmann::json;
 
 /**
- * @brief
+ * @brief The Controller class gets data from mopidy and send them to model
  */
 class Controller : public QObject {
 Q_OBJECT

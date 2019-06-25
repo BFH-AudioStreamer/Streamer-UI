@@ -35,6 +35,10 @@
 #include <functional>
 #include "Mopidy_connector.h"
 
+/**
+ * @brief Mopidy_connector::Mopidy_connector gets needed information from configuration and creates websocket
+ * @param app_config
+ */
 Mopidy_connector::Mopidy_connector(const json& app_config) {
     /* validate config */
     auto connector_it = app_config.find("Mopidy_connector");
@@ -62,12 +66,20 @@ Mopidy_connector::Mopidy_connector(const json& app_config) {
             std::placeholders::_1));
 }
 
+/**
+ * @brief Mopidy_connector::album_art_uri return track uri
+ * @param _track_uri string with track uri
+ * @return
+ */
 std::string Mopidy_connector::album_art_uri(std::string _track_uri) {
     track_uri = std::move(_track_uri);
     client->open();
     return image_uri;
 }
 
+/**
+ * @brief Mopidy_connector::request_image requests track uri by using websocket
+ */
 void Mopidy_connector::request_image() {
     /* json to request current track */
     json j = {
@@ -82,6 +94,10 @@ void Mopidy_connector::request_image() {
     client->send_message(j.dump());
 }
 
+/**
+ * @brief Mopidy_connector::receive_image extracts data from json object and saves them
+ * @param message
+ */
 void Mopidy_connector::receive_image(std::string message) {
     auto rec = json::parse(message);
 
