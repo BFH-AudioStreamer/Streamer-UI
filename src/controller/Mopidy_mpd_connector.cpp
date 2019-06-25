@@ -35,7 +35,7 @@
 #include "data/Data_player_state.h"
 
 /**
- * @brief Mopidy_mpd_connector::Mopidy_mpd_connector instantiate mpd and mopidy connector
+ * @brief Instantiate mpd and mopidy connector
  * @param app_config
  */
 Mopidy_mpd_connector::Mopidy_mpd_connector(const json& app_config) {
@@ -43,33 +43,45 @@ Mopidy_mpd_connector::Mopidy_mpd_connector(const json& app_config) {
     mopidyConnector = new Mopidy_connector(app_config);
 }
 
+/**
+ * @brief Change to next song
+ */
 void Mopidy_mpd_connector::play_next() {
     mpd_connector->play_control(Data_player_state::NEXT);
 }
 
+/**
+ * @brief Change to prevoius song
+ */
 void Mopidy_mpd_connector::play_previous() {
     mpd_connector->play_control(Data_player_state::PREVIOUS);
 }
 
+/**
+ * @brief Stop playing
+ */
 void Mopidy_mpd_connector::play_stop() {
     mpd_connector->play_control(Data_player_state::STOP);
 }
 
+/**
+ * @brief Pause actual song
+ */
 void Mopidy_mpd_connector::play_toggle_pause() {
     mpd_connector->play_control(Data_player_state::TOGGLE_PAUSE);
 }
 
 /**
- * @brief Mopidy_mpd_connector::player_state get player state
- * @return
+ * @brief Get player state
+ * @return Data_player_state
  */
 Data_player_state Mopidy_mpd_connector::player_state() {
     return mpd_connector->player_state();
 }
 
 /**
- * @brief Mopidy_mpd_connector::track_info get track info
- * @return
+ * @brief Get track info
+ * @return Data_track_info
  */
 Data_track_info Mopidy_mpd_connector::track_info() {
     Data_track_info trackInfo = mpd_connector->track_info();

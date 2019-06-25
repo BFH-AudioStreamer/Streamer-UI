@@ -39,16 +39,20 @@
 using json = nlohmann::json;
 
 /**
- * @brief The Controller class gets data from mopidy and send them to model
+ * @brief Gets data from mopidy and sends them to model
  */
 class Controller : public QObject {
 Q_OBJECT
 
 public:
     explicit Controller(Model& _model, const json& app_config);
+
+    /* invokable by front end (buttons) */
     Q_INVOKABLE void play_next();
     Q_INVOKABLE void play_previous();
     Q_INVOKABLE void play_toggle_pause();
+
+    /* polled by timer */
     Q_INVOKABLE void update_model();
 
 private:

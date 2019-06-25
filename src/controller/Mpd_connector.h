@@ -39,7 +39,7 @@
 using json = nlohmann::json;
 
 /**
- * @brief The Mpd_connector class connects backend to mpd
+ * @brief The Connects backend to mpd
  */
 class Mpd_connector {
 public:

@@ -38,8 +38,8 @@
 #include "Websocket.h"
 
 /**
- * @brief Controller::Controller instantiates backend connector and passes configuration data
- * @param _model refetence on model to send data to
+ * @brief Instantiates backend connector and passes configuration data
+ * @param _model reference on model to send data to
  * @param app_config json configuration data
  */
 Controller::Controller(Model& _model, const json& app_config)
@@ -60,21 +60,21 @@ void Controller::play_toggle_pause() {
 }
 
 /**
- * @brief Controller::update_model updates model data, is polled by timer
+ * @brief Updates model data, is polled by timer
  */
 void Controller::update_model() {
     /* get track and player data */
     Data_player_state playerState = backend_connector->player_state();
     Data_track_info trackInfo = backend_connector->track_info();
 
-    /* track info (title, artist, album, album_art_uri)*/
+    /* update track info (title, artist, album, album_art_uri)*/
     model.track_info()->set_title(QString::fromStdString(trackInfo.title));
     model.track_info()->set_artist(QString::fromStdString(trackInfo.artist));
     model.track_info()->set_album(QString::fromStdString(trackInfo.album));
     model.track_info()->set_album_art_uri(
             QString::fromStdString(trackInfo.album_art_uri));
 
-    /* player state (bit_rate, elapsedTime, totalTime, playState) */
+    /* upadte player state (bit_rate, elapsedTime, totalTime, playState) */
     model.player_state()->set_bitrate(playerState.bit_rate);
     model.player_state()->set_time_total(playerState.time_total);
     model.player_state()->set_time_elapsed(playerState.time_elapsed);

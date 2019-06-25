@@ -35,7 +35,7 @@
 using json = nlohmann::json;
 
 /**
- * @brief Backend_connector::create parses json config file and creates backend connector
+ * @brief Parses json config file and creates specified backend connector
  * @param app_config
  * @return unique_ptr<I_backend_connector>
  */
@@ -50,6 +50,7 @@ std::unique_ptr<I_backend_connector> Backend_connector::create(const json& app_c
 
     std::string connector = *connector_it;
 
+    /* check for type of backend connector, then instantiate it */
     std::unique_ptr<I_backend_connector> backend_connector = nullptr;
     if (connector=="Mopidy_mpd_connector") {
         backend_connector = std::make_unique<Mopidy_mpd_connector>(

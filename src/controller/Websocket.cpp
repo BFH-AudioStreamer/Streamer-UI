@@ -41,8 +41,8 @@
 using json = nlohmann::json;
 
 /**
- * @brief Websocket::Websocket connect to websocket
- * @param url
+ * @brief Connects to websocket
+ * @param url of the websocket
  */
 Websocket::Websocket(const std::string& url)
         :m_url(url) {
@@ -51,7 +51,7 @@ Websocket::Websocket(const std::string& url)
 }
 
 /**
- * @brief Websocket::register_on_connected register callback function connect
+ * @brief Registers callback function on connect event
  * @param _callback_on_connected
  */
 void Websocket::register_on_connected(std::function<void()> _callback_on_connected) {
@@ -59,7 +59,7 @@ void Websocket::register_on_connected(std::function<void()> _callback_on_connect
 }
 
 /**
- * @brief Websocket::register_on_message_received register callback function on receive
+ * @brief Registers callback function on receive event
  * @param _callback_on_message_received
  */
 void Websocket::register_on_message_received(
@@ -69,7 +69,7 @@ void Websocket::register_on_message_received(
 }
 
 /**
- * @brief Websocket::send_message send message to websocket
+ * @brief Sends message to websocket
  * @param message
  */
 void Websocket::send_message(std::string message) {
@@ -77,7 +77,7 @@ void Websocket::send_message(std::string message) {
 }
 
 /**
- * @brief Websocket::open open websocket
+ * @brief Opens websocket
  */
 void Websocket::open() {
     /* only accept open request if socket is closed */
@@ -87,14 +87,14 @@ void Websocket::open() {
 }
 
 /**
- * @brief Websocket::close close websocket
+ * @brief Closes websocket
  */
 void Websocket::close() {
     m_web_socket.close();
 }
 
 /**
- * @brief Websocket::on_connected function called on connect
+ * @brief Method called on connect
  */
 void Websocket::on_connected() {
     callback_on_connected();
@@ -105,7 +105,7 @@ void Websocket::on_connected() {
 }
 
 /**
- * @brief Websocket::on_message_received function called on message received
+ * @brief Method called on message received
  * @param message
  */
 void Websocket::on_message_received(QString message) {

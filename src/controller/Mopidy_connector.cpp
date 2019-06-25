@@ -36,7 +36,7 @@
 #include "Mopidy_connector.h"
 
 /**
- * @brief Mopidy_connector::Mopidy_connector gets needed information from configuration and creates websocket
+ * @brief Gets needed information from configuration, registrates callbacks and creates websocket
  * @param app_config
  */
 Mopidy_connector::Mopidy_connector(const json& app_config) {
@@ -67,7 +67,7 @@ Mopidy_connector::Mopidy_connector(const json& app_config) {
 }
 
 /**
- * @brief Mopidy_connector::album_art_uri return track uri
+ * @brief Returns track uri for controller
  * @param _track_uri string with track uri
  * @return
  */
@@ -78,7 +78,7 @@ std::string Mopidy_connector::album_art_uri(std::string _track_uri) {
 }
 
 /**
- * @brief Mopidy_connector::request_image requests track uri by using websocket
+ * @brief Requests track uri by using websocket (on connect callback)
  */
 void Mopidy_connector::request_image() {
     /* json to request current track */
@@ -95,7 +95,7 @@ void Mopidy_connector::request_image() {
 }
 
 /**
- * @brief Mopidy_connector::receive_image extracts data from json object and saves them
+ * @brief Extracts data from json object and saves them (on message receive callback)
  * @param message
  */
 void Mopidy_connector::receive_image(std::string message) {

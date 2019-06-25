@@ -35,7 +35,7 @@
 #include <iostream>
 
 /**
- * @brief Mpd_connector::Mpd_connector reads needed information from configuration
+ * @brief Reads needed information from configuration
  * @param app_config
  */
 Mpd_connector::Mpd_connector(const json& app_config) {
@@ -57,7 +57,7 @@ Mpd_connector::Mpd_connector(const json& app_config) {
 }
 
 /**
- * @brief Mpd_connector::play_control controls play state
+ * @brief Controls play state
  * @param playCommand sent command
  */
 void Mpd_connector::play_control(Data_player_state::Play_command playCommand) {
@@ -87,8 +87,8 @@ void Mpd_connector::play_control(Data_player_state::Play_command playCommand) {
 }
 
 /**
- * @brief Mpd_connector::player_state gets actual player state
- * @return Data_player_state player state
+ * @brief Gets actual player state
+ * @return Data_player_state
  */
 Data_player_state Mpd_connector::player_state() {
     struct mpd_connection* connection = nullptr;
@@ -143,8 +143,8 @@ Data_player_state Mpd_connector::player_state() {
 }
 
 /**
- * @brief Mpd_connector::track_info gets actual track information
- * @return Data_track_info track information
+ * @brief Gets actual track information
+ * @return Data_track_info
  */
 Data_track_info Mpd_connector::track_info() {
     struct mpd_connection* connection = nullptr;
@@ -187,7 +187,7 @@ Data_track_info Mpd_connector::track_info() {
 }
 
 /**
- * @brief Mpd_connector::connect created new connection to mpd
+ * @brief Creates new connection to mpd
  * @param connection pointer on connection
  * @return
  */
@@ -207,7 +207,7 @@ int Mpd_connector::connect(struct mpd_connection** connection) {
 }
 
 /**
- * @brief Mpd_connector::disconnect frees actual connection
+ * @brief Frees actual connection
  * @param connection pointer on connection
  */
 void Mpd_connector::disconnect(struct mpd_connection* connection) {

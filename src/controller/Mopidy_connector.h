@@ -39,7 +39,7 @@
 using json = nlohmann::json;
 
 /**
- * @brief The Mopidy_connector class connects backend to mopidy by using websocket
+ * @brief Connects backend to mopidy by using websocket
  */
 class Mopidy_connector {
 public:

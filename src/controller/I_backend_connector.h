@@ -39,7 +39,7 @@
 #include "data/Data_track_info.h"
 
 /**
- * @brief The I_backend_connector class specifies the standard interface of a backend connector
+ * @brief Specifies the standard interface of a backend connector
  */
 class I_backend_connector {
 public:
