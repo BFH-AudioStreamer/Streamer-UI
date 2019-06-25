@@ -1,0 +1,19 @@
+pages:
+  image: python:3.6-alpine
+  stage: deploy
+  before_script:
+    - apk add --no-cache bash
+    - apk add doxygen git
+    - pip3 install jinja2 Pygments
+    - git submodule update --init --recursive
+  script:
+    - ./doxy/generate_doxygen.sh
+    - mkdir public
+    - cp doxy/index.html public/
+    - mv doxy/dark public/dark
+    - mv doxy/light public/light
+  artifacts:
+    paths:
+      - public
+  only:
+    - master
