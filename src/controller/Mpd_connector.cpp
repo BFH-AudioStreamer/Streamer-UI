@@ -34,6 +34,17 @@
 
 /**
  * @brief Reads needed information from configuration
+ *
+ * The application configuration must specify the mopidy hostname and port as
+ * shown in the example below:
+ * @code{.json}
+ * {
+ *     "Mpd_connector": {
+ *          "hostname": "localhost",
+ *          "port": 6600
+ *      }
+ * }
+ * @endcode
  * @param app_config Application configuration
  */
 Mpd_connector::Mpd_connector(const json& app_config) {

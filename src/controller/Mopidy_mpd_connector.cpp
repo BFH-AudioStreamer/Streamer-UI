@@ -38,7 +38,7 @@
  */
 Mopidy_mpd_connector::Mopidy_mpd_connector(const json& app_config) {
     mpd_connector = new Mpd_connector(app_config);
-    mopidyConnector = new Mopidy_connector(app_config);
+    mopidy_connector = new Mopidy_connector(app_config);
 }
 
 /**
@@ -82,9 +82,9 @@ Data_player_state Mopidy_mpd_connector::player_state() {
  * @return Track information packet in Data_track_info
  */
 Data_track_info Mopidy_mpd_connector::track_info() {
-    Data_track_info trackInfo = mpd_connector->track_info();
-    trackInfo.album_art_uri = mopidyConnector->album_art_uri(trackInfo.track_uri);
-    return trackInfo;
+    Data_track_info data_track_info = mpd_connector->track_info();
+    data_track_info.album_art_uri = mopidy_connector->album_art_uri(data_track_info.track_uri);
+    return data_track_info;
 }
 
 /** @} */

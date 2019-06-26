@@ -35,6 +35,14 @@ using json = nlohmann::json;
 /**
  * @brief Reads backend class name from config and creates specified backend
  *        connector
+ *
+ * The application configuration must specify a backend connector as shown in
+ * the example below:
+ * @code{.json}
+ * {
+ *     "Backend_connector": "Mopidy_mpd_connector"
+ * }
+ * @endcode
  * @param app_config Application configuration object
  * @return std::unique_ptr<I_backend_connector> Pointer the instantiated backend
  *         connector

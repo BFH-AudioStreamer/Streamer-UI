@@ -47,11 +47,11 @@ public:
         NEXT, PREVIOUS, STOP, TOGGLE_PAUSE
     };
 
-    Player_state::State state;
-    unsigned int time_elapsed;
-    unsigned int time_elapsed_ms;
-    unsigned int time_total;
-    unsigned int bit_rate;
+    Player_state::State state;     ///< @brief Current playback state
+    unsigned int time_elapsed;     ///< @brief Elapsed time of current song in seconds
+    unsigned int time_elapsed_ms;  ///< @brief Elapsed time of current song in milliseconds
+    unsigned int time_total;       ///< @brief Total time of current song in seconds
+    unsigned int bit_rate;         ///< @brief Bitrate of current playback in kB/s
 };
 
 /**

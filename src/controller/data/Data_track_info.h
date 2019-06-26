@@ -42,11 +42,11 @@
  */
 class Data_track_info {
 public:
-    std::string artist;
-    std::string album;
-    std::string title;
-    std::string album_art_uri;
-    std::string track_uri;
+    std::string artist; ///< @brief Aritist or band name separated by ';'
+    std::string album;  ///< @brief Album title
+    std::string title;  ///< @brief Song title
+    std::string album_art_uri;  ///< @brief URI to image of album art
+    std::string track_uri;      ///< @brief song identification
 };
 
 /**

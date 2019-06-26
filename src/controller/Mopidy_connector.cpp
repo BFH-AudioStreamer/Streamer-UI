@@ -34,6 +34,17 @@
 /**
  * @brief Loads backend information from config file, create websocket and
  *        registers callback methods
+ *
+ * The application configuration must specify the Mopidy hostname and port as
+ * shown in the example below:
+ * @code{.json}
+ * {
+ *     "Mopidy_connector": {
+ *          "hostname": "Audio-Streamer",
+ *          "port": 6680
+ *      }
+ * }
+ * @endcode
  * @param app_config
  */
 Mopidy_connector::Mopidy_connector(const json& app_config) {

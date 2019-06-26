@@ -4,6 +4,13 @@
  * @{
  * @brief QWebSocket wrapper
  *
+ * Example of Websocket usage:
+ * @code{.cpp}
+ * auto websocket = new Websocket("ws://a-host/some/uri");
+ * websocket->register_on_connected(std::bind(&This_class::some_method, this));
+ * websocket->open();
+ * //...
+ * @endcode
  * @authors Stefan Lüthi
  ****************************************************************************//*
  * Copyright (C) 2019 Audio-Streamer Project Group
@@ -46,7 +53,7 @@ Websocket::Websocket(const std::string& url)
 }
 
 /**
- * @brief Registers a callback method to be called on connection envent
+ * @brief Registers a callback method to be called on connection event
  * @param _callback_on_connected Function binding of callback method
  */
 void Websocket::register_on_connected(std::function<void()> _callback_on_connected) {

@@ -55,7 +55,7 @@ public:
 
 private:
     Mpd_connector* mpd_connector = nullptr;
-    Mopidy_connector* mopidyConnector = nullptr;
+    Mopidy_connector* mopidy_connector = nullptr;
 };
 
 /**
