@@ -26,6 +26,9 @@ import QtQuick.Layouts 1.3
 
 import "./" as Views
 
+/*
+    Start main stack view and transition to main menu
+ */
 ApplicationWindow {
     id: root
     visible: true

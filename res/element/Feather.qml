@@ -22,15 +22,20 @@
 
 import QtQuick 2.0
 
+/*
+    Feather icon based on font
+ */
 Text {
+    /* Load Feather icon font */
     FontLoader { id: feather; source: "/font/feather.ttf" }
 
+    /* icon code */
     property int icon: 0
 
     text: FontLoader.Ready ? String.fromCharCode(icon) : ""
     font.family: feather.name
 
-    // Map icon to unicode
+    /* Map icon to unicode */
     enum Icons {
         AlertOctagon = 0xe81b,
         AlertCircle = 0xe81c,

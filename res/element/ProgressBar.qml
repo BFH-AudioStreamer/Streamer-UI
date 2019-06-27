@@ -24,6 +24,9 @@ import QtQuick 2.0
 import QtQuick.Controls 2.12
 import QtQuick.Controls.Material 2.1
 
+/*
+    Custom progress bar with rounded corners
+ */
 ProgressBar {
     id: control
     value: 0.5

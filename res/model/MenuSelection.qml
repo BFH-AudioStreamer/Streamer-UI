@@ -24,6 +24,10 @@ import QtQuick 2.0
 
 import "../element" as Elements
 
+/*
+    List of menu items with Feather icon code, text and target view to
+    transition to
+ */
 ListModel {
     ListElement {
         name: "Now Playing"

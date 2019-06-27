@@ -26,12 +26,14 @@ import QtQuick.Layouts 1.12
 
 import "../element/" as Elements
 
+/* view for unfinished functoins */
 Page {
     id: underConstruction
 
     ColumnLayout {
         spacing: 20
 
+        /* Return to main menu */
         Elements.FeatherButton {
             Layout.bottomMargin: 20
             width: 50
@@ -43,7 +45,6 @@ Page {
         Label {
             text: "Feature under construction ..."
             font.pointSize: 26
-            //color: Material.primary
         }
     }
 }

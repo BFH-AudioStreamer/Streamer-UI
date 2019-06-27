@@ -20,12 +20,15 @@
     IN THE SOFTWARE.
  */
 
-// Source: https://doc.qt.io/qt-5/qtquick-quick-accessibility-content-button-qml.html
+/* Source: https://doc.qt.io/qt-5/qtquick-quick-accessibility-content-button-qml.html */
 
 import QtQuick 2.0
 import QtGraphicalEffects 1.0
 import QtQuick.Controls.Material 2.1
 
+/*
+    Button based on SVG image
+ */
 Item {
     id: button
 
@@ -40,7 +43,7 @@ Item {
     onEnabledChanged: state = ""
     signal clicked
 
-    // Icon and its color
+    /* Icon and its color */
     Image {
         id: icon
         source: iconSource
@@ -58,17 +61,8 @@ Item {
             antialiasing: true
         }
     }
-    //ColorOverlay {
-    //    id: iconOverlay
-    //    anchors.fill: icon
-    //    source: icon
-    //    color: button.enabled ? button.color : "grey"
-    //    transform: rotation
-    //    antialiasing: true
-    //}
 
-
-    //change the color of the button in differen button states
+    /* change the color of the button in differen button states */
     states: [
         State {
             name: "Hovering"
@@ -86,7 +80,7 @@ Item {
         }
     ]
 
-    //define transmission for the states
+    /* animate transmission for the states */
     transitions: [
       Transition {
           from: ""; to: "Hovering"
@@ -98,7 +92,7 @@ Item {
       }
     ]
 
-    //Mouse area to react on click events
+    /* mouse area to react on click events */
     MouseArea {
         id: mouseArea
         hoverEnabled: true

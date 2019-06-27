@@ -28,11 +28,15 @@ import QtQuick.Controls.Material 2.2
 import "../element" as Elements
 import "../model" as Model
 
+/*
+    Main menu
+ */
 Page {
     id: menu
     readonly property int itemSpacing: 10
     rightPadding: -2*itemSpacing
 
+    /* Display menu items on grid */
     GridView {
         id: gridView
         anchors.fill: parent
@@ -41,6 +45,7 @@ Page {
 
 
         model: Model.MenuSelection {}
+        /* define look and behaviour of menu item */
         delegate: ItemDelegate {
             id: delegateItem
             width: parent.width / 4 - 2*itemSpacing
@@ -48,7 +53,7 @@ Page {
 
             onClicked: menu.StackView.view.push("../view/" + view + ".qml")
 
-            // Display icon and text
+            /* Display icon and text */
             ColumnLayout {
                 anchors.fill: parent
 
@@ -68,7 +73,7 @@ Page {
                 }
             }
 
-            // Rounded rectangle, chaning color when mouse hovered
+            /* Rounded rectangle, chaning color when mouse hovered */
             background: Rectangle {
                 anchors.fill: parent
                 radius: 5

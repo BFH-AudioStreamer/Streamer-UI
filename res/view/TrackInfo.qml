@@ -28,9 +28,13 @@ import QtGraphicalEffects 1.0
 
 import "../element/" as Elements
 
+/*
+    Display info about currently played track
+ */
 Page {
     id: trackInfo
 
+    /* Timer triggering the controller update process */
     Item {
         Timer {
             id: model_update_timer
@@ -41,6 +45,7 @@ Page {
         }
     }
 
+    /* convert seconds (int) to string in "0:00" format */
     function seconds_to_string(time) {
         var remainder = time % 60;
         var minutes = (time - remainder) / 60;
@@ -53,8 +58,8 @@ Page {
         return minutes + ":" + seconds_string;
     }
 
+    /* remove '(...)' and everything after ' - ' */
     function clean_song_title(title) {
-        // remove '(...)' and everything after ' - '
         return title.replace(/\(.*\)/gm, "").replace(/\s-\s.*/gm, "");
     }
 
@@ -62,12 +67,14 @@ Page {
     ColumnLayout {
         anchors.fill: parent
 
+        /* Row containig information and control elements */
         RowLayout {
             spacing: 20
 
             ColumnLayout {
                 Layout.fillWidth: true
 
+                /* Return to main menu */
                 Elements.FeatherButton {
                     Layout.bottomMargin: 20
                     width: 50
@@ -98,19 +105,16 @@ Page {
                     Layout.maximumWidth: info_width
                 }
 
-                // fill space
-                Item {
-                    Layout.fillHeight: true
-                }
+                /* fill space */
+                Item { Layout.fillHeight: true }
 
+                /* Playback control elements */
                 RowLayout {
                     spacing: 30
                     Layout.alignment: Qt.AlignVCenter
                     Layout.margins: 20
 
-                    Item {
-                        Layout.fillWidth: true
-                    }
+                    Item { Layout.fillWidth: true }
 
                     Elements.FeatherButton {
                         iconCode: Elements.Feather.Icons.SkipBack
@@ -127,26 +131,23 @@ Page {
                         onClicked: controller.play_next()
                     }
 
-                    Item {
-                        Layout.fillWidth: true
-                    }
+                    Item { Layout.fillWidth: true }
                 }
 
+                /* Progress of current song */
                 Elements.ProgressBar {
                     Layout.fillWidth: true
                     Layout.minimumWidth: info_width
                     value: model.player_state.time_elapsed_ms /
                            (model.player_state.time_total * 1000)
                 }
-
+                /* display elapsed and total time of current song */
                 RowLayout {
                     Label {
                         text: seconds_to_string(model.player_state.time_elapsed)
                         color: Material.accent
                     }
-                    Item {
-                        Layout.fillWidth: true
-                    }
+                    Item { Layout.fillWidth: true }
                     Label {
                         text: seconds_to_string(model.player_state.time_total)
                         color: Material.accent
@@ -154,6 +155,7 @@ Page {
                 }
             }
 
+            /* Display cover art */
             ColumnLayout {
                 Image {
                     id: cover

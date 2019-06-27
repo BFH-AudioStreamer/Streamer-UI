@@ -4,6 +4,21 @@
 
 The Streamer-UI is a QtQML based user application to control a Mopidy music server. It can display title, artist and a timelien of the currently played song, as well as the album art. The playback can be controlled with on screen buttons.
 
+# Structure
+
+- src: C++ Code
+    - controller: controller classes and backend connectors
+        - data: grouped information for internal data transfer
+    - model: data model containing the application information
+    - tools: miscellaneous helper classes
+- res: QML resources
+    - element: custom UI elements
+    - font: fonts packed with the application
+    - img: images
+    - model: data model stored in the UI (to be avoided, move models to C++ classes)
+    - view: view screens
+- lib: external libraries
+
 # Usage
 
 Thes usage of this application is simple and straigt forward as shown in the image below.

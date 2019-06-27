@@ -25,6 +25,7 @@ import QtQuick.Controls.Material 2.1
 
 import "../element" as Elements
 
+/* Button based on Feather icon */
 Item {
     id: button
 
@@ -40,7 +41,7 @@ Item {
     onEnabledChanged: state = ""
     signal clicked
 
-    // Text and its color
+    /* Text and its color */
     Elements.Feather {
         id: textIcon
         color: button.enabled ? button.color : "grey"
@@ -64,7 +65,7 @@ Item {
         height: button.height
     }
 
-    //change the color of the button in differen button states
+    /* change the color of the button in differen button states */
     states: [
         State {
             name: "Hovering"
@@ -82,7 +83,7 @@ Item {
         }
     ]
 
-    //define transmission for the states
+    /* animate transmission for the states */
     transitions: [
       Transition {
           from: ""; to: "Hovering"
@@ -94,7 +95,7 @@ Item {
       }
     ]
 
-    //Mouse area to react on click events
+    /* mouse area to react on click events */
     MouseArea {
         id: mouseArea
         hoverEnabled: true
